@@ -1,30 +1,73 @@
 // Import mongoose
 const mongoose = require("mongoose");
 
-// Import Household schema (if nessary??)
+var EventSchema = new mongoose.Schema({
+    // Title (Text)
+    title: {
+        type: String,
+        required: true
+    },
+    // Type ('task'/'ride') *Changed to 'eventType' since type is a reserved word for mongoose
+    eventType: {
+        type: String,
+        enum: ['task', 'ride'],
+        required: true
+    },
+    // Status ('open'/'claimed'/'closed')
+    status: {
+        type: String,
+        enum: ['open', 'claimed', 'closed'],
+        default: 'open',
+        required: true
+    },
+    // Location1
+    location1: {
+        type: String
+    },
+    // Location2
+    location2: {
+        type: String
+    },
+    // Time
+    //  start (ISO DATETIME)
+    //  end   (ISO DATETIME)
+    startTime: {
+        type: Date
+    },
+    endTime: {
+        type: Date
+    },
+    // Creator (Family Member ID)
+    creator: {
+        type: ObjectId
+    },
+    // Invitees (Array of subdocuments)
+    // member = ObjectId of Member
+    // statuses = 'claimed', 'declined', 'invited'
+    invitees: [Invitee],
+    // Note (Text)
+    note: {
+        type: String
+    }
+
+});
+
+// Create model from schema
+const Event = mongoose.model('Event', EventSchema);
+
+// Export model
+module.exports = Event;
 
 
-// Title (Text)
-
-// Type ('task'/'ride')
-
-// Status ('open'/'claimed'/'closed')
-
-// Location
-//  1 (text?)
-//  2 (text?)
-
-// Time
-//  start (ISO DATETIME)
-//  end   (ISO DATETIME)
-
-// Creator (Family Member ID)
-
-// Invitees (Array of objects)
-//  userId (mongoose id from member object)
-//  status ('claimed'/'declined')
-
-// Note (Text)
-
-
-// Export schema
+// This schema is only used as a subdocument for Events, so it will just be defined here and not exported
+var Invitee = new mongoose.Schema({
+    member: {
+        type: ObjectId,
+        required: true
+    },
+    status: {
+        type: String,
+        enum: ['claimed', 'declined', 'invited'],
+        required: true
+    },
+});
