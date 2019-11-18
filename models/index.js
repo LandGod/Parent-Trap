@@ -1,3 +1,3 @@
-module.exports = {
-  // DB Schema references go here
-};
+// module.exports = {
+//   // DB Schema references go here
+// };

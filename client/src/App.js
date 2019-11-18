@@ -1,11 +1,19 @@
 import React from 'react';
-import { Container, Row, Col } from "./components/Grid";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Home from "./pages/Home";
+import Dashboard from "./pages/Dashboard";
+
 
 function App() {
   return (
-    <div className="App">
-      {/* Code goes here */}
-    </div>
+    <Router>
+      <div>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/dashboard" component={Dashboard} />
+          </Switch>
+        </div>
+    </Router>
   );
 }
 
