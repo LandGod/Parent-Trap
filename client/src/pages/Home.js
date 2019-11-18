@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, Row, Col } from "./components/Grid";
+import { Container, Row, Col } from "../components/Grid/index.js";
 
 
 class Home extends Component {
