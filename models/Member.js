@@ -1,7 +1,7 @@
 // Import mongoose
 const mongoose = require("mongoose");
 
-var MemberSchema = new MemberSchema({
+var MemberSchema = new mongoose.Schema({
     // OAuth key? (text)
     // TODO: This should be unique, but we also need to allow it to be null when the user is invited, but hasn't created thier account yet
     // not sure how to do that yet.
