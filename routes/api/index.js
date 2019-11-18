@@ -1,10 +1,10 @@
 const path = require("path");
 const router = require("express").Router();
-const exampleModel = require("./exampleModel");
+// const exampleModel = require("./exampleModel");
 
 
 // API ROUTES
-router.use("/", exampleModel);
+// router.use("/", exampleModel);
 
 // For anything else, render the html page
 router.use(function(req, res) {
