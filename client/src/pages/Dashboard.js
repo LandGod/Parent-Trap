@@ -12,7 +12,7 @@ class Dashboard extends Component {
                 <Row>
                     <Col size="md-12 fluid">
                         <p>This is the Dashboard</p>
-                        <DashCard icon="fa fa-calendar-alt" title="Monday 11-18" showmoreIcon="fas fa-angle-double-down fa-lg">
+                        <DashCard icon="fa fa-calendar-alt" title="Monday 11-18-19" id="show-more" showmoreIcon="fas fa-angle-double-down fa-lg">
                           <EventLine time="9:00 AM" title="Ride to pratice" 
                                     duration="00:45" requestor="(Rory)"
                                     assigned="assigned: Myles"
@@ -29,14 +29,14 @@ class Dashboard extends Component {
                                     icon1="fas fa-plus-square fa-lg" icon2="fas fa-check-square fa-lg">
                           </EventLine>
                         </DashCard>
-                        <DashCard icon="calendar-alt" title="Wednesday 11-20">
+                        <DashCard icon="fa fa-calendar-alt" title="Wednesday 11-20-19">
                           <EventLine time="5:00 PM" title="Pick up dinner" 
                                     duration="00:30" requestor="(Sean)"
                                     assigned="assigned: Myles"
                                     icon1="fas fa-plus-square fa-lg" icon2="far fa-check-square fa-lg">
                           </EventLine>
                         </DashCard>
-                        <DashCard icon="calendar-alt" title="Friday 11-21">
+                        <DashCard icon="fa fa-calendar-alt" title="Friday 11-21-19">
                           <EventLine time="4:00 PM" title="Drop off at meet" 
                                     duration="00:45" requestor="(Rory)"
                                     assigned="unassigned"
@@ -50,7 +50,7 @@ class Dashboard extends Component {
                                     icon2="far fa-check-square fa-lg">
                           </EventLine>
                         </DashCard>
-                        <DashCard icon="calendar-alt" title="Wednesday 11-26">
+                        <DashCard icon="fa fa-calendar-alt" title="Wednesday 11-26-19">
                           <EventLine time="6:00 PM" title="Pick up from practice" 
                                     duration="00:45" requestor="(Rory)"
                                     assigned="unassigned"
@@ -64,7 +64,7 @@ class Dashboard extends Component {
                                     icon2="far fa-check-square fa-lg">
                           </EventLine>
                         </DashCard>
-                        <DashCard icon="calendar-alt" title="Friday 11-28">
+                        <DashCard icon="fa fa-calendar-alt" title="Friday 11-28-19">
                           <EventLine time="8:00 AM" title="Drop off at High School" 
                                     duration="00:45" requestor="(Kyra)"
                                     assigned="assigned: Myles"

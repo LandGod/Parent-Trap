@@ -11,7 +11,7 @@ class DashCard extends Component {
           <h3>
             <i className={this.props.icon} 
                 aria-hidden="true" /> {this.props.title}
-            <Button id="show-more" icon={this.props.showmoreIcon} title=""></Button>
+            <Button id={this.props.id} icon={this.props.showmoreIcon} title=""></Button>
           </h3>
         </div>
         <div className="card-body-fluid">{this.props.children}</div>
