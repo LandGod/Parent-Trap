@@ -1,0 +1,13 @@
+button {
+  font-size: .75em;
+}
+
+#show-more {
+  float: right;
+}
+
+#add-event {
+  display: block;
+  margin: 1em auto 0 auto;
+  
+}
