@@ -39,4 +39,10 @@ function validateObjectId(id) {
 
 }
 
-module.exports = { validateObjectId };
+// TODO: Write this function
+// This function should return true if a provided string is a valid Oauth Key
+function validateOauthKey(key) {
+    return true
+}
+
+module.exports = { validateObjectId, validateOauthKey};

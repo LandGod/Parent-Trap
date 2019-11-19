@@ -1,5 +1,6 @@
-// Get models
+// Get models & utils
 const db = require("../models");
+const {validateObjectId} = require("./utils");
 
 // Define some custom errors
 class ValidationError extends Error { code = "BADNAME" };
