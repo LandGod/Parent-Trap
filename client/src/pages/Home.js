@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Container, Row, Col } from "../components/Grid/index.js";
+import "./Home.css";
 
 
 class Home extends Component {
@@ -13,7 +14,11 @@ class Home extends Component {
                 </Row>
                 <Row>
                     <Col size="md-12">
-                        <p>Making your family's busy schedules a breeze.</p>
+                        <div class="card">
+                            <div class="card-body">
+                                This is some text within a card body.
+                            </div>
+                        </div>
                     </Col>
                 </Row>
             </Container>
