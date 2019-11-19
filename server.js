@@ -29,3 +29,8 @@ mongoose.connect(
 app.listen(PORT, () =>
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`)
 );
+
+// DB TESTS (!!DELETE BEFORE PUSHING TO DEV!!)
+const HouseholdController = require("./controllers/householdController");
+
+HouseholdController.create('TestHousehold');
