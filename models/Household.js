@@ -1,16 +1,22 @@
 // Import mongoose
 const mongoose = require("mongoose");
 
-// Import Event schema & Member schema
-const Event = require('./Event');
-const Member = require('./Member');
-
 
 var HouseholdSchema = new mongoose.Schema({
-    // Array of members
-    members: [Member],
-    // Array of events
-    events: [Event]
+    // Array of refferences to member objects
+    members: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Member'
+        }
+    ],
+    // Array of references to event objects
+    events: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Event'
+        }
+    ]
 });
 
 // Create model from schema
