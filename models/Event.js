@@ -39,12 +39,12 @@ var EventSchema = new mongoose.Schema({
     },
     // Creator (Family Member ID)
     creator: {
-        type: ObjectId
+        type: mongoose.Schema.Types.ObjectId
     },
     // Invitees (Array of subdocuments)
     // member = ObjectId of Member
     // statuses = 'claimed', 'declined', 'invited'
-    invitees: [Invitee],
+    invitees: [InviteeSchema],
     // Note (Text)
     note: {
         type: String
@@ -60,7 +60,7 @@ module.exports = Event;
 
 
 // This schema is only used as a subdocument for Events, so it will just be defined here and not exported
-var Invitee = new mongoose.Schema({
+var InviteeSchema = new mongoose.Schema({
     member: {
         type: ObjectId,
         required: true
