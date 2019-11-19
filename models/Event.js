@@ -1,6 +1,21 @@
 // Import mongoose
 const mongoose = require("mongoose");
 
+// This schema is only used as a subdocument for Events, so it will just be defined here and not exported
+var InviteeSchema = new mongoose.Schema({
+    member: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Member',
+        required: true
+    },
+    status: {
+        type: String,
+        enum: ['claimed', 'declined', 'invited'],
+        required: true
+    },
+});
+
+// Main event schema defenition. This will be exported with Invitees as subdocuments.
 var EventSchema = new mongoose.Schema({
     // Title (Text)
     title: {
@@ -58,17 +73,3 @@ const Event = mongoose.model('Event', EventSchema);
 
 // Export model
 module.exports = Event;
-
-
-// This schema is only used as a subdocument for Events, so it will just be defined here and not exported
-var InviteeSchema = new mongoose.Schema({
-    member: {
-        type: ObjectId,
-        required: true
-    },
-    status: {
-        type: String,
-        enum: ['claimed', 'declined', 'invited'],
-        required: true
-    },
-});
