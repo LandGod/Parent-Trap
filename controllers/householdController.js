@@ -41,6 +41,10 @@ module.exports = {
   },
 
   // Find household that is parent of user object (via user's OauthId)
-  findByOauth: function (oauthKey) { }
+  findByOauth: function (oauthKey) { 
+
+    // 
+
+   }
 
 };
