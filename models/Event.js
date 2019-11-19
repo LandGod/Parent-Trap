@@ -32,10 +32,10 @@ var EventSchema = new mongoose.Schema({
     //  start (ISO DATETIME)
     //  end   (ISO DATETIME)
     startTime: {
-        type: Date
+        type: mongoose.Schema.Types.Date
     },
     endTime: {
-        type: Date
+        type: mongoose.Schema.Types.Date
     },
     // Creator (Family Member ID)
     creator: {
