@@ -12,7 +12,8 @@ class Dashboard extends Component {
                         <p>This is the Dashboard</p>
                         <DashCard icon="calendar-alt" title="Monday 11-18">
                           <EventLine time="09:00" title="Ride to pratice" 
-                                    duration="00:45" requestor="Jane Smith">
+                                    duration="00:45" requestor="Jane Smith"
+                                    icon="">
                           </EventLine>
                           <EventLine time="12:00" title="Pick up from work" 
                                     duration="00:15" requestor="John Smith">
