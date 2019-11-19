@@ -13,20 +13,19 @@ module.exports = {
     // Return promise of function since it needs to do some asynch stuff
     return new Promise((resolve, reject) => {
 
-      // Cast name to string and then perform more validation
-      try {
-        name = toString(name);
-      } catch (e) {
-        throw ValidationError("Household name was not able to be cast to string");
+      // Validation checks
+      if (typeof(name) !== 'string') {
+        reject(new ValidationError("Household name must be a string. "));
       }
-      if (name == '[object Undefined]' || name == undefined || name == null || isNaN(name)) {
-        throw ValidationError("Household name was not able to be cast to string");
-      }
+      // TODO: The following validation code results in triggering the if statement when it should not and I can't figure out why right now. Not really needed for MVP though.
+      // if (name === '[object Undefined]' || name === undefined || name === null || isNaN(name)) {
+      //   reject(new ValidationError(`"${name}" is not a valid value for Household name.`));
+      // }
       if (name.length < 3) {
-        throw ValidationError("Household name too short");
+        reject(new ValidationError("Household name too short"));
       }
       if (name.length > 255) {
-        throw ValidationError("Household name too long");
+        reject(new ValidationError("Household name too long"));
       }
 
       // Create household using the validated name
@@ -42,6 +41,6 @@ module.exports = {
   },
 
   // Find household that is parent of user object (via user's OauthId)
-  findByOauth: function (oauthKey) {}
+  findByOauth: function (oauthKey) { }
 
 };
