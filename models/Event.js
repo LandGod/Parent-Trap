@@ -39,7 +39,8 @@ var EventSchema = new mongoose.Schema({
     },
     // Creator (Family Member ID)
     creator: {
-        type: mongoose.Schema.Types.ObjectId
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Member'
     },
     // Invitees (Array of subdocuments)
     // member = ObjectId of Member
