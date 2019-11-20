@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Container, Row, Col } from "../components/Grid/index.js";
-
+import "./Home.css";
+import LoginWithGoogle from "../components/Firebase/index"
 
 class Home extends Component {
     render() {
@@ -12,13 +13,12 @@ class Home extends Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Col size="md-12">
-                        <p>Making your family's busy schedules a breeze.</p>
-                    </Col>
+                    < LoginWithGoogle />
                 </Row>
+
             </Container>
         )
     }
 }
 
-export default Home;
+export default Home
