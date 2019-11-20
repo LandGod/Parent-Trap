@@ -1,0 +1,10 @@
+button {
+  font-size: .75em;
+}
+
+
+#add-event {
+  display: block;
+  margin: 1em auto 0 auto;
+  
+}
