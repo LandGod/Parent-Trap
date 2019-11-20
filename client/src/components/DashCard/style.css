@@ -1,0 +1,17 @@
+.card-header h3 {
+  font-size: 1.5em;
+  margin: 0;
+}
+
+button {
+  border: none;
+}
+
+#show-more {
+  float: right;
+  background-color: #d6d6d6;
+}
+
+.fa-calendar-alt {
+  padding-right: 1em;
+}
