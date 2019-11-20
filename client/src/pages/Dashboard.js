@@ -88,7 +88,4 @@ class Dashboard extends Component {
     }
 }
 
-                                    /* /* size1="1" icon1class="fas fa-plus-circle"
-                                    size2="1" icon2class="far fa-check-circle">   */ 
-
 export default Dashboard;

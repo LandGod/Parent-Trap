@@ -9,7 +9,6 @@ class EventLine extends Component {
   render() {
     return (
       <div className="event-div border rounded-sm">
-        {/* <p className='col-5'>{this.props.title}</p> */}
         <div className='row no-gutters'>
           <Col size="6">
             <p>{this.props.title}</p>
@@ -38,20 +37,6 @@ class EventLine extends Component {
         </div>
       </div>
 
-/* <Button icon="far fa-check-circle fa-lg"  title=""></Button> */
-      // <div className='row'>
-      //   <p className='col-2'>{this.props.time}
-      //   </p>
-      //   <p className='col-5'>{this.props.title}
-      //   </p>
-      //   <p className='col-2'>{this.props.duration}
-      //   </p>
-      //   <p className='col-2'>{this.props.requestor}
-      //   </p>
-      //   {/* <Icon size={this.props.size} iconclass={this.props.icon1class}></Icon>
-      //   <Icon size={this.props.size} iconclass={this.props.icon2class}></Icon> */}
-      //   {/* <i className={`col-${this.props.size} ${this.props.iconclass}`} aria-hidden="true" /> */}
-      // </div>
     )
   }
 }
