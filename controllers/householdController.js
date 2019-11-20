@@ -1,6 +1,6 @@
 // Get models & utils
 const db = require("../models");
-const {validateObjectId} = require("./utils");
+const { validateObjectId } = require("./utils");
 
 // Define some custom errors
 class ValidationError extends Error { code = "BADNAME" };
@@ -15,7 +15,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
 
       // Validation checks
-      if (typeof(name) !== 'string') {
+      if (typeof (name) !== 'string') {
         reject(new ValidationError("Household name must be a string. "));
       }
       // TODO: The following validation code results in triggering the if statement when it should not and I can't figure out why right now. Not really needed for MVP though.
@@ -33,7 +33,7 @@ module.exports = {
       // Users and events are not added at this time, although the model should insert blank arrays for each automatically
       db.Household.create({ name: name })
         .then(result => {
-          resolve('Success');
+          resolve(result);
         })
         .catch(err => {
           reject(err);
@@ -42,10 +42,27 @@ module.exports = {
   },
 
   // Find household that is parent of user object (via user's OauthId)
-  findByOauth: function (oauthKey) { 
+  findById: function (memberId) {
 
-    // 
+    // Return rest of function as promise so that it will be 'then-able'
+    return new Promise(function (resolve, reject) {
 
-   }
+      // Start by validating id object/string
+      if (!validateObjectId(memberId)) {
+        reject(new ValidationError("Invalid Member Id"))
+      }
+
+      // Search households collection for household with that _id in its list of users
+      // Return the _id and name of the household
+      db.Household.findOne({ 'type': memberId }, '_id name', function (err, household) {
+
+        // Errors cause promise to be rejected and return that error
+        if (err) { reject(err) }
+        else { resolve(household) }
+
+      });
+
+    });
+  },
 
 };
