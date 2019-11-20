@@ -4,7 +4,7 @@ import "./style.css";
 class SideNav extends Component {
 
     state = {
-        navWidth='0'
+        navWidth: '0'
     };
 
     openNav = () => {
@@ -18,9 +18,9 @@ class SideNav extends Component {
     render() {
         return (
 
-            <div id="mySidenav" class="sidenav" style={navWidth}>
-                
-                <a href="javascript:void(0)" class="closebtn" onclick={closeNav()}>&times;</a>
+            <div id="mySidenav" class="sidenav" style={this.state.navWidth}>
+
+                <a href="javascript:void(0)" class="closebtn" onclick={this.closeNav()}>&times;</a>
                 <p>Side Nav example text</p>
 
             </div>

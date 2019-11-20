@@ -3,12 +3,19 @@ import { Container, Row, Col } from "../components/Grid/index";
 import DashCard from "../components/DashCard";
 import Button from "../components/Button";
 import EventLine from "../components/EventLine";
+import SideNav from "../components/SideNav";
 import "./style/dashboard.css";
 
 class Dashboard extends Component {
+
+    // Attaching ref to SideNav so that we can access its internal state
+    // We can now access functions from SideNav using: this.SideNav.current.someFunction()
+    SideNav = SideNav.createRef();
+
     render() {
         return (
             <Container>
+                <SideNav />
                 <Row>
                     <Col size="md-12 fluid">
                         <p>This is the Dashboard</p>
