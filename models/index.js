@@ -1,3 +1,5 @@
-// module.exports = {
-//   // DB Schema references go here
-// };
+module.exports = {
+  Member: require("./Member"),
+  Event: require("./Event"),
+  Household: require("./Household")
+};
