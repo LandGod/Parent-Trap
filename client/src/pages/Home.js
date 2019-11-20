@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Container, Row, Col } from "../components/Grid/index.js";
 import "./Home.css";
-
+import LoginWithGoogle from "../components/Firebase/index"
 
 class Home extends Component {
     render() {
@@ -13,17 +13,12 @@ class Home extends Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Col size="md-12">
-                        <div class="card">
-                            <div class="card-body">
-                                This is some text within a card body.
-                            </div>
-                        </div>
-                    </Col>
+                    < LoginWithGoogle />
                 </Row>
+
             </Container>
         )
     }
 }
 
-export default Home;
+export default Home
