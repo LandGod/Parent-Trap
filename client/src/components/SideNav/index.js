@@ -4,24 +4,27 @@ import "./style.css";
 class SideNav extends Component {
 
     state = {
-        navWidth: '0'
+        open: true,
+        navWidth: {'width': '250px'}
     };
 
     openNav = () => {
-        this.setState({ navWidth: '250px' })
+        this.setState({ navWidth: {'width': '250px'}, open: true })
     };
 
     closeNav = () => {
-        this.setState({ navWidth: '0' })
+        this.setState({ navWidth: {'width': '0'}, open: false })
     };
 
     render() {
         return (
-
+            
             <div id="mySidenav" class="sidenav" style={this.state.navWidth}>
 
-                <a href="javascript:void(0)" class="closebtn" onclick={this.closeNav()}>&times;</a>
-                <p>Side Nav example text</p>
+                <a class="closebtn" onClick={this.closeNav}>&times;</a>
+                <a>A Link</a>
+                <a>Another Link</a>
+                <a>Link 3</a>
 
             </div>
 
