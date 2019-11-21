@@ -58,19 +58,6 @@ class Dashboard extends Component {
       .catch(err => console.log(err));
   }
 
-
-  // const eventData = [
-  //   { date: "Monday 11/18/2019",
-  //     events: [{status: "closed", title: "Ride to Practice", eventType: "ride", time: "9:00 AM", creator: "Rory", assigned: "Myles"},
-  //             {status: "closed", title: "Pick up from work", eventType: "ride", time: "9:00 AM", creator: "Rory", assigned: "Myles"},
-  //             {status: "closed", title: "Sign permission slip", eventType: "task", time: "", creator: "Kyra", assigned: "Sean"}]},
-  //     {date: "Wednesday 11/20/2019",
-  //     events: [{status: "open", title: "Pick up dinner", eventType: "task", time: "5:00 PM", creator: "Sean", assigned: "Myles"}]},
-  //     {date: "Thursday 11/21/2019",
-  //     events: [{status: "open", title: "Drop off at meet", eventType: "ride", time: "4:00 PM", creator: "Rory", assigned: ""},
-  //             {status: "open", title: "Pick up from meet", eventType: "ride", time: "9:00 PM", creator: "Rory", assigned: ""}]}
-  //   ]
-
   render() {
     return (
       <div>
@@ -83,7 +70,7 @@ class Dashboard extends Component {
           />
           <Container>
             <Row>
-              <Col className="dashboard-container" size="md-12 fluid">
+              <Col size="md-12 fluid">
                 {this.state.events.map(eventDate => {
                   return (
                     <div>
