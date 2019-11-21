@@ -1,10 +1,11 @@
 // Get models & utils
 const db = require("../models");
 const { validateObjectId } = require("./utils");
-const { ObjectId } = require("mongoose").Schema.Types // Import mongoose ObjectId for validation, etc
+const { ObjectId } = require("mongoose").Types // Import mongoose ObjectId for validation, etc
 
 // Define some custom errors
-class ValidationError extends Error { code = "BADNAME" };
+class ValidationError extends Error {};
+ValidationError.prototype.message = "BADNAME";
 
 // Define methods for manipulation of Households collection
 module.exports = {
@@ -48,10 +49,10 @@ module.exports = {
     // Return rest of function as promise so that it will be 'then-able'
     return new Promise(function (resolve, reject) {
 
-      // Start by validating id object/string
+      // Start by validating id object
       if (!(memberId instanceof ObjectId)) {
-        reject(new ValidationError("MemberId must be mongoose ObjectId type!"))
-      }
+        reject(new ValidationError("MemberId is not a valid mongoose ObjectId"));
+      } 
 
       // Search households collection for household with that _id in its list of users
       // Return the _id and name of the household

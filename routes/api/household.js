@@ -1,7 +1,10 @@
 const router = require("express").Router();
 const householdController = require("../../controllers/householdController");
 const mongoose = require("mongoose"); // For working with mongoose Date and ObjectId objects
-const {validateOauthKey, validateObjectId} = require("../../controllers/utils"); // Get utils.js for validation functions
+const {
+  validateOauthKey,
+  validateObjectId
+} = require("../../controllers/utils"); // Get utils.js for validation functions
 
 // All routes on this page will be appended to this root: "api/household/""
 
@@ -27,12 +30,17 @@ router
     }
     // Validate userId
     if (!validateObjectId(userId)) {
-        res.status(400).send("Provided userId could not be converted to a valid mongoose ObjectId");
+      res
+        .status(400)
+        .send(
+          "Provided userId could not be converted to a valid mongoose ObjectId"
+        );
       return;
     } else {
-        // Convert userId to mongoose ObjectId if it isn't already
-        if (typeof(userId) === 'string') {userId = mongoose.Types.ObjectId(userId)};
-    };
+      if (typeof userId === "string") {
+        userId = mongoose.Types.ObjectId(userId);
+      }
+    }
 
     // Send parsed and validated request data to household controller
     householdController
@@ -40,7 +48,7 @@ router
 
       // Resolve request with results from db operation
       .then(function(result) {
-          //TODO: Parse result as neccessary
+        //TODO: Parse result as neccessary
         res.status(200).json(result);
       })
       .catch(function(err) {
