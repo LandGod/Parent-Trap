@@ -12,8 +12,21 @@
   transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
 }
 
+/* Remove all default styling from buttons */
+button {
+  font-size: 100%;
+  font-family: inherit;
+  border: 0;
+  padding: 0;
+  background: none;
+}
+
+button:focus {
+  outline: none;
+}
+
 /* The navigation menu links */
-.sidenav a {
+.sidenav button {
   padding: 8px 8px 8px 32px;
   text-decoration: none;
   font-size: 25px;
@@ -23,7 +36,7 @@
 }
 
 /* When you mouse over the navigation links, change their color */
-.sidenav a:hover {
+.sidenav button:hover {
   color: #f1f1f1;
 }
 

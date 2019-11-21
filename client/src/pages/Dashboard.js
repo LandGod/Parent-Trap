@@ -8,6 +8,12 @@ import TopNav from "../components/TopNav";
 import "./style/dashboard.css";
 
 class Dashboard extends Component {
+
+  // Define state for Dahsboard object
+  state = {
+    householdName: "No current household", // HouseholdName defaults to an error and should be updated when loading other household info
+  };
+
   // Attaching ref to SideNav so that we can access its internal state
   // We can now access functions from SideNav using: this.SideNav.current.someFunction()
   sidenavRef = React.createRef();
@@ -29,7 +35,10 @@ class Dashboard extends Component {
         <SideNav ref={this.sidenavRef} />
         {/* The below div exists purely to allow clicking off of the side-nav to close it. Putting that functionality into Container did not work. */}
         <div onClick={this.closeNav}>
-          <TopNav slideOut={this.openNav} />
+          <TopNav 
+          slideOut={this.openNav}
+          householdName={this.state.householdName}
+          />
           <Container>
             <Row>
               <Col size="md-12 fluid">
