@@ -1,10 +1,9 @@
 const path = require("path");
 const router = require("express").Router();
-// const exampleModel = require("./exampleModel");
+const eventRoutes = require("./events");
 
-
-// API ROUTES
-// router.use("/", exampleModel);
+// Event routes
+router.use("/events", eventRoutes);
 
 // For anything else, render the html page
 router.use(function(req, res) {
