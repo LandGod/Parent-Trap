@@ -25,4 +25,4 @@ yarn-debug.log*
 yarn-error.log*
 
 #folders
-/src
+/src/components/Firebase
