@@ -1,6 +1,7 @@
 // Get models & utils
 const db = require("../models");
 const { validateObjectId } = require("./utils");
+const { ObjectId } = require("mongoose").Schema.Types // Import mongoose ObjectId for validation, etc
 
 // Define some custom errors
 class ValidationError extends Error { code = "BADNAME" };
@@ -48,8 +49,8 @@ module.exports = {
     return new Promise(function (resolve, reject) {
 
       // Start by validating id object/string
-      if (!validateObjectId(memberId)) {
-        reject(new ValidationError("Invalid Member Id"))
+      if (!(memberId instanceof ObjectId)) {
+        reject(new ValidationError("MemberId must be mongoose ObjectId type!"))
       }
 
       // Search households collection for household with that _id in its list of users

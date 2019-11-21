@@ -32,4 +32,4 @@ app.listen(PORT, () =>
 // DB TESTS (!!DELETE BEFORE PUSHING TO DEV!!)
 const HouseholdController = require("./controllers/householdController");
 
-HouseholdController.create('TestHousehold');
+HouseholdController.findById(mongoose.Types.ObjectId("5dd6eac76c0c7213542d08a1"));
