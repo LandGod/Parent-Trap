@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Button from "../Button/index";
 import "./style.css";
+import EventLine from '../EventLine';
 
 class DashCard extends Component {
 

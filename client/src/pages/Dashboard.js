@@ -9,7 +9,19 @@ import TopNav from "../components/TopNav";
 import "./style/dashboard.css";
 
 
-
+ 
+const eventData = [
+{ date: "Monday 11/18/2019",
+  events: [{status: "closed", title: "Ride to Practice", eventType: "ride", time: "9:00 AM", creator: "Rory", assigned: "Myles"},
+          {status: "closed", title: "Pick up from work", eventType: "ride", time: "9:00 AM", creator: "Rory", assigned: "Myles"},
+          {status: "closed", title: "Sign permission slip", eventType: "task", time: "", creator: "Kyra", assigned: "Sean"},
+          {status: "closed", title: "Pick up from Jane's", eventType: "ride", time: "8:00PM", creator: "Rory", assigned: "Myles"}]},
+  {date: "Wednesday 11/20/2019",
+  events: [{status: "open", title: "Pick up dinner", eventType: "task", time: "5:00 PM", creator: "Sean", assigned: "Myles"}]},
+  {date: "Thursday 11/21/2019",
+  events: [{status: "open", title: "Drop off at meet", eventType: "ride", time: "4:00 PM", creator: "Rory", assigned: ""},
+          {status: "open", title: "Pick up from meet", eventType: "ride", time: "9:00 PM", creator: "Rory", assigned: ""}]}
+]
 
 
 class Dashboard extends Component {
@@ -17,8 +29,9 @@ class Dashboard extends Component {
   // Define state for Dahsboard object
   state = {
     householdName: "No current household", // HouseholdName defaults to an error and should be updated when loading other household info
-    events: [] 
+    events: eventData
   };
+
 
   // Attaching ref to SideNav so that we can access its internal state
   // We can now access functions from SideNav using: this.SideNav.current.someFunction()
@@ -39,12 +52,24 @@ class Dashboard extends Component {
   componentDidMount() {
     API.getAllEvents()
       .then(res => {
-                    this.setState({ events: res.data });
+                    // this.setState({ events: res.data });
                     console.log(`Events: ${JSON.stringify(res.data)}`);
       })
       .catch(err => console.log(err));
   }
 
+
+  // const eventData = [
+  //   { date: "Monday 11/18/2019",
+  //     events: [{status: "closed", title: "Ride to Practice", eventType: "ride", time: "9:00 AM", creator: "Rory", assigned: "Myles"},
+  //             {status: "closed", title: "Pick up from work", eventType: "ride", time: "9:00 AM", creator: "Rory", assigned: "Myles"},
+  //             {status: "closed", title: "Sign permission slip", eventType: "task", time: "", creator: "Kyra", assigned: "Sean"}]},
+  //     {date: "Wednesday 11/20/2019",
+  //     events: [{status: "open", title: "Pick up dinner", eventType: "task", time: "5:00 PM", creator: "Sean", assigned: "Myles"}]},
+  //     {date: "Thursday 11/21/2019",
+  //     events: [{status: "open", title: "Drop off at meet", eventType: "ride", time: "4:00 PM", creator: "Rory", assigned: ""},
+  //             {status: "open", title: "Pick up from meet", eventType: "ride", time: "9:00 PM", creator: "Rory", assigned: ""}]}
+  //   ]
 
   render() {
     return (
@@ -58,119 +83,41 @@ class Dashboard extends Component {
           />
           <Container>
             <Row>
-              <Col size="md-12 fluid">
-                <p>This is the Dashboard</p>
-                <DashCard
-                  icon="fa fa-calendar-alt"
-                  title="Monday 11-18-19"
-                  id="show-more"
-                  showmoreIcon="fas fa-angle-double-down fa-lg"
-                >
-                  <EventLine
-                    time="9:00 AM"
-                    title="Ride to pratice"
-                    duration="00:45"
-                    requestor="(Rory)"
-                    assigned="assigned: Myles"
-                    icon1="fas fa-plus-square fa-lg"
-                    icon2="fas fa-check-square fa-lg"
-                  ></EventLine>
-                  <EventLine
-                    time="12:00 PM"
-                    title="Pick up from work"
-                    duration="00:15"
-                    requestor="(Kyra)"
-                    assigned="assigned: Myles"
-                    icon1="fas fa-plus-square fa-lg"
-                    icon2="fas fa-check-square fa-lg"
-                  ></EventLine>
-                  <EventLine
-                    time=""
-                    title="Signed permission form"
-                    duration=""
-                    requestor="(Kyra)"
-                    assigned="assigned: Sean"
-                    icon1="fas fa-plus-square fa-lg"
-                    icon2="fas fa-check-square fa-lg"
-                  ></EventLine>
-                </DashCard>
-                <DashCard icon="fa fa-calendar-alt" title="Wednesday 11-20-19">
-                  <EventLine
-                    time="5:00 PM"
-                    title="Pick up dinner"
-                    duration="00:30"
-                    requestor="(Sean)"
-                    assigned="assigned: Myles"
-                    icon1="fas fa-plus-square fa-lg"
-                    icon2="far fa-check-square fa-lg"
-                  ></EventLine>
-                </DashCard>
-                <DashCard icon="fa fa-calendar-alt" title="Friday 11-21-19">
-                  <EventLine
-                    time="4:00 PM"
-                    title="Drop off at meet"
-                    duration="00:45"
-                    requestor="(Rory)"
-                    assigned="unassigned"
-                    icon1="far fa-plus-square fa-lg"
-                    icon2="far fa-check-square fa-lg"
-                  ></EventLine>
-                  <EventLine
-                    time="8:00 PM"
-                    title="Pick up from meet"
-                    duration="00:45"
-                    requestor="(Rory)"
-                    assigned="unassigned"
-                    icon1="far fa-plus-square fa-lg"
-                    icon2="far fa-check-square fa-lg"
-                  ></EventLine>
-                </DashCard>
-                <DashCard icon="fa fa-calendar-alt" title="Wednesday 11-26-19">
-                  <EventLine
-                    time="6:00 PM"
-                    title="Pick up from practice"
-                    duration="00:45"
-                    requestor="(Rory)"
-                    assigned="unassigned"
-                    icon1="far fa-plus-square fa-lg"
-                    icon2="far fa-check-square fa-lg"
-                  ></EventLine>
-                  <EventLine
-                    time="8:00 PM"
-                    title="Pick up from meet"
-                    duration="00:45"
-                    requestor="(Rory)"
-                    assigned="unassigned"
-                    icon1="far fa-plus-square fa-lg"
-                    icon2="far fa-check-square fa-lg"
-                  ></EventLine>
-                </DashCard>
-                <DashCard icon="fa fa-calendar-alt" title="Friday 11-28-19">
-                  <EventLine
-                    time="8:00 AM"
-                    title="Drop off at High School"
-                    duration="00:45"
-                    requestor="(Kyra)"
-                    assigned="assigned: Myles"
-                    icon1="fas fa-plus-square fa-lg"
-                    icon2="far fa-check-square fa-lg"
-                  ></EventLine>
-                  <EventLine
-                    time="10:00 AM"
-                    title="Drop off at parade"
-                    duration="00:45"
-                    requestor="(Sean)"
-                    assigned="assigned: Myles"
-                    icon1="fas fa-plus-square fa-lg"
-                    icon2="far fa-check-square fa-lg"
-                  ></EventLine>
-                  <div>
+              <Col className="dashboard-container" size="md-12 fluid">
+                {this.state.events.map(eventDate => {
+                  return (
+                    <div>
+                      <DashCard
+                      icon="fa fa-calendar-alt"
+                      title={eventDate.date}
+                      id={(eventDate.events.length > 3) ? "show-more" : undefined }
+                      showmoreIcon={(eventDate.events.length > 3) ? "fas fa-angle-double-down fa-lg" : undefined }
+                      events={eventDate.events}
+                     ></DashCard>
+                      {
+                        eventDate.events.map(event => {
+                          return (
+                            <EventLine
+                            time={(event.time) ? event.time : undefined}
+                            title={event.title}
+                            duration="00:45"
+                            requestor={event.creator}
+                            assigned={(event.assigned) ? event.assigned : undefined}
+                            iconAssigned={(event.assigned) ? "fas fa-plus-square fa-lg" : "far fa-plus-square fa-lg"}
+                            iconCompleted={(event.status) === "closed" ? "fas fa-check-square fa-lg" : "far fa-check-square fa-lg"}
+                          />
+                          )
+                        })
+                      }
+                    </div>
+                  ) 
+                })}
+                <div>
                     <Button
                       id="add-event"
                       icon="fas fa-plus-circle fa-3x"
                     ></Button>
                   </div>
-                </DashCard>
               </Col>
             </Row>
           </Container>
