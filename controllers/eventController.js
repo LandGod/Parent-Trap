@@ -8,6 +8,14 @@ module.exports = {
       .then(dbEvent => res.json(dbEvent))
       .catch(err => res.status(422).json(err));
   },
+  findAllPopulated: function(req, res) {
+    db.Event.find(req.query)
+      .sort('+startTime')
+      .populate("creator")
+      .populate("invitees.member")
+      .then(dbEvent => res.json(dbEvent))
+      .catch(err => res.status(422).json(err));
+  },
   findById: function(req, res) {
     db.Event.findById(req.params.id)
       .then(dbEvent => res.json(dbEvent))

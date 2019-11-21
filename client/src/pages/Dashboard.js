@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import API from "../utils/API";
 import { Container, Row, Col } from "../components/Grid/index";
 import DashCard from "../components/DashCard";
 import Button from "../components/Button";
@@ -6,6 +7,23 @@ import EventLine from "../components/EventLine";
 import "./style/dashboard.css";
 
 class Dashboard extends Component {
+  state = {
+    events: []
+  };
+
+  // When the component mounts, get a list of all events
+  componentDidMount() {
+    API.getAllEvents()
+      // .then(res => console.log(JSON.stringify(res.data)))
+      .then(res => {
+                     this.setState({ events: res.data });
+                     console.log(`Events: ${JSON.stringify(res.data)}`);
+      })
+      .catch(err => console.log(err));
+  }
+
+
+
     render() {
         return (
             <Container>
