@@ -19,9 +19,9 @@ class SideNav extends Component {
     render() {
         return (
             
-            <div id="mySidenav" class="sidenav" style={this.state.navWidth}>
+            <div id="mySidenav" className="sidenav" style={this.state.navWidth}>
 
-                <a class="closebtn" onClick={this.closeNav}>&times;</a>
+                <a className="closebtn" onClick={this.closeNav}>&times;</a>
                 <a>A Link</a>
                 <a>Another Link</a>
                 <a>Link 3</a>
