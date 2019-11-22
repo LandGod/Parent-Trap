@@ -1,15 +1,19 @@
 const db = require("../models");
 
+// for sand-box only:
+const mongoose = require("mongoose");
+
 module.exports = {
   // Return all events for the given household and populate all member references
   // TODO: This method partially works, but populate creator seems broken and populate invitees has not been tested yet
   findAllEventsPopulated: function(householdId) {
     return new Promise((resolve, reject) => {
-      db.Household.find({ _id: householdId })
+      db.Household.find({ _id: householdId },{members:0})
         .sort("+startTime")
-        .populate("events")
-        .populate("creator")
-        .populate("invitees.member")
+        .populate({path: "events",
+            populate: [{path: "creator",select: ["firstName", "lastName"]},
+                        {path: "invitees.member"}]
+    })
         .then(dbEvent => {resolve(dbEvent)})
         .catch(err => {reject(err)});
     });
@@ -35,14 +39,9 @@ module.exports = {
       .then((result) => {resolve(result)})
       .catch((err) => {reject(err)});
     });
-  }
-};
+  },
 
-// old controllers for sand-box
-const mongoose = require("mongoose");
-
-// Defining methods for the eventController
-module.exports = {
+  // for sandbox only:
   findAll: function(req, res) {
     db.Event.find(req.query)
       .then(dbEvent => res.json(dbEvent))
@@ -78,4 +77,12 @@ module.exports = {
       .then(dbEvent => res.json(dbEvent))
       .catch(err => res.status(422).json(err));
   }
+
 };
+
+// // old controllers for sand-box
+// const mongoose = require("mongoose");
+
+// Defining methods for the eventController
+// module.exports = {
+// };
