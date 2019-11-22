@@ -1,11 +1,12 @@
 import React, { Component } from "react";
+import MemberFormRow from "./MemberFormRow";
 import "./style.css";
 
 // Household create/edit component
 class HouseHold extends Component {
-  state = {};
+  state = {
 
-
+  };
 
   render() {
     return (
@@ -30,7 +31,23 @@ class HouseHold extends Component {
           <div className="row">
             <h3>Add/Edit Members </h3>
           </div>
+          {/* Add top row with current user info that is already locked in if this is the create page */}
+          <MemberFormRow 
+            firstName={'James'}
+            lastName={'Holden'}
+            email={'captain@rocinante.org'}
+            readOnly={true}
+            showAddButton={false}
+          />
           {/* Dynamic add/edit lines go here */}
+          <MemberFormRow 
+            firstName={'Fred'}
+            lastName={'Johnson'}
+            email={'F.Johnson@tycho.com'}
+            showAddButton={true}
+            addNext={() => {console.log('Add new row button activated!')}}
+            removeSelf={() => {console.log('Remove self button activated!')}}
+          />
         </form>
       </div>
     );
