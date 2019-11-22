@@ -28,21 +28,3 @@ mongoose.connect(
 app.listen(PORT, () =>
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`)
 );
-
-// DB TESTS (!!DELETE BEFORE PUSHING TO DEV!!)
-// DB TESTS (!!DELETE BEFORE PUSHING TO DEV!!)
-// DB TESTS (!!DELETE BEFORE PUSHING TO DEV!!)
-const HouseholdController = require("./controllers/householdController");
-
-HouseholdController.findById(mongoose.Types.ObjectId("5dd6ea9f6c0c7213542d089f"))
-.then((results) => {
-  console.log('************')
-  console.log(results)
-})
-.catch((err) => {
-  console.log('ERROR')
-  console.log(err)
-})
-// DB TESTS (!!DELETE BEFORE PUSHING TO DEV!!)
-// DB TESTS (!!DELETE BEFORE PUSHING TO DEV!!)
-// DB TESTS (!!DELETE BEFORE PUSHING TO DEV!!)
