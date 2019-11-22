@@ -2,6 +2,10 @@ const path = require("path");
 const router = require("express").Router();
 const eventRoutes = require("./events");
 const memberRoutes = require("./members");
+const householdRoutes = require("./households");
+
+// Household Routes
+router.use("/households", householdRoutes);
 
 // Member Routes
 router.use("/members", memberRoutes);
