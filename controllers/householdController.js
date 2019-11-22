@@ -24,9 +24,12 @@ module.exports = {
       // if (name === '[object Undefined]' || name === undefined || name === null || isNaN(name)) {
       //   reject(new ValidationError(`"${name}" is not a valid value for Household name.`));
       // }
-      if (name.length < 3) {
+
+      // Names must be at least 2 characters long
+      if (name.length < 2) { 
         reject(new ValidationError("Household name too short"));
       }
+      // TODO: Pick a maximum length for household names. We're putting it at 255 right now, but that is not meant to be permanent
       if (name.length > 255) {
         reject(new ValidationError("Household name too long"));
       }
@@ -56,11 +59,13 @@ module.exports = {
 
       // Search households collection for household with that _id in its list of users
       // Return the _id and name of the household
-      db.Household.find({ 'members': memberId }, '_id name', function (err, household) {
+      db.Household.find({ 'members': memberId }, '_id name', function (err, householdInfo) {
 
         // Errors cause promise to be rejected and return that error
         if (err) { reject(err) }
-        else { resolve(household) }
+
+        // On success we will pass to the 'then' method an ARRAY of OBJECTS in the following format: {_id: useridkeystring, name: householdname}
+        else { resolve(householdInfo) }
 
       });
 
