@@ -56,7 +56,7 @@ module.exports = {
 
       // Search households collection for household with that _id in its list of users
       // Return the _id and name of the household
-      db.Household.findOne({ 'type': memberId }, '_id name', function (err, household) {
+      db.Household.findOne({ 'members': memberId }, '_id name', function (err, household) {
 
         // Errors cause promise to be rejected and return that error
         if (err) { reject(err) }
