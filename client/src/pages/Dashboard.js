@@ -29,7 +29,8 @@ class Dashboard extends Component {
   // Define state for Dahsboard object
   state = {
     householdName: "No current household", // HouseholdName defaults to an error and should be updated when loading other household info
-    events: eventData
+    //events: eventData
+    events: []
   };
 
 
@@ -54,8 +55,9 @@ class Dashboard extends Component {
     const householdId = "5dd726706ddba45e5d59db35";
     API.getAllHouseholdEvents({householdId: householdId})
       .then(res => {
-                    // this.setState({ events: res.data });
-                    console.log(`Events: ${JSON.stringify(res.data)}`);
+                    this.setState({ events: res.data });
+        
+                    //console.log(`Events: ${JSON.stringify(res.data)}`);
       })
       .catch(err => console.log(err));
   }

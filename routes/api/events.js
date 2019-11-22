@@ -45,7 +45,7 @@ buildEventObject = event => {
   eventObj.eventType = event.eventType;
   eventObj.time = formatAMPM(event.startTime);
   // eventObj.time = (`${event.startTime.getHours()}:${event.startTime.getMinutes()}`);
-  eventObj.creator = event.creator;
+  eventObj.creator = event.creator.firstName;
   (event.invitees.length > 0) ? eventObj.assigned = event.invitees[0].member.firstName : eventObj.assigned = "";
     
       // var eventStartDate = (`${daysOfWeek[event.startTime.getDay()]} ${event.startTime.getMonth()}/${event.startTime.getDate()}/${event.startTime.getFullYear()}`);
@@ -93,12 +93,12 @@ transformEvents = result => {
   const daysOfWeek = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
   result[0].events.map((event,i) => {
     var newEventStartDate = (`${daysOfWeek[event.startTime.getDay()]} ${event.startTime.getMonth()}/${event.startTime.getDate()}/${event.startTime.getFullYear()}`);
-    console.log(`Current Date is: ${currentStartDate} New Date is: ${newEventStartDate}`);
+    // console.log(`Current Date is: ${currentStartDate} New Date is: ${newEventStartDate}`);
     if (i === 0) {  // need to create first object
       currentDateEvents = {date: newEventStartDate};
       currentStartDate = newEventStartDate;
-      console.log(`Current Date is: ${currentStartDate} New Date is: ${newEventStartDate}`);
-      console.log(`1.object is: ${JSON.stringify(currentDateEvents)}`);
+      // console.log(`Current Date is: ${currentStartDate} New Date is: ${newEventStartDate}`);
+      // console.log(`1.object is: ${JSON.stringify(currentDateEvents)}`);
       // events - call helper function - starting first day's events
       currentDateEvents.events = [];
       currentDateEvents.events.push(buildEventObject(event));
@@ -112,9 +112,9 @@ transformEvents = result => {
       currentStartDate = newEventStartDate;
       // push current object into master array then create new object
       transformedData.push(currentDateEvents)
-      console.log(`2.object is: ${JSON.stringify(currentDateEvents)}`);
+      // console.log(`2.object is: ${JSON.stringify(currentDateEvents)}`);
       currentDateEvents = {date: newEventStartDate};
-      console.log(`3.object is: ${JSON.stringify(currentDateEvents)}`);
+      // console.log(`3.object is: ${JSON.stringify(currentDateEvents)}`);
       // events - call helper function - starting new day's events
       currentDateEvents.events = [];
       currentDateEvents.events.push(buildEventObject(event));
@@ -122,8 +122,9 @@ transformEvents = result => {
   });
   // finish up by loading last date's object into master
   transformedData.push(currentDateEvents);
-  console.log(`4.object is: ${JSON.stringify(currentDateEvents)}`);
-  console.log(`Transformed Data: ${JSON.stringify(transformedData)}`);
+  // console.log(`4.object is: ${JSON.stringify(currentDateEvents)}`);
+  // console.log(`Transformed Data: ${JSON.stringify(transformedData)}`);
+  // console.log(`Transformed Data: ${transformedData}`);
   return transformedData;
 }
 
@@ -164,9 +165,27 @@ router
       // Resolve request with results from db operation
       .then(function(result) {
         // console.log(JSON.stringify(result));
-        // console.log('=================')
-        transformEvents(result);
+        console.log('>>>>>>>>>>>>>>>>')
+        console.log(JSON.stringify(transformEvents(result)));
+        console.log('<<<<<<<<<<<<<<<')
+      //  console.log(json(transformEvents(result)));
         res.status(200).json(transformEvents(result));
+        // res.status(200).json(
+        //   [{"date":"Monday 10/18/2019","events":[{"status":"closed",
+        //     "title":"Pick up from work","eventType":"ride","time":"4:00 am","creator":"Kyra","assigned":"Myles"}]}]
+        // )
+        // res.status(200).json([
+        //   { date: "Monday 11/18/2019",
+        //     events: [{status: "closed", title: "Ride to Practice", eventType: "ride", time: "9:00 AM", creator: "Rory", assigned: "Myles"},
+        //             {status: "closed", title: "Pick up from work", eventType: "ride", time: "9:00 AM", creator: "Rory", assigned: "Myles"},
+        //             {status: "closed", title: "Sign permission slip", eventType: "task", time: "", creator: "Kyra", assigned: "Sean"},
+        //             {status: "closed", title: "Pick up from Jane's", eventType: "ride", time: "8:00PM", creator: "Rory", assigned: "Myles"}]},
+        //     {date: "Wednesday 11/20/2019",
+        //     events: [{status: "open", title: "Pick up dinner", eventType: "task", time: "5:00 PM", creator: "Sean", assigned: "Myles"}]},
+        //     {date: "Thursday 11/21/2019",
+        //     events: [{status: "open", title: "Drop off at meet", eventType: "ride", time: "4:00 PM", creator: "Rory", assigned: ""},
+        //             {status: "open", title: "Pick up from meet", eventType: "ride", time: "9:00 PM", creator: "Rory", assigned: ""}]}
+        //   ])
       })
       .catch(function(err) {
         res.status(500).send(err);
