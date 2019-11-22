@@ -44,12 +44,15 @@ router
 
     // Send parsed and validated request data to household controller
     householdController
-      .findUserHousehold(userId)
+      .findById(userId)
 
       // Resolve request with results from db operation
       .then(function(result) {
-        //TODO: Parse result as neccessary
-        res.status(200).json(result);
+        if (!result.length) {
+          res.status(204); // If no results are returned, just send status 204
+        } else {
+          res.status(200).json(result); // If results are returned, send them along with status 200 (ok)
+        }
       })
       .catch(function(err) {
         res.status(500).send(err);
