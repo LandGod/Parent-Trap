@@ -25,26 +25,41 @@ const daysOfWeek = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday',
 transformEvents = result => {
   // console.log(`result:  ${result[0].events[0]}`)
   result[0].events.map((event,i) => {
-    if (i === 0) {
+    if (i < 30) {
       console.log(">>>>>>>>>>>>>>>>>>>>>>>>");
-      console.log(`status: ${event.status}`);
-      console.log(`_id: ${event._id}`);
+      var startDate = (`${daysOfWeek[event.startTime.getDay()]} ${event.startTime.getMonth()}/${event.startTime.getDate()}/${event.startTime.getFullYear()}`);
+      console.log(`starttime is: ${event.startTime}`);
+      console.log(`date is: ${startDate}`);
+      // console.log(`status: ${event.status}`);
+      // console.log(`_id: ${event._id}`);
       console.log(`title: ${event.title}`);
-      console.log(`eventType: ${event.eventType}`);
-      console.log(`startTime: ${event.startTime}`);
-      console.log(`day: ${daysOfWeek[event.startTime.getDay()]}`);
-      console.log(`date: ${event.startTime.getMonth()}/${event.startTime.getDate()}/${event.startTime.getFullYear()}`);
-      console.log(`time: ${event.startTime.getHours()}:${event.startTime.getMinutes()}${(event.startTime.getHours())} `);
-      console.log(`creator._id: ${event.creator._id}`);
-      console.log(`creator.firstName: ${event.creator.firstName}`);
-      console.log(`creator.lastName: ${event.creator.lastName}`);
-      console.log(`invitees length: ${event.invitees.length}`);
-      if (event.invitees.length > 0) {
-        // console.log(`invitee: ${event.invitees[0].member}`)
-        console.log(`invitee._id: ${event.invitees[0].member._id}`)
-        console.log(`invitee.firstName: ${event.invitees[0].member.firstName}`)
-        console.log(`invitee.lastName: ${event.invitees[0].member.lastName}`)
-      }
+      // console.log(`eventType: ${event.eventType}`);
+      // console.log(`location1: ${event.location1}`);
+      // console.log(`location2: ${event.location2}`);
+      // console.log(`startTime: ${event.startTime}`);
+      // console.log(`endTime: ${event.endTime}`);
+      // if (event.startTime) {
+      //   console.log(`s-day: ${daysOfWeek[event.startTime.getDay()]}`);
+      //   console.log(`s-date: ${event.startTime.getMonth()}/${event.startTime.getDate()}/${event.startTime.getFullYear()}`);
+      //   console.log(`s-time: ${event.startTime.getHours()}:${event.startTime.getMinutes()}${(event.startTime.getHours())} `);
+      // }
+      // if (event.endTime) {
+      //   console.log(`e-day: ${daysOfWeek[event.endTime.getDay()]}`);
+      //   console.log(`e-date: ${event.endTime.getMonth()}/${event.endTime.getDate()}/${event.endTime.getFullYear()}`);
+      //   console.log(`e-time: ${event.endTime.getHours()}:${event.endTime.getMinutes()}${(event.endTime.getHours())} `);
+      // }
+      // console.log(`creator._id: ${event.creator._id}`);
+      // console.log(`creator.firstName: ${event.creator.firstName}`);
+      // console.log(`creator.lastName: ${event.creator.lastName}`);
+      // console.log(`invitees length: ${event.invitees.length}`);
+      // if (event.invitees.length > 0) {
+      //   // console.log(`invitee: ${event.invitees[0].member}`)
+      //   console.log(`invitee._id: ${event.invitees[0].member._id}`)
+      //   console.log(`invitee.firstName: ${event.invitees[0].member.firstName}`)
+      //   console.log(`invitee.lastName: ${event.invitees[0].member.lastName}`)
+      // };
+      // console.log(`note: ${event.note}`);
+      
 
       
     }
