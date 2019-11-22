@@ -23,16 +23,44 @@ var transformedData = [];
 const daysOfWeek = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
 // transform household events helper function
 transformEvents = result => {
-  // console.log(`result:  ${result[0].events[0]}`)
+  var currentStartDate  = "";
+  var currentDateEvents = {};
   result[0].events.map((event,i) => {
-    if (i < 30) {
-      console.log(">>>>>>>>>>>>>>>>>>>>>>>>");
-      var startDate = (`${daysOfWeek[event.startTime.getDay()]} ${event.startTime.getMonth()}/${event.startTime.getDate()}/${event.startTime.getFullYear()}`);
-      console.log(`starttime is: ${event.startTime}`);
-      console.log(`date is: ${startDate}`);
+    var newEventStartDate = (`${daysOfWeek[event.startTime.getDay()]} ${event.startTime.getMonth()}/${event.startTime.getDate()}/${event.startTime.getFullYear()}`);
+    console.log(`Current Date is: ${currentStartDate} New Date is: ${newEventStartDate}`);
+    if (i === 0) {  // need to create first object
+      currentDateEvents = {date: newEventStartDate};
+      currentStartDate = newEventStartDate;
+      console.log(`Current Date is: ${currentStartDate} New Date is: ${newEventStartDate}`);
+      console.log(`1.object is: ${JSON.stringify(currentDateEvents)}`);
+    } else if (newEventStartDate === currentStartDate) {
+      console.log(`process an event for the current date`)
+    } else {
+      currentStartDate = newEventStartDate;
+      // push current object into master array then create new object
+      transformedData.push(currentDateEvents)
+      console.log(`2.object is: ${JSON.stringify(currentDateEvents)}`);
+      currentDateEvents = {date: newEventStartDate};
+      console.log(`3.object is: ${JSON.stringify(currentDateEvents)}`);
+    }
+  });
+  transformedData.push(currentDateEvents);
+  console.log(`4.object is: ${JSON.stringify(currentDateEvents)}`);
+  console.log(`Transformed Data: ${JSON.stringify(transformedData)}`);
+  
+
+}
+
+
+    
+      // console.log(">>>>>>>>>>>>>>>>>>>>>>>>");
+      // var eventStartDate = (`${daysOfWeek[event.startTime.getDay()]} ${event.startTime.getMonth()}/${event.startTime.getDate()}/${event.startTime.getFullYear()}`);
+      // console.log(`starttime is: ${event.startTime}`);
+      // console.log(`date is: ${eventStartDate}`);
+
       // console.log(`status: ${event.status}`);
       // console.log(`_id: ${event._id}`);
-      console.log(`title: ${event.title}`);
+      // console.log(`title: ${event.title}`);
       // console.log(`eventType: ${event.eventType}`);
       // console.log(`location1: ${event.location1}`);
       // console.log(`location2: ${event.location2}`);
@@ -62,12 +90,8 @@ transformEvents = result => {
       
 
       
-    }
-  })
+ 
 
-  return 42;
-  // return tranformedEvents;
-}  
 
 router
   .route("/all")
