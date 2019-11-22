@@ -19,41 +19,35 @@ const eventData = [
             {status: "open", title: "Pick up from meet", eventType: "ride", time: "9:00 PM", creator: "Rory", assigned: ""}]}
   ]
 
-var transformedData = [];  
-const daysOfWeek = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
-// transform household events helper function
-transformEvents = result => {
-  var currentStartDate  = "";
-  var currentDateEvents = {};
-  result[0].events.map((event,i) => {
-    var newEventStartDate = (`${daysOfWeek[event.startTime.getDay()]} ${event.startTime.getMonth()}/${event.startTime.getDate()}/${event.startTime.getFullYear()}`);
-    console.log(`Current Date is: ${currentStartDate} New Date is: ${newEventStartDate}`);
-    if (i === 0) {  // need to create first object
-      currentDateEvents = {date: newEventStartDate};
-      currentStartDate = newEventStartDate;
-      console.log(`Current Date is: ${currentStartDate} New Date is: ${newEventStartDate}`);
-      console.log(`1.object is: ${JSON.stringify(currentDateEvents)}`);
-    } else if (newEventStartDate === currentStartDate) {
-      console.log(`process an event for the current date`)
-    } else {
-      currentStartDate = newEventStartDate;
-      // push current object into master array then create new object
-      transformedData.push(currentDateEvents)
-      console.log(`2.object is: ${JSON.stringify(currentDateEvents)}`);
-      currentDateEvents = {date: newEventStartDate};
-      console.log(`3.object is: ${JSON.stringify(currentDateEvents)}`);
-    }
-  });
-  transformedData.push(currentDateEvents);
-  console.log(`4.object is: ${JSON.stringify(currentDateEvents)}`);
-  console.log(`Transformed Data: ${JSON.stringify(transformedData)}`);
-  
+// // helper variables and functions
+// var transformedData = [];  
+// const daysOfWeek = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
 
+
+// helper function time formatter
+function formatAMPM(date) {
+  var hours = date.getHours();
+  var minutes = date.getMinutes();
+  var ampm = hours >= 12 ? 'pm' : 'am';
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes = minutes < 10 ? '0'+minutes : minutes;
+  var strTime = hours + ':' + minutes + ' ' + ampm;
+  return strTime;
 }
 
-
+// helper function to build and event array element
+buildEventObject = event => {
+  // var eventObj = {placeholder: "this is an event"};
+  var eventObj = {};
+  eventObj.status = event.status;
+  eventObj.title = event.title;
+  eventObj.eventType = event.eventType;
+  eventObj.time = formatAMPM(event.startTime);
+  // eventObj.time = (`${event.startTime.getHours()}:${event.startTime.getMinutes()}`);
+  eventObj.creator = event.creator;
+  (event.invitees.length > 0) ? eventObj.assigned = event.invitees[0].member.firstName : eventObj.assigned = "";
     
-      // console.log(">>>>>>>>>>>>>>>>>>>>>>>>");
       // var eventStartDate = (`${daysOfWeek[event.startTime.getDay()]} ${event.startTime.getMonth()}/${event.startTime.getDate()}/${event.startTime.getFullYear()}`);
       // console.log(`starttime is: ${event.startTime}`);
       // console.log(`date is: ${eventStartDate}`);
@@ -87,10 +81,52 @@ transformEvents = result => {
       //   console.log(`invitee.lastName: ${event.invitees[0].member.lastName}`)
       // };
       // console.log(`note: ${event.note}`);
-      
 
-      
- 
+  return eventObj;
+}
+
+// transform household events helper function
+transformEvents = result => {
+  var currentStartDate  = "";
+  var currentDateEvents = {};
+  var transformedData = [];  
+  const daysOfWeek = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
+  result[0].events.map((event,i) => {
+    var newEventStartDate = (`${daysOfWeek[event.startTime.getDay()]} ${event.startTime.getMonth()}/${event.startTime.getDate()}/${event.startTime.getFullYear()}`);
+    console.log(`Current Date is: ${currentStartDate} New Date is: ${newEventStartDate}`);
+    if (i === 0) {  // need to create first object
+      currentDateEvents = {date: newEventStartDate};
+      currentStartDate = newEventStartDate;
+      console.log(`Current Date is: ${currentStartDate} New Date is: ${newEventStartDate}`);
+      console.log(`1.object is: ${JSON.stringify(currentDateEvents)}`);
+      // events - call helper function - starting first day's events
+      currentDateEvents.events = [];
+      currentDateEvents.events.push(buildEventObject(event));
+
+
+    } else if (newEventStartDate === currentStartDate) {
+      // process the current event
+      currentDateEvents.events.push(buildEventObject(event));
+    } else {
+      // reset currentStartDate to that of the new inbound data's date
+      currentStartDate = newEventStartDate;
+      // push current object into master array then create new object
+      transformedData.push(currentDateEvents)
+      console.log(`2.object is: ${JSON.stringify(currentDateEvents)}`);
+      currentDateEvents = {date: newEventStartDate};
+      console.log(`3.object is: ${JSON.stringify(currentDateEvents)}`);
+      // events - call helper function - starting new day's events
+      currentDateEvents.events = [];
+      currentDateEvents.events.push(buildEventObject(event));
+    }
+  });
+  // finish up by loading last date's object into master
+  transformedData.push(currentDateEvents);
+  console.log(`4.object is: ${JSON.stringify(currentDateEvents)}`);
+  console.log(`Transformed Data: ${JSON.stringify(transformedData)}`);
+  return transformedData;
+}
+
 
 
 router
@@ -130,7 +166,7 @@ router
         // console.log(JSON.stringify(result));
         // console.log('=================')
         transformEvents(result);
-        res.status(200).json(result);
+        res.status(200).json(transformEvents(result));
       })
       .catch(function(err) {
         res.status(500).send(err);
