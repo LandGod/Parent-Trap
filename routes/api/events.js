@@ -18,6 +18,9 @@ router
     // Get household id & assert that it is not undefined 
     let householdId = req.body.householdId;
     if (!householdId) {
+      console.log(req)
+      console.log(req.body)
+      console.log(req.params)
       res.status(400).send("No householdId");
       return;
     }
