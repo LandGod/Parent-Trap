@@ -16,11 +16,11 @@ router
     }
 
     // Get household id & assert that it is not undefined 
-    let householdId = req.body.householdId;
+    // let householdId = req.body.householdId;
+    let householdId = "5dd726706ddba45e5d59db35";
+    console.log(`Events.js ServerSide householdId is:  ${householdId}`)
+    console.log(`Events.js ServerSide req.body:  ${JSON.stringify(req.body)}`)
     if (!householdId) {
-      console.log(req)
-      console.log(req.body)
-      console.log(req.params)
       res.status(400).send("No householdId");
       return;
     }

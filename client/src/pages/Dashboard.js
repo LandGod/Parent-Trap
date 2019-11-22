@@ -50,13 +50,25 @@ class Dashboard extends Component {
 
   // When the component mounts, get a list of all events
   componentDidMount() {
-    API.getAllEvents()
+    // hardcoded test household id: 
+    const householdId = "5dd726706ddba45e5d59db35";
+    API.getAllHouseholdEvents({householdId: householdId})
       .then(res => {
                     // this.setState({ events: res.data });
                     console.log(`Events: ${JSON.stringify(res.data)}`);
       })
       .catch(err => console.log(err));
   }
+
+    // // When the component mounts, get a list of all events
+    // componentDidMount() {
+    //   API.getAllEvents()
+    //     .then(res => {
+    //                   // this.setState({ events: res.data });
+    //                   console.log(`Events: ${JSON.stringify(res.data)}`);
+    //     })
+    //     .catch(err => console.log(err));
+    // }
 
   render() {
     return (

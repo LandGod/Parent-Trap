@@ -8,11 +8,11 @@ module.exports = {
   // TODO: This method partially works, but populate creator seems broken and populate invitees has not been tested yet
   findAllEventsPopulated: function(householdId) {
     return new Promise((resolve, reject) => {
-      db.Household.find({ _id: householdId },{members:0})
+      db.Household.find({ _id: householdId },{members:0,name:0,_id:0,__v:0 })
         .sort("+startTime")
-        .populate({path: "events",
-            populate: [{path: "creator",select: ["firstName", "lastName"]},
-                        {path: "invitees.member"}]
+        .populate({path: "events", select: ["status","_id","title","eventType","startTime"],
+            populate: [{path: "creator", select: ["firstName", "lastName"]},
+                        {path: "invitees.member", select: ["firstName","lastName"]}]
     })
         .then(dbEvent => {resolve(dbEvent)})
         .catch(err => {reject(err)});
