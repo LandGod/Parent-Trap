@@ -9,7 +9,7 @@ export default {
 
   // Gets all events for household
   getAllHouseholdEvents: function(houseData) {
-    console.log(`HouseholdId: ${JSON.stringify(houseData)}`)
+    // console.log(`HouseholdId: ${JSON.stringify(houseData)}`)
     return axios.get("/api/events/all", houseData);
   }
 
