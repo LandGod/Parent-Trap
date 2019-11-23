@@ -80,6 +80,20 @@ class HouseHold extends Component {
     this.setState({ householdName: val });
   };
 
+  // Submit/update household
+  submitHouseForm = event => {
+    event.preventDefault();
+
+    // If creating new household:
+    if (this.props.createOrEdit === "Create") {
+        //TODO: Write api call for creating household (and user)
+    }
+    // If updating and existing household:
+    else {
+      //TODO: Write api call for udating household
+    }
+  };
+
   render() {
     return (
       <div>
@@ -140,6 +154,10 @@ class HouseHold extends Component {
               );
             }
           })}
+          {/* Form Submit Button */}
+          <button className="btn btn-primary" onClick={this.submitHouseForm}>
+            {this.props.createOrEdit === "Create" ? "Create" : "Update"}
+          </button>
         </form>
       </div>
     );
