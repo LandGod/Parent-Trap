@@ -1,17 +1,11 @@
 const path = require("path");
 const router = require("express").Router();
-const eventRoutes = require("./events");
-const memberRoutes = require("./members");
-const householdRoutes = require("./households");
-
-// Household Routes
-router.use("/households", householdRoutes);
-
-// Member Routes
-router.use("/members", memberRoutes);
+const eventRoutes = require("./event");
+const householdRoutes = require("./household")
 
 // Event routes
 router.use("/events", eventRoutes);
+router.use("/household", householdRoutes);
 
 // For anything else, render the html page
 router.use(function(req, res) {
@@ -19,20 +13,3 @@ router.use(function(req, res) {
 });
 
 module.exports = router;
-
-
-
-
-// const router = require("express").Router();
-// // const exampleModel = require("./exampleModel");
-
-
-// // API ROUTES
-// // router.use("/", exampleModel);
-
-// // For anything else, render the html page
-// router.use(function(req, res) {
-//   res.sendFile(path.join(__dirname, "../../client/build/index.html"));
-// });
-
-// module.exports = router;

@@ -12,11 +12,6 @@ const firebaseApp = firebase.initializeApp(firebaseConfig);
 
 class App extends Component {
   render() {
-    const {
-      user,
-      signOut,
-      signInWithGoogle,
-  } = this.props;
 
     return (
       <Router>
