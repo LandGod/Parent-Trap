@@ -1,5 +1,5 @@
 import React from "react";
-import './styles.css';
+import './style.css';
 
 class MemberFormRow extends React.Component {
   /* 
@@ -18,6 +18,7 @@ class MemberFormRow extends React.Component {
     showAddButton: 'true': show add new row button, 'false': Do not show add new row button. Defaults to 'false'
     removeSelf: Requires a function which will remove this component instance from its parent. If no functino is supplied the remove button will not render.
     addNext: Requires a function which will create a new instance of this component underneath itslef. If none is supplied then the add button will be diabled (if shown).
+    >>NOTE - both addNext & removeSelf buttons will need to contain event.preventDefault() or equivalent. They will be passed an event object.
 
     STATE:
     Note that not all props have a coresponding value in the state, as things like function references should not change after component creation
@@ -36,17 +37,22 @@ class MemberFormRow extends React.Component {
     firstName: this.props.firstName || "",
     lastName: this.props.lastName || "",
     email: this.props.email || "",
-    showAddButton: this.props.showButtons || false
+    showAddButton: this.props.showAddButton || false
   };
 
+  // Just for debug output:
+  componentDidMount = () => {
+    console.log(this.state)
+  }
+
   // These function track the value of the input fields and keep the state updated continuously with that information
-  handleChangeFirstName(event) {
+  handleChangeFirstName = (event) => {
     this.setState({ firstName: event.target.value });
   }
-  handleChangeLastName(event) {
+  handleChangeLastName = (event) => {
     this.setState({ lastName: event.target.value });
   }
-  handleChangeEmail(event) {
+  handleChangeEmail = (event) => {
     this.setState({ email: event.target.value });
   }
 
@@ -85,7 +91,7 @@ class MemberFormRow extends React.Component {
         </div>
         <div className="col-md-2">
           <button
-            className="btn btn-sm btn-circle btn-danger"
+            className="btn btn-sm btn-circle btn-danger mr-1"
             onClick={this.props.removeSelf}
             hidden={this.props.readOnly}
             disabled={!this.props.removeSelf}
@@ -93,10 +99,10 @@ class MemberFormRow extends React.Component {
             -
           </button>
           <button
-            className="btn btn-sm btn-circle btn-confirm"
+            className="btn btn-sm btn-circle btn-success"
             onClick={this.props.addNext}
             hidden={!this.state.showAddButton}
-            disabled={!this.state.addNext}
+            disabled={!this.props.addNext}
           >
             +
           </button>

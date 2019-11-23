@@ -16,7 +16,7 @@ class HouseHold extends Component {
                 <h2>{this.props.createOrEdit} Household</h2>
             </div>
           <div className="form-group row">
-            <label for="householdNameInput" className="col-sm-2 col-form-label">
+            <label htmlFor="householdNameInput" className="col-sm-2 col-form-label">
               Household Name:
             </label>
             <div className="col-sm-10">
@@ -45,8 +45,8 @@ class HouseHold extends Component {
             lastName={'Johnson'}
             email={'F.Johnson@tycho.com'}
             showAddButton={true}
-            addNext={() => {console.log('Add new row button activated!')}}
-            removeSelf={() => {console.log('Remove self button activated!')}}
+            addNext={(event) => {event.preventDefault(); console.log('Add new row button activated!')}}
+            removeSelf={(event) => {event.preventDefault(); console.log('Remove self button activated!')}}
           />
         </form>
       </div>
@@ -56,7 +56,7 @@ class HouseHold extends Component {
 
 // Set defaults for props:
 HouseHold.defaultProps = { 
-    createOrEdit = 'Create'
+    createOrEdit: 'Create'
  }
 
-export default SideNav;
+export default HouseHold;

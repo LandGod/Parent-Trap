@@ -7,6 +7,8 @@ import SideNav from "../components/SideNav";
 import TopNav from "../components/TopNav";
 import "./style/dashboard.css";
 
+import HouseHold from "../components/HouseHold";
+
 class Dashboard extends Component {
 
   // Define state for Dahsboard object
@@ -40,6 +42,10 @@ class Dashboard extends Component {
           householdName={this.state.householdName}
           />
           <Container>
+            {/* !!! REMOVE BELOW BEFORE PUSHING TO DEV !!! */}
+            {/* !!! FOR TESTING PURPOSES ONLY !!! */}
+          <HouseHold />
+          {/* ^^^ !!! REMOVE ABOVE BEFORE PUSHING TO DEV !!! ^^^ */}
             <Row>
               <Col size="md-12 fluid">
                 <p>This is the Dashboard</p>
