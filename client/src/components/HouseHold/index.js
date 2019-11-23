@@ -6,6 +6,7 @@ import "./style.css";
 class HouseHold extends Component {
   state = {
     mode: this.props.mode || "create",
+    householdName: this.props.householdName,
     members: [
       // Dummy data until API is set up
       {
@@ -73,6 +74,12 @@ class HouseHold extends Component {
     });
   };
 
+  // Updates the householdName in the state any time the input field for household name is updated
+  handleChangeHouseholdName = event => {
+    let val = event.target.value;
+    this.setState({ householdName: val });
+  };
+
   render() {
     return (
       <div>
@@ -99,6 +106,8 @@ class HouseHold extends Component {
                 className="form-control"
                 id="householdNameInput"
                 placeholder="Smith"
+                onChange={this.handleChangeHouseholdName}
+                value={this.state.householdName}
               />
             </div>
           </div>
@@ -107,23 +116,29 @@ class HouseHold extends Component {
             <h3>Add/Edit Members </h3>
           </div>
           {this.state.members.map((member, i) => {
-              if (!member.deleted) {
-            return (
-              <MemberFormRow
-                key={this.setIndex(i)}
-                firstName={member.firstName}
-                lastName={member.lastName}
-                email={member.email}
-                // Add readonly attribute if member object matches currently logged in member (You can't delete yourself)
-                readOnly={this.isCurrentUser(member._id)}
-                // While the component allows for dynamically hiding the add button. There is no good reason to do so at this time.
-                showAddButton={true}
-                addNext={this.addMemberRow}
-                indexInState={this.setIndex(i)}
-                removeSelf={this.removeRow}
-                currentParent={this}
-              />
-              )};
+            // If we've set the deleted key in the member object that coresponds to this component to 'true', don't render it
+            if (!member.deleted) {
+              return (
+                <MemberFormRow
+                  key={this.setIndex(i)}
+                  firstName={member.firstName}
+                  lastName={member.lastName}
+                  email={member.email}
+                  // Add readonly attribute if member object matches currently logged in member (You can't delete yourself)
+                  readOnly={this.isCurrentUser(member._id)}
+                  // While the component allows for dynamically hiding the add button. There is no good reason to do so at this time.
+                  showAddButton={true}
+                  // Hook into function for adding new member form rows
+                  addNext={this.addMemberRow}
+                  // Save and lock in index in list of member objects that this component is attached to
+                  indexInState={this.setIndex(i)}
+                  // Hook into function for removing form row (the indexInState value will be passed in along with the event)
+                  removeSelf={this.removeRow}
+                  // Pass Parent context to child for ability to hook into parent state
+                  currentParent={this}
+                />
+              );
+            }
           })}
         </form>
       </div>
@@ -133,7 +148,8 @@ class HouseHold extends Component {
 
 // Set defaults for props:
 HouseHold.defaultProps = {
-  createOrEdit: "Create"
+  createOrEdit: "Create",
+  householdName: ""
 };
 
 export default HouseHold;
