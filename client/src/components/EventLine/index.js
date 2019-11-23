@@ -6,6 +6,16 @@ import "./style.css";
 
 class EventLine extends Component {
 
+   // click add event button - botton for dashboard
+   clickAssignEvent = (event,identifier) => {
+    console.log(`you clicked the assign event button & ident is: ${identifier}`);
+  }
+
+   // click add event button - botton for dashboard
+   clickCompleteEvent = (event,identifier) => {
+    console.log(`you clicked the complete event button & ident is: ${identifier}`);
+  }
+
   render() {
     return (
       <div className="event-div border rounded-sm">
@@ -29,10 +39,10 @@ class EventLine extends Component {
             <p>{this.props.assigned}</p>
           </Col>
           <Col size="2">
-            <Button icon={this.props.iconAssigned} title=""></Button>
+            <Button icon={this.props.iconAssigned} clickEvent={this.clickAssignEvent}  indentifier={this.props.event_id} title=""></Button>
           </Col>
           <Col size="2">
-            <Button icon={this.props.iconCompleted}  title=""></Button>
+            <Button icon={this.props.iconCompleted} clickEvent={this.clickCompleteEvent} indentifier={this.props.event_id} title=""></Button>
           </Col>
         </div>
       </div>

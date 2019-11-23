@@ -91,7 +91,7 @@ class Dashboard extends Component {
                       firstdashcard={(i === 0) ? "first-dashcard" : ""}
                      ></DashCard>
                       {
-                        eventDate.events.map(event => {
+                        eventDate.events.map((event,i) => {
                           return (
                             <EventLine
                             key={event.event_id}
@@ -123,7 +123,7 @@ class Dashboard extends Component {
                     <Button
                       id="add-event"
                       icon="fas fa-plus-circle fa-3x"
-                      clickAddEvent={this.clickAddEvent}
+                      clickEvent={this.clickAddEvent}
                     ></Button>
                   </div>
               </Col>
