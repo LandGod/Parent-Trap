@@ -1,10 +1,10 @@
 const path = require("path");
 const router = require("express").Router();
-const eventRoutes = require("./events");
+const eventRoutes = require("./event");
 const householdRoutes = require("./household")
 
 // Event routes
-router.use("/events", eventRoutes);
+router.use("/event", eventRoutes);
 router.use("/household", householdRoutes);
 
 // For anything else, render the html page
