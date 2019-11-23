@@ -3,6 +3,11 @@ const mongoose = require("mongoose");
 
 
 var HouseholdSchema = new mongoose.Schema({
+    // name of household
+    name: {
+      type: String,
+      required: true
+    },
     // Array of refferences to member objects
     members: [
         {

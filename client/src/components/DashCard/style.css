@@ -15,3 +15,11 @@ button {
 .fa-calendar-alt {
   padding-right: 1em;
 }
+
+.first-dashcard {
+  background-color: #d6d6d6;
+}
+
+.first-dashcard h3 {
+  font-weight: 900;
+}
