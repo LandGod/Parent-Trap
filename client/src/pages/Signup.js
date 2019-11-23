@@ -5,7 +5,17 @@ class Signup extends Component {
     render() {
         return (
             <Container>
-                <HouseHold createMode={true}/>
+                <HouseHold 
+                createMode={true}
+                members={[{
+                    // Sandbox/Test Code (letting members be undefined crashes the react server)
+                    firstName: 'James',
+                    lastName: 'Holden',
+                    email: 'testUser@roci.org',
+                    status: 'full'
+
+                }]}
+                />
             </Container>
         )
     }
