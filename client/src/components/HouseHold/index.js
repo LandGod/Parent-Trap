@@ -17,11 +17,11 @@ class HouseHold extends Component {
                 <h2 className="text-center">{this.props.createOrEdit} Household</h2>
                 </div>
             </div>
-          <div className="form-group row">
+          <div className="form-group row justify-content-center">
             <label htmlFor="householdNameInput" className="col-sm-2 col-form-label">
-              Household Name:
+              <h5>Household Name:</h5>
             </label>
-            <div className="col-sm-10">
+            <div className="col-sm-4">
               <input
                 type="text"
                 className="form-control"

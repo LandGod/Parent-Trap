@@ -96,7 +96,7 @@ class MemberFormRow extends React.Component {
             hidden={this.props.readOnly}
             disabled={!this.props.removeSelf}
           >
-            -
+            <i className="fas fa-minus"></i>
           </button>
           <button
             className="btn btn-sm btn-circle btn-success"
@@ -104,7 +104,7 @@ class MemberFormRow extends React.Component {
             hidden={!this.state.showAddButton}
             disabled={!this.props.addNext}
           >
-            +
+            <i className="fas fa-plus"></i>
           </button>
         </div>
       </div>
