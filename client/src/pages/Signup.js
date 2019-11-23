@@ -7,8 +7,10 @@ class Signup extends Component {
             <Container>
                 <HouseHold 
                 createMode={true}
+                currentUserId={"5dd6ea9f6c0c7213542d089f"}
                 members={[{
                     // Sandbox/Test Code (letting members be undefined crashes the react server)
+                    _id: "5dd6ea9f6c0c7213542d089f",
                     firstName: 'James',
                     lastName: 'Holden',
                     email: 'testUser@roci.org',

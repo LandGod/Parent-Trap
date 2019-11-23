@@ -13,6 +13,7 @@ import "./style.css";
     >> When editing an existing household, this would be a list conataining all current members as objects
     >> the members prop is ALLWAYS REQUIRED when creating a new HouseHold component
     householdName: (String) The name of the household. Not required if creating a new household
+    currentUserId: _id from currently logged in user's member document
 
     STATE:
     householdName: It's the name of the household. If the householdName prop was given a value, the state property will be initialized with that value
@@ -98,6 +99,7 @@ class HouseHold extends Component {
     // If creating new household:
     if (this.props.createMode === true) {
         //TODO: Write api call for creating household (and user)
+        console.log('Send data to api call')
     }
     // If updating and existing household:
     else {
@@ -139,6 +141,18 @@ class HouseHold extends Component {
           {/* Member input */}
           <div className="row">
             <h3>Add/Edit Members </h3>
+          </div>
+          {/* Column Headers */}
+          <div className="row">
+              <div className="col-md-3">
+                <h5>First Name</h5>
+              </div>
+              <div className="col-md-3">
+              <h5>Last Name</h5>
+              </div>
+              <div className="col-md-4">
+              <h5>Email</h5>
+              </div>
           </div>
           {this.state.members.map((member, i) => {
             // If we've set the deleted key in the member object that coresponds to this component to 'true', don't render it
