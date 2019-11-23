@@ -1,8 +1,5 @@
 const db = require("../models");
 
-// for sand-box only:
-const mongoose = require("mongoose");
-
 module.exports = {
   // Return all events for the given household and populate all member references
   // TODO: This method partially works, but populate creator seems broken and populate invitees has not been tested yet
