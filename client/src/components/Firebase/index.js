@@ -19,6 +19,12 @@ const uiConfig = {
       
       // store the user display name
       var displayName = authResult.user.displayName
+
+      // store the user email
+      var email = authResult.user.email
+
+      // store email in session storage
+      sessionStorage.setItem('email', email);
       
       // split the display name to first and last name
       var displayNameArray = displayName.split(" ");
