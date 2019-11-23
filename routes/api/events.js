@@ -73,11 +73,9 @@ transformEvents = result => {
 
 
 router
-  .route("/all")
+  .route("/all/:id")
   // GET all events from the given household
   .get(function(req, res) {
-    console.log(`Events.js ServerSide req.body:  ${JSON.stringify(req.body)}`)
-    console.log(`Events.js ServerSide req.params:  ${JSON.stringify(req.params)}`)
     // Validate req body
     if (!req.body) {
       res.status(400).send("Request has no body!");
@@ -85,10 +83,9 @@ router
     }
 
     // Get household id & assert that it is not undefined 
-    // let householdId = req.body.householdId;
-    let householdId = "5dd726706ddba45e5d59db35";
+    let householdId = req.params.id;
+    // let householdId = "5dd726706ddba45e5d59db35";
     // console.log(`Events.js ServerSide householdId is:  ${householdId}`)
-    // console.log(`Events.js ServerSide req.body:  ${JSON.stringify(req.body)}`)
     if (!householdId) {
       res.status(400).send("No householdId");
       return;
