@@ -1,5 +1,5 @@
 import React from "react";
-import './style.css';
+import "./style.css";
 
 class MemberFormRow extends React.Component {
   /* 
@@ -19,6 +19,7 @@ class MemberFormRow extends React.Component {
     removeSelf: Requires a function which will remove this component instance from its parent. If no functino is supplied the remove button will not render.
     addNext: Requires a function which will create a new instance of this component underneath itslef. If none is supplied then the add button will be diabled (if shown).
     >>NOTE - both addNext & removeSelf buttons will need to contain event.preventDefault() or equivalent. They will be passed an event object.
+    currentParent: Takes the 'this' of the parent. The household object state can only be properly updated if this is supplied at creation time.
 
     STATE:
     Note that not all props have a coresponding value in the state, as things like function references should not change after component creation
@@ -40,21 +41,30 @@ class MemberFormRow extends React.Component {
     showAddButton: this.props.showAddButton || false
   };
 
-  // Just for debug output:
-  componentDidMount = () => {
-    console.log(this.state)
+  // Calls updateState on parent state and changes the given key/value pair for the member representing this object.
+  updateParentMemberState(key, value) {
+    this.props.currentParent.setState(parentState => {
+      parentState.members[this.props.indexInState][key] = value;
+      return parentState;
+    });
   }
 
   // These function track the value of the input fields and keep the state updated continuously with that information
-  handleChangeFirstName = (event) => {
-    this.setState({ firstName: event.target.value });
-  }
-  handleChangeLastName = (event) => {
-    this.setState({ lastName: event.target.value });
-  }
-  handleChangeEmail = (event) => {
-    this.setState({ email: event.target.value });
-  }
+  handleChangeFirstName = event => {
+    let val = event.target.value;
+    this.setState({ firstName: val });
+    this.updateParentMemberState("firstName", val);
+  };
+  handleChangeLastName = event => {
+    let val = event.target.value;
+    this.setState({ lastName: val });
+    this.updateParentMemberState("lastName", val);
+  };
+  handleChangeEmail = event => {
+    let val = event.target.value;
+    this.setState({ email: val });
+    this.updateParentMemberState("email", val);
+  };
 
   render() {
     return (
@@ -92,7 +102,9 @@ class MemberFormRow extends React.Component {
         <div className="col-md-2">
           <button
             className="btn btn-sm btn-circle btn-danger mr-1"
-            onClick={this.props.removeSelf}
+            onClick={event => {
+              this.props.removeSelf(event, this.props.indexInState);
+            }}
             hidden={this.props.readOnly}
             disabled={!this.props.removeSelf}
           >

@@ -56,11 +56,19 @@ class HouseHold extends Component {
     });
   };
 
+  // Takes an iterator value and freezes it as a const and returns that const
+  // This allows us to store the array index of the object, without being worried that we're pointing to a dynamic variable whos
+  // value might change.
+  setIndex = index => {
+    const frozenIndex = index;
+    return frozenIndex;
+  };
+
   // Removes the user object from state which coresponds to the row on which the button was clicked
   removeRow = (event, i) => {
     event.preventDefault();
     this.setState(currentState => {
-      currentState.members.splice(i, 1);
+      currentState.members[i].deleted = true;
       return currentState;
     });
   };
@@ -69,7 +77,7 @@ class HouseHold extends Component {
     return (
       <div>
         <form>
-            {/* Title */}
+          {/* Title */}
           <div className="row justify-content-center">
             <div className="col-md-4">
               <h2 className="text-center">
@@ -99,25 +107,23 @@ class HouseHold extends Component {
             <h3>Add/Edit Members </h3>
           </div>
           {this.state.members.map((member, i) => {
+              if (!member.deleted) {
             return (
               <MemberFormRow
-                key={i}
+                key={this.setIndex(i)}
                 firstName={member.firstName}
                 lastName={member.lastName}
                 email={member.email}
                 // Add readonly attribute if member object matches currently logged in member (You can't delete yourself)
                 readOnly={this.isCurrentUser(member._id)}
-                // If this is the last member in the list, show the add button
-                // showAddButton={
-                //   i + 1 >= this.state.members.length ? true : false
-                // }
-                showAddButton={!this.isCurrentUser(member._id)}
+                // While the component allows for dynamically hiding the add button. There is no good reason to do so at this time.
+                showAddButton={true}
                 addNext={this.addMemberRow}
-                removeSelf={event => {
-                  this.removeRow(event, i);
-                }}
+                indexInState={this.setIndex(i)}
+                removeSelf={this.removeRow}
+                currentParent={this}
               />
-            );
+              )};
           })}
         </form>
       </div>
