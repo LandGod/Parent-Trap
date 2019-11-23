@@ -35,8 +35,10 @@ const uiConfig = {
       sessionStorage.setItem('firstName', firstName);
       sessionStorage.setItem('lastName', lastName);
 
-      // if user exists find the household ID and send to dashboard
-      // if user does not exist send to the create household screen
+      // TODO: send API call to evaluate:
+        // if user exists and has a household send to dashboard
+        // if user is new send to create household screen
+        // if user has been invited but does have a household send to dasboard
       
       
       
