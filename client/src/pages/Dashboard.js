@@ -48,6 +48,12 @@ class Dashboard extends Component {
     this.sidenavRef.current.openNav();
   };
 
+
+  // click add event button - botton for dashboard
+  clickAddEvent = () => {
+    console.log(`you clicked the add event button`);
+  }
+
   // When the component mounts, get a list of all events
   componentDidMount() {
     // hardcoded test household id: 
@@ -117,6 +123,7 @@ class Dashboard extends Component {
                     <Button
                       id="add-event"
                       icon="fas fa-plus-circle fa-3x"
+                      clickAddEvent={this.clickAddEvent}
                     ></Button>
                   </div>
               </Col>
