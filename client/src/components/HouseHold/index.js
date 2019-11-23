@@ -12,8 +12,10 @@ class HouseHold extends Component {
     return (
       <div>
         <form>
-            <div className="row">
-                <h2>{this.props.createOrEdit} Household</h2>
+            <div className="row justify-content-center">
+                <div className="col-md-4">
+                <h2 className="text-center">{this.props.createOrEdit} Household</h2>
+                </div>
             </div>
           <div className="form-group row">
             <label htmlFor="householdNameInput" className="col-sm-2 col-form-label">
