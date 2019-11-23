@@ -7,8 +7,6 @@ import SideNav from "../components/SideNav";
 import TopNav from "../components/TopNav";
 import "./style/dashboard.css";
 
-import HouseHold from "../components/HouseHold";
-
 class Dashboard extends Component {
 
   // Define state for Dahsboard object
