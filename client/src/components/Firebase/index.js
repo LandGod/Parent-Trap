@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import API from "../../utils/API";
 import "../../pages/style/Home.css"
 
 
@@ -35,12 +36,11 @@ const uiConfig = {
       sessionStorage.setItem('firstName', firstName);
       sessionStorage.setItem('lastName', lastName);
 
-      // TODO: send API call to evaluate:
-        // if user exists and has a household send to dashboard
-        // if user is new send to create household screen
-        // if user has been invited but does have a household send to dasboard
-      
-      
+      // Send API call to evaluate:
+      API.login(id)
+        .then(res => {console.log('success', res);
+        })
+        .catch(err => console.log(err));
       
       // this.props.history.push('/dashboard');
       // return false

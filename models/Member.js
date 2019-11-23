@@ -7,7 +7,6 @@ var MemberSchema = new mongoose.Schema({
     // not sure how to do that yet.
     userOauthKey: {
         type: String 
-
     },
     // email (text)
     email: {
