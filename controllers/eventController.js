@@ -9,7 +9,6 @@ module.exports = {
   findAllEventsPopulated: function(householdId) {
     return new Promise((resolve, reject) => {
       db.Household.find({ _id: householdId },{members:0,name:0,_id:0,__v:0 })
-        // .sort("+startTime")
         .populate({path: "events", select: ["_id","title","eventType","status","location1","location2",
         "startTime","endTime","note"], options: {sort: {startTime: 1}},
             populate: [{path: "creator", select: ["_id","firstName", "lastName"]},
@@ -80,10 +79,3 @@ module.exports = {
   }
 
 };
-
-// // old controllers for sand-box
-// const mongoose = require("mongoose");
-
-// Defining methods for the eventController
-// module.exports = {
-// };

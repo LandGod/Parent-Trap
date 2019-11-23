@@ -7,8 +7,8 @@ class DashCard extends Component {
 
   render() {
     return (
-      <div className="card mt-4 dashcard">
-        <div className="card-header">
+      <div className="card mt-4">
+        <div className={`card-header ${this.props.firstdashcard}`}>
           <h3>
             <i className={this.props.icon} 
                 aria-hidden="true" /> {this.props.title}

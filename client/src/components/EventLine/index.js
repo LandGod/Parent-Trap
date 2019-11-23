@@ -23,7 +23,7 @@ class EventLine extends Component {
         </div>
         <div className='row no-gutters'>
           <Col size="4">
-            <p>{this.props.requestor}</p>
+            <p>{this.props.creator}</p>
           </Col>
           <Col size="4">
             <p>{this.props.assigned}</p>

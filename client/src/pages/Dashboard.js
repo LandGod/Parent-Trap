@@ -6,22 +6,21 @@ import Button from "../components/Button";
 import EventLine from "../components/EventLine";
 import SideNav from "../components/SideNav";
 import TopNav from "../components/TopNav";
-import "./style/dashboard.css";
 
 
- 
-const eventData = [
-{ date: "Monday 11/18/2019",
-  events: [{status: "closed", title: "Ride to Practice", eventType: "ride", time: "9:00 AM", creator: "Rory", assigned: "Myles"},
-          {status: "closed", title: "Pick up from work", eventType: "ride", time: "9:00 AM", creator: "Rory", assigned: "Myles"},
-          {status: "closed", title: "Sign permission slip", eventType: "task", time: "", creator: "Kyra", assigned: "Sean"},
-          {status: "closed", title: "Pick up from Jane's", eventType: "ride", time: "8:00PM", creator: "Rory", assigned: "Myles"}]},
-  {date: "Wednesday 11/20/2019",
-  events: [{status: "open", title: "Pick up dinner", eventType: "task", time: "5:00 PM", creator: "Sean", assigned: "Myles"}]},
-  {date: "Thursday 11/21/2019",
-  events: [{status: "open", title: "Drop off at meet", eventType: "ride", time: "4:00 PM", creator: "Rory", assigned: ""},
-          {status: "open", title: "Pick up from meet", eventType: "ride", time: "9:00 PM", creator: "Rory", assigned: ""}]}
-]
+// // mock up date for early testing prior to API route availability 
+// const eventData = [
+// { date: "Monday 11/18/2019",
+//   events: [{status: "closed", title: "Ride to Practice", eventType: "ride", time: "9:00 AM", creator: "Rory", assigned: "Myles"},
+//           {status: "closed", title: "Pick up from work", eventType: "ride", time: "9:00 AM", creator: "Rory", assigned: "Myles"},
+//           {status: "closed", title: "Sign permission slip", eventType: "task", time: "", creator: "Kyra", assigned: "Sean"},
+//           {status: "closed", title: "Pick up from Jane's", eventType: "ride", time: "8:00PM", creator: "Rory", assigned: "Myles"}]},
+//   {date: "Wednesday 11/20/2019",
+//   events: [{status: "open", title: "Pick up dinner", eventType: "task", time: "5:00 PM", creator: "Sean", assigned: "Myles"}]},
+//   {date: "Thursday 11/21/2019",
+//   events: [{status: "open", title: "Drop off at meet", eventType: "ride", time: "4:00 PM", creator: "Rory", assigned: ""},
+//           {status: "open", title: "Pick up from meet", eventType: "ride", time: "9:00 PM", creator: "Rory", assigned: ""}]}
+// ]
 
 
 class Dashboard extends Component {
@@ -54,23 +53,11 @@ class Dashboard extends Component {
     // hardcoded test household id: 
     const householdId = "5dd726706ddba45e5d59db35";
     API.getAllHouseholdEvents({householdId: householdId})
-      .then(res => {
-                    this.setState({ events: res.data });
-        
-                    //console.log(`Events: ${JSON.stringify(res.data)}`);
+      .then(res => {this.setState({ events: res.data });
+      console.log(`Events: ${JSON.stringify(res.data)}`);
       })
       .catch(err => console.log(err));
   }
-
-    // // When the component mounts, get a list of all events
-    // componentDidMount() {
-    //   API.getAllEvents()
-    //     .then(res => {
-    //                   // this.setState({ events: res.data });
-    //                   console.log(`Events: ${JSON.stringify(res.data)}`);
-    //     })
-    //     .catch(err => console.log(err));
-    // }
 
   render() {
     return (
@@ -85,27 +72,40 @@ class Dashboard extends Component {
           <Container>
             <Row>
               <Col size="md-12 fluid">
-                {this.state.events.map(eventDate => {
+                {this.state.events.map((eventDate,i) => {
                   return (
                     <div>
                       <DashCard
+                      key={i}
                       icon="fa fa-calendar-alt"
                       title={eventDate.date}
                       id={(eventDate.events.length > 3) ? "show-more" : undefined }
                       showmoreIcon={(eventDate.events.length > 3) ? "fas fa-angle-double-down fa-lg" : undefined }
                       events={eventDate.events}
+                      firstdashcard={(i === 0) ? "first-dashcard" : ""}
                      ></DashCard>
                       {
                         eventDate.events.map(event => {
                           return (
                             <EventLine
-                            time={(event.time) ? event.time : undefined}
+                            key={event.event_id}
+                            event_id={event.event_id}
                             title={event.title}
-                            duration="00:45"
-                            requestor={event.creator}
+                            eventType={event.eventType}
+                            status={event.status}
+                            location1={event.location1}
+                            location2={event.location2}
+                            time={(event.time) ? event.time : undefined}
+                            startTime={event.startTime}
+                            endTime={event.endTime}
+                            duration="00:00"
+                            creator_id={event.creator_id}
+                            creator={event.creator}
+                            assigned_id={(event.assigned_id) ? event.assigned_id : undefined}
                             assigned={(event.assigned) ? event.assigned : undefined}
                             iconAssigned={(event.assigned) ? "fas fa-plus-square fa-lg" : "far fa-plus-square fa-lg"}
                             iconCompleted={(event.status) === "closed" ? "fas fa-check-square fa-lg" : "far fa-check-square fa-lg"}
+                            note={event.note}
                           />
                           )
                         })
