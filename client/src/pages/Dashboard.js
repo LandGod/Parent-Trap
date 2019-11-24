@@ -50,6 +50,11 @@ class Dashboard extends Component {
 
 
   // click add event button - botton for dashboard
+  // if this is clicked then the edit event modal needs to be
+  // shown and if it is not cancelled out then its new event
+  // entry will need to be updated in database and this 
+  // page will need to be re-rendered since the event could have
+  // been added for any existing date or a new date
   clickAddEvent = () => {
     console.log(`you clicked the add event button`);
   }
@@ -104,7 +109,7 @@ class Dashboard extends Component {
                             time={(event.time) ? event.time : undefined}
                             startTime={event.startTime}
                             endTime={event.endTime}
-                            duration="00:00"
+                            duration=""
                             creator_id={event.creator_id}
                             creator={event.creator}
                             assigned_id={(event.assigned_id) ? event.assigned_id : undefined}
