@@ -70,6 +70,14 @@ class Dashboard extends Component {
       .catch(err => console.log(err));
   }
 
+  modifyEventStatus = (id, eventDate) => {
+    const newEvents = [...this.state.events];
+    const dateIndex = newEvents.findIndex(event => event.date === eventDate);
+    const itemIndex = newEvents[dateIndex].events.findIndex(event => event.event_id === id);
+    newEvents[dateIndex].events[itemIndex].status = newEvents[dateIndex].events[itemIndex].status === 'closed' ? 'open' : 'closed';
+    this.setState({events: newEvents});
+  }
+
   render() {
     return (
       <div>
@@ -87,7 +95,7 @@ class Dashboard extends Component {
                   return (
                     <div>
                       <DashCard
-                      key={i}
+                      key={i + 234}
                       icon="fa fa-calendar-alt"
                       title={eventDate.date}
                       id={(eventDate.events.length > 3) ? "show-more" : undefined }
@@ -117,8 +125,10 @@ class Dashboard extends Component {
                             iconView="fas fa-info-circle fa-lg"
                             iconEdit="fas fa-edit fa-lg"
                             iconAssigned={(event.assigned) ? "fas fa-plus-square fa-lg" : "far fa-plus-square fa-lg"}
-                            iconCompleted={(event.status) === "closed" ? "fas fa-check-square fa-lg" : "far fa-check-square fa-lg"}
+                            iconCompleted={event.status === "closed"}
                             note={event.note}
+                            onClickComplete={this.modifyEventStatus}
+                            eventDate={eventDate.date}
                           />
                           )
                         })

@@ -7,7 +7,7 @@ import "./style.css";
 class EventLine extends Component {
 
   state = {
-    iconCompleted: this.props.iconCompleted,
+    iconCompleted: this.props.iconCompleted, // can remove now
     iconAssigned: this.props.iconAssigned,
     assigned_id: this.props.assigned_id,
     assigned: this.props.assigned
@@ -49,13 +49,18 @@ class EventLine extends Component {
   // click complete event button 
   // toggle the icon - also need API call to update database accordingly
     clickCompleteEvent = (event,identifier) => {
-    console.log(`you clicked the complete event button & ident is: ${identifier}`);
-    var newState = (this.state.iconCompleted === "far fa-check-square fa-lg") 
-                    ? "fas fa-check-square fa-lg" : "far fa-check-square fa-lg";
-    this.setState({iconCompleted: newState })
+    // console.log(`you clicked the complete event button & ident is: ${identifier}`);
+    // var newState = (this.state.iconCompleted === "far fa-check-square fa-lg") 
+    //                 ? "fas fa-check-square fa-lg" : "far fa-check-square fa-lg";
+    // this.setState({iconCompleted: newState })
+    if(typeof this.props.onClickComplete === 'function'){
+      this.props.onClickComplete(this.props.event_id, this.props.eventDate);
+    }
   }
 
   render() {
+    const isCompleted = this.props.iconCompleted
+    ? "fas fa-check-square fa-lg" : "far fa-check-square fa-lg";
     return (
       <div className="event-div border rounded-sm">
         <div className='row no-gutters'>
@@ -88,7 +93,7 @@ class EventLine extends Component {
             <Button icon={this.state.iconAssigned} clickEvent={this.clickAssignEvent}  indentifier={this.props.event_id} title=""></Button>
           </Col>
           <Col size="1">
-            <Button icon={this.state.iconCompleted} clickEvent={this.clickCompleteEvent} indentifier={this.props.event_id} title=""></Button>
+            <Button icon={isCompleted} clickEvent={this.clickCompleteEvent} indentifier={this.props.event_id} title=""></Button>
           </Col>
         </div>
       </div>
