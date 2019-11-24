@@ -109,6 +109,8 @@ class Dashboard extends Component {
                             creator={event.creator}
                             assigned_id={(event.assigned_id) ? event.assigned_id : undefined}
                             assigned={(event.assigned) ? event.assigned : undefined}
+                            iconView="fas fa-info-circle fa-lg"
+                            iconEdit="fas fa-edit fa-lg"
                             iconAssigned={(event.assigned) ? "fas fa-plus-square fa-lg" : "far fa-plus-square fa-lg"}
                             iconCompleted={(event.status) === "closed" ? "fas fa-check-square fa-lg" : "far fa-check-square fa-lg"}
                             note={event.note}
