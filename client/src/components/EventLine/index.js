@@ -7,10 +7,10 @@ import "./style.css";
 class EventLine extends Component {
 
   state = {
-    iconCompleted: this.props.iconCompleted, // can remove now
-    iconAssigned: this.props.iconAssigned,
-    assigned_id: this.props.assigned_id,
-    assigned: this.props.assigned
+    // iconCompleted: this.props.iconCompleted, // can remove now
+    // iconAssigned: this.props.iconAssigned,
+    // assigned_id: this.props.assigned_id,
+    // assigned: this.props.assigned
     // will need to add the remaining Event props so they
     // can be passed to the Edit modal and be returned
     // as set of data for state changes 
@@ -30,37 +30,37 @@ class EventLine extends Component {
     console.log(`you clicked the edit event button & ident is: ${identifier}`);
   }
 
-  // click asssign event button 
+  // click assign event button 
   // toggle the icon - also need API call to update database accordingly
-    clickAssignEvent = (event,identifier) => {
-    console.log(`you clicked the assign event button & ident is: ${identifier}`);
-    var newState = (this.state.iconAssigned === "far fa-plus-square fa-lg") 
-                    ? "fas fa-plus-square fa-lg" : "far fa-plus-square fa-lg";
-    if (newState === "far fa-plus-square fa-lg") {
-      console.log(`this will be unassigned`);
-      this.setState({assigned_id: ""});
-      this.setState({assigned: ""}); 
-    } else {
-      console.log(`assigning to you <current user name/id goes here>`);
-    };
-    this.setState({iconAssigned: newState })
-  }
+  // clickCompleteEvent = (event,identifier) => {
+    clickAssignEvent = () => {
+      // console.log(`you clicked the assign event button, id: ${this.props.event_id} date: ${this.props.eventDate}`);
+      if (typeof this.props.onClickAssign === 'function'){
+        this.props.onClickAssign(this.props.event_id, this.props.eventDate);
+      }
+    }
+
 
   // click complete event button 
   // toggle the icon - also need API call to update database accordingly
-    clickCompleteEvent = (event,identifier) => {
+    // clickCompleteEvent = (event,identifier) => {
+    clickCompleteEvent = () => {
+    // console.log(`you clicked the complete event button, id: ${this.props.event_id} date: ${this.props.eventDate}`);
     // console.log(`you clicked the complete event button & ident is: ${identifier}`);
-    // var newState = (this.state.iconCompleted === "far fa-check-square fa-lg") 
-    //                 ? "fas fa-check-square fa-lg" : "far fa-check-square fa-lg";
-    // this.setState({iconCompleted: newState })
     if(typeof this.props.onClickComplete === 'function'){
       this.props.onClickComplete(this.props.event_id, this.props.eventDate);
     }
   }
 
   render() {
+    // setting the completed icon class
     const isCompleted = this.props.iconCompleted
     ? "fas fa-check-square fa-lg" : "far fa-check-square fa-lg";
+    // console.log(this.props.iconAssigned);
+
+    // setting the assigned icon class
+    const isAssigned = this.props.iconAssigned
+    ? "fas fa-plus-square fa-lg" : "far fa-plus-square fa-lg" ;
     return (
       <div className="event-div border rounded-sm">
         <div className='row no-gutters'>
@@ -79,9 +79,7 @@ class EventLine extends Component {
             <p> ({this.props.creator})</p>
           </Col>
           <Col size="4">
-            {/* <p>{(this.props.assigned) ? `assigned: ${this.props.assigned}` : 'unassigned'}</p> */}
-            <p>{(this.state.assigned) ? `assigned: ${this.state.assigned}` : 'unassigned'}</p>
-            {/* <p>{this.state.assigned}</p> */}
+            <p>{(this.props.assigned) ? `assigned: ${this.props.assigned}` : 'unassigned'}</p>
           </Col>
           <Col size="1">
             <Button icon={this.props.iconView} clickEvent={this.clickViewEvent}  indentifier={this.props.event_id} title=""></Button>
@@ -90,10 +88,10 @@ class EventLine extends Component {
             <Button icon={this.props.iconEdit} clickEvent={this.clickEditEvent} indentifier={this.props.event_id} title=""></Button>
           </Col>
           <Col size="1">
-            <Button icon={this.state.iconAssigned} clickEvent={this.clickAssignEvent}  indentifier={this.props.event_id} title=""></Button>
+            <Button icon={isAssigned} clickEvent={this.clickAssignEvent} title=""></Button>
           </Col>
           <Col size="1">
-            <Button icon={isCompleted} clickEvent={this.clickCompleteEvent} indentifier={this.props.event_id} title=""></Button>
+            <Button icon={isCompleted} clickEvent={this.clickCompleteEvent} title=""></Button>
           </Col>
         </div>
       </div>

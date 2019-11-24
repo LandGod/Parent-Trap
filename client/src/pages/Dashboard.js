@@ -70,10 +70,28 @@ class Dashboard extends Component {
       .catch(err => console.log(err));
   }
 
-  modifyEventStatus = (id, eventDate) => {
+  modifyEventAssign = (eventId, eventDate) => {
     const newEvents = [...this.state.events];
     const dateIndex = newEvents.findIndex(event => event.date === eventDate);
-    const itemIndex = newEvents[dateIndex].events.findIndex(event => event.event_id === id);
+    const itemIndex = newEvents[dateIndex].events.findIndex(event => event.event_id === eventId);
+    console.log(`assign click: ${newEvents[dateIndex].events[itemIndex].assigned }`)
+    // newEvents[dateIndex].events[itemIndex].assigned = newEvents[dateIndex].events[itemIndex].assigned === undefined ? 'TBD' : undefined;
+    if (newEvents[dateIndex].events[itemIndex].assigned) {
+      console.log(`was assigned`)
+      newEvents[dateIndex].events[itemIndex].assigned = undefined;
+      newEvents[dateIndex].events[itemIndex].assigned_id = undefined;
+    } else {
+      console.log(`was un-assigned`)
+      newEvents[dateIndex].events[itemIndex].assigned = 'current user';
+      newEvents[dateIndex].events[itemIndex].assigned_id = 'current userId';
+    };
+    this.setState({events: newEvents});
+  }
+
+  modifyEventStatus = (eventId, eventDate) => {
+    const newEvents = [...this.state.events];
+    const dateIndex = newEvents.findIndex(event => event.date === eventDate);
+    const itemIndex = newEvents[dateIndex].events.findIndex(event => event.event_id === eventId);
     newEvents[dateIndex].events[itemIndex].status = newEvents[dateIndex].events[itemIndex].status === 'closed' ? 'open' : 'closed';
     this.setState({events: newEvents});
   }
@@ -92,6 +110,7 @@ class Dashboard extends Component {
             <Row>
               <Col size="md-12 fluid">
                 {this.state.events.map((eventDate,i) => {
+                  console.log(`>>>>>>>>>>>>>>>>>`)
                   return (
                     <div>
                       <DashCard
@@ -105,6 +124,7 @@ class Dashboard extends Component {
                      ></DashCard>
                       {
                         eventDate.events.map((event,i) => {
+                          console.log(`assigned: ${event.assigned} assigned_id: ${event.assigned_id} status: ${event.status} `)
                           return (
                             <EventLine
                             key={event.event_id}
@@ -124,10 +144,12 @@ class Dashboard extends Component {
                             assigned={(event.assigned) ? event.assigned : undefined}
                             iconView="fas fa-info-circle fa-lg"
                             iconEdit="fas fa-edit fa-lg"
-                            iconAssigned={(event.assigned) ? "fas fa-plus-square fa-lg" : "far fa-plus-square fa-lg"}
-                            iconCompleted={event.status === "closed"}
+                            // iconAssigned={(event.assigned) ? "fas fa-plus-square fa-lg" : "far fa-plus-square fa-lg"}
+                            iconAssigned={(event.assigned) ? true : false}
+                            iconCompleted={event.status === "closed"}  // sets iconCompleted to true or false
                             note={event.note}
                             onClickComplete={this.modifyEventStatus}
+                            onClickAssign={this.modifyEventAssign}
                             eventDate={eventDate.date}
                           />
                           )
