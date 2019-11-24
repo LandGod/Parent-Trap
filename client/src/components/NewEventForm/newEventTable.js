@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Form } from 'react-bootstrap';
-import API from '../../AjaxCalls/API'
+import API from '../../utils/API'
 
 
 export class NewEventTable extends Component {

@@ -23,16 +23,16 @@ class EventLine extends Component {
         </div>
         <div className='row no-gutters'>
           <Col size="4">
-            <p>{this.props.requestor}</p>
+            <p>{this.props.creator}</p>
           </Col>
           <Col size="4">
             <p>{this.props.assigned}</p>
           </Col>
           <Col size="2">
-            <Button icon={this.props.icon1} title=""></Button>
+            <Button icon={this.props.iconAssigned} title=""></Button>
           </Col>
           <Col size="2">
-            <Button icon={this.props.icon2}  title=""></Button>
+            <Button icon={this.props.iconCompleted}  title=""></Button>
           </Col>
         </div>
       </div>

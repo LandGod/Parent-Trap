@@ -10,13 +10,40 @@ const uiConfig = {
     signInSuccessUrl: '/dashboard',
     signInOptions: [
         firebase.auth.GoogleAuthProvider.PROVIDER_ID
-  ],    
+  ],   
   callbacks: {
     signInSuccessWithAuthResult: (authResult, redirectUrl) => {
-      console.log('signInSuccessWithAuthResult',authResult.user.uid);
-      console.log(authResult.user.displayName + ' , ' + authResult.user.email);
-      this.props.history.push('/dashboard');
-      return false
+      
+      // store the user Auth key in session storage
+      sessionStorage.setItem('userAuth',authResult.user.uid);
+      
+      // store the user display name
+      var displayName = authResult.user.displayName
+
+      // store the user email
+      var email = authResult.user.email
+
+      // store email in session storage
+      sessionStorage.setItem('email', email);
+      
+      // split the display name to first and last name
+      var displayNameArray = displayName.split(" ");
+      var firstName = displayNameArray[0];
+      var lastName = displayNameArray[1];
+
+      // store the information in session storage
+      sessionStorage.setItem('firstName', firstName);
+      sessionStorage.setItem('lastName', lastName);
+
+      // TODO: send API call to evaluate:
+        // if user exists and has a household send to dashboard
+        // if user is new send to create household screen
+        // if user has been invited but does have a household send to dasboard
+      
+      
+      
+      // this.props.history.push('/dashboard');
+      // return false
     }
   }
 };

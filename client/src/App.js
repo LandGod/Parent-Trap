@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
+import SignUp from './pages/Signup';
 import withFirebaseAuth from 'react-with-firebase-auth'
 import * as firebase from 'firebase';
 import 'firebase/auth';
@@ -12,11 +13,6 @@ const firebaseApp = firebase.initializeApp(firebaseConfig);
 
 class App extends Component {
   render() {
-    const {
-      user,
-      signOut,
-      signInWithGoogle,
-  } = this.props;
 
     return (
       <Router>
@@ -24,6 +20,7 @@ class App extends Component {
             <Switch>
               <Route exact path="/" component={Home} />
               <Route exact path="/dashboard" component={Dashboard} />
+              <Route exact path="/signup" component={SignUp} />
             </Switch>
           </div>
       </Router>
