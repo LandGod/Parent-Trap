@@ -11,7 +11,7 @@ class Dashboard extends Component {
 
   // Define state for Dahsboard object
   state = {
-    householdName: "No current household", // HouseholdName defaults to an error and should be updated when loading other household info
+    householdName: "No current household" // HouseholdName defaults to an error and should be updated when loading other household info
   };
 
   // Attaching ref to SideNav so that we can access its internal state

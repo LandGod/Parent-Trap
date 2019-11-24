@@ -10,7 +10,15 @@ const uiConfig = {
     signInSuccessUrl: '/dashboard',
     signInOptions: [
         firebase.auth.GoogleAuthProvider.PROVIDER_ID
-  ]
+  ],    
+  callbacks: {
+    signInSuccessWithAuthResult: (authResult, redirectUrl) => {
+      console.log('signInSuccessWithAuthResult',authResult.user.uid);
+      console.log(authResult.user.displayName + ' , ' + authResult.user.email);
+      this.props.history.push('/dashboard');
+      return false
+    }
+  }
 };
 
 class SignIn extends Component {
