@@ -16,7 +16,7 @@ const uiConfig = {
     signInSuccessWithAuthResult: (authResult, redirectUrl) => {
       
       // store the user Auth key in session storage
-      sessionStorage.setItem('userAuth',authResult.user.uid);
+      sessionStorage.setItem('id',authResult.user.uid);
       
       // store the user display name
       var displayName = authResult.user.displayName
@@ -36,8 +36,16 @@ const uiConfig = {
       sessionStorage.setItem('firstName', firstName);
       sessionStorage.setItem('lastName', lastName);
 
+      // retrive the information from session storage and store in an object to send through the API call
+      var userData = {
+        id: sessionStorage.getItem('id'),
+        firstName: sessionStorage.getItem('firstName'),
+        lastName: sessionStorage.getItem('lastName'),
+        email: sessionStorage.getItem('email')
+      }
+
       // Send API call to evaluate:
-      API.login(id)
+      API.login(userData)
         .then(res => {console.log('success', res);
         })
         .catch(err => console.log(err));

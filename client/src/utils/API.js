@@ -14,8 +14,8 @@ export default {
   },
 
   // determing login route
-  login: function(id) {
-    return axios.get("/api/login/" + id);
+  login: function(userData) {
+    return axios.get("/api/member");
   }
 
 };
