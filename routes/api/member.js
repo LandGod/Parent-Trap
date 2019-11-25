@@ -17,7 +17,8 @@ router
         memberController
             .findAll()
             .then(function(res) {
-                res.status(200).json(result);
+                res.status(200).json(res);
+                console.log('success')
             })
             .catch(function(err){
                 res.status(500).send(err);
