@@ -10,7 +10,7 @@ export default {
   // Gets all events for household
   getAllHouseholdEvents: function(id) {
     console.log(`HouseholdId: ${id}`)
-    return axios.get("/api/events/all/" + id);
+    return axios.get("/api/event/all/" + id);
   }
 
 };

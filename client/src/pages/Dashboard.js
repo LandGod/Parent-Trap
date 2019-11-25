@@ -50,6 +50,11 @@ class Dashboard extends Component {
 
 
   // click add event button - botton for dashboard
+  // if this is clicked then the edit event modal needs to be
+  // shown and if it is not cancelled out then its new event
+  // entry will need to be updated in database and this 
+  // page will need to be re-rendered since the event could have
+  // been added for any existing date or a new date
   clickAddEvent = () => {
     console.log(`you clicked the add event button`);
   }
@@ -63,6 +68,32 @@ class Dashboard extends Component {
       console.log(`Events: ${JSON.stringify(res.data)}`);
       })
       .catch(err => console.log(err));
+  }
+
+  modifyEventAssign = (eventId, eventDate) => {
+    const newEvents = [...this.state.events];
+    const dateIndex = newEvents.findIndex(event => event.date === eventDate);
+    const itemIndex = newEvents[dateIndex].events.findIndex(event => event.event_id === eventId);
+    console.log(`assign click: ${newEvents[dateIndex].events[itemIndex].assigned }`)
+    // newEvents[dateIndex].events[itemIndex].assigned = newEvents[dateIndex].events[itemIndex].assigned === undefined ? 'TBD' : undefined;
+    if (newEvents[dateIndex].events[itemIndex].assigned) {
+      console.log(`was assigned`)
+      newEvents[dateIndex].events[itemIndex].assigned = undefined;
+      newEvents[dateIndex].events[itemIndex].assigned_id = undefined;
+    } else {
+      console.log(`was un-assigned`)
+      newEvents[dateIndex].events[itemIndex].assigned = 'current user';
+      newEvents[dateIndex].events[itemIndex].assigned_id = 'current userId';
+    };
+    this.setState({events: newEvents});
+  }
+
+  modifyEventStatus = (eventId, eventDate) => {
+    const newEvents = [...this.state.events];
+    const dateIndex = newEvents.findIndex(event => event.date === eventDate);
+    const itemIndex = newEvents[dateIndex].events.findIndex(event => event.event_id === eventId);
+    newEvents[dateIndex].events[itemIndex].status = newEvents[dateIndex].events[itemIndex].status === 'closed' ? 'open' : 'closed';
+    this.setState({events: newEvents});
   }
 
   render() {
@@ -79,10 +110,11 @@ class Dashboard extends Component {
             <Row>
               <Col size="md-12 fluid">
                 {this.state.events.map((eventDate,i) => {
+                  console.log(`>>>>>>>>>>>>>>>>>`)
                   return (
                     <div>
                       <DashCard
-                      key={i}
+                      key={i + 234}
                       icon="fa fa-calendar-alt"
                       title={eventDate.date}
                       id={(eventDate.events.length > 3) ? "show-more" : undefined }
@@ -91,7 +123,8 @@ class Dashboard extends Component {
                       firstdashcard={(i === 0) ? "first-dashcard" : ""}
                      ></DashCard>
                       {
-                        eventDate.events.map(event => {
+                        eventDate.events.map((event,i) => {
+                          console.log(`assigned: ${event.assigned} assigned_id: ${event.assigned_id} status: ${event.status} `)
                           return (
                             <EventLine
                             key={event.event_id}
@@ -104,14 +137,20 @@ class Dashboard extends Component {
                             time={(event.time) ? event.time : undefined}
                             startTime={event.startTime}
                             endTime={event.endTime}
-                            duration="00:00"
+                            duration=""
                             creator_id={event.creator_id}
                             creator={event.creator}
                             assigned_id={(event.assigned_id) ? event.assigned_id : undefined}
                             assigned={(event.assigned) ? event.assigned : undefined}
-                            iconAssigned={(event.assigned) ? "fas fa-plus-square fa-lg" : "far fa-plus-square fa-lg"}
-                            iconCompleted={(event.status) === "closed" ? "fas fa-check-square fa-lg" : "far fa-check-square fa-lg"}
+                            iconView="fas fa-info-circle fa-lg"
+                            iconEdit="fas fa-edit fa-lg"
+                            // iconAssigned={(event.assigned) ? "fas fa-plus-square fa-lg" : "far fa-plus-square fa-lg"}
+                            iconAssigned={(event.assigned) ? true : false}
+                            iconCompleted={event.status === "closed"}  // sets iconCompleted to true or false
                             note={event.note}
+                            onClickComplete={this.modifyEventStatus}
+                            onClickAssign={this.modifyEventAssign}
+                            eventDate={eventDate.date}
                           />
                           )
                         })
@@ -123,7 +162,7 @@ class Dashboard extends Component {
                     <Button
                       id="add-event"
                       icon="fas fa-plus-circle fa-3x"
-                      clickAddEvent={this.clickAddEvent}
+                      clickEvent={this.clickAddEvent}
                     ></Button>
                   </div>
               </Col>
