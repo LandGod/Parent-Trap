@@ -4,7 +4,7 @@ import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import SignUp from './pages/Signup';
 import withFirebaseAuth from 'react-with-firebase-auth'
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import firebaseConfig from './components/Firebase/firebaseConfig';
 
