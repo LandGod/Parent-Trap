@@ -74,17 +74,18 @@ class Dashboard extends Component {
     const newEvents = [...this.state.events];
     const dateIndex = newEvents.findIndex(event => event.date === eventDate);
     const itemIndex = newEvents[dateIndex].events.findIndex(event => event.event_id === eventId);
-    console.log(`assign click: ${newEvents[dateIndex].events[itemIndex].assigned }`)
+    // console.log(`assign click: ${newEvents[dateIndex].events[itemIndex].assigned }`)
     // newEvents[dateIndex].events[itemIndex].assigned = newEvents[dateIndex].events[itemIndex].assigned === undefined ? 'TBD' : undefined;
     if (newEvents[dateIndex].events[itemIndex].assigned) {
-      console.log(`was assigned`)
+      // console.log(`was assigned`)
       newEvents[dateIndex].events[itemIndex].assigned = undefined;
       newEvents[dateIndex].events[itemIndex].assigned_id = undefined;
     } else {
-      console.log(`was un-assigned`)
+      // console.log(`was un-assigned`)
       newEvents[dateIndex].events[itemIndex].assigned = 'current user';
       newEvents[dateIndex].events[itemIndex].assigned_id = 'current userId';
     };
+    console.log(`event: ${newEvents[dateIndex].events[itemIndex].title} event id: ${newEvents[dateIndex].events[itemIndex].event_id} user: ${newEvents[dateIndex].events[itemIndex].assigned} user_id: ${newEvents[dateIndex].events[itemIndex].assigned_id}`)
     this.setState({events: newEvents});
   }
 
@@ -93,6 +94,7 @@ class Dashboard extends Component {
     const dateIndex = newEvents.findIndex(event => event.date === eventDate);
     const itemIndex = newEvents[dateIndex].events.findIndex(event => event.event_id === eventId);
     newEvents[dateIndex].events[itemIndex].status = newEvents[dateIndex].events[itemIndex].status === 'closed' ? 'open' : 'closed';
+    console.log(`event: ${newEvents[dateIndex].events[itemIndex].title} event id: ${newEvents[dateIndex].events[itemIndex].event_id} status: ${newEvents[dateIndex].events[itemIndex].status}`)
     this.setState({events: newEvents});
   }
 
@@ -110,7 +112,7 @@ class Dashboard extends Component {
             <Row>
               <Col size="md-12 fluid">
                 {this.state.events.map((eventDate,i) => {
-                  console.log(`>>>>>>>>>>>>>>>>>`)
+                  // console.log(`>>>>>>>>>>>>>>>>>`)
                   return (
                     <div>
                       <DashCard
@@ -124,7 +126,7 @@ class Dashboard extends Component {
                      ></DashCard>
                       {
                         eventDate.events.map((event,i) => {
-                          console.log(`assigned: ${event.assigned} assigned_id: ${event.assigned_id} status: ${event.status} `)
+                          // console.log(`assigned: ${event.assigned} assigned_id: ${event.assigned_id} status: ${event.status} `)
                           return (
                             <EventLine
                             key={event.event_id}
