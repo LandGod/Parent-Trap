@@ -82,10 +82,10 @@ class EventLine extends Component {
             <p>{(this.props.assigned) ? `assigned: ${this.props.assigned}` : 'unassigned'}</p>
           </Col>
           <Col size="1">
-            <Button icon={this.props.iconView} clickEvent={this.clickViewEvent}  identifier={this.props.event_id} title=""></Button>
+            <Button icon={this.props.iconView} clickEvent={this.clickViewEvent}  indentifier={this.props.event_id} title=""></Button>
           </Col>
           <Col size="1">
-            <Button icon={this.props.iconEdit} clickEvent={this.clickEditEvent} identifier={this.props.event_id} title=""></Button>
+            <Button icon={this.props.iconEdit} clickEvent={this.clickEditEvent} indentifier={this.props.event_id} title=""></Button>
           </Col>
           <Col size="1">
             <Button icon={isAssigned} clickEvent={this.clickAssignEvent} title=""></Button>
