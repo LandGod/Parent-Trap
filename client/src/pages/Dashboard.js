@@ -6,7 +6,7 @@ import Button from "../components/Button";
 import EventLine from "../components/EventLine";
 import SideNav from "../components/SideNav";
 import TopNav from "../components/TopNav";
-// import ModalCardBody from "../components/Modal/modalBody"
+import ModalCardBody from "../components/Modal/modalBody"
 
 
 // mock up date for early testing prior to API route availability 
@@ -39,8 +39,8 @@ class Dashboard extends Component {
   // We can now access functions from SideNav using: this.SideNav.current.someFunction()
   sidenavRef = React.createRef();
 
-  // //Attaching modal ref
-  // modalRef = React.createRef();
+  //Attaching modal ref
+  modalRef = React.createRef();
 
   // Function for closing the side nav panel. Only does anything if the nav is currently open
   closeNav = () => {
@@ -61,10 +61,10 @@ class Dashboard extends Component {
   // page will need to be re-rendered since the event could have
   // been added for any existing date or a new date
   clickAddEvent = () => {
-  //   this.modalRef.current.setState({modalType: 'NewEventTable'}, () => {
+    this.modalRef.current.setState({modalType: 'NewEventTable'}, () => {
 
-  //     this.modalRef.current.toggleModal();
-  // });
+      this.modalRef.current.toggleModal();
+  });
     console.log(`you clicked the add event button`);
   }
 
@@ -187,7 +187,7 @@ class Dashboard extends Component {
             </Row>
           </Container>
         </div>
-        {/* <ModalCardBody ref={this.modalRef} /> */}
+        <ModalCardBody ref={this.modalRef} />
       </div>
     );
   }
