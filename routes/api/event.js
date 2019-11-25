@@ -31,6 +31,7 @@ buildEventObject = event => {
   eventObj.endTime = event.endTime;
   eventObj.creator_id = event.creator._id;
   eventObj.creator = event.creator.firstName;
+  (event.invitees.length > 0) ? eventObj.invitees_id = event.invitees[0]._id : eventObj.invitees_id  = "";
   (event.invitees.length > 0) ? eventObj.assigned_id = event.invitees[0].member._id : eventObj.assigned_id = "";
   (event.invitees.length > 0) ? eventObj.assigned = event.invitees[0].member.firstName : eventObj.assigned = "";
   eventObj.note = event.note;
@@ -104,11 +105,23 @@ router
 
       // Resolve request with results from db operation
       .then(function(result) {
+        // console.log(JSON.stringify(result));
+        // res.status(200).json(result);
         res.status(200).json(transformEvents(result));
       })
       .catch(function(err) {
         res.status(500).send(err);
       });
   });
+
+   // Matches with "/api/event/:id"
+  router
+    .route("/:id")
+    .put(eventController.update);
+
+  // Matches with "/api/event/unassign"
+  router
+  .route("/unassign/:id")
+  .put(eventController.removeAssigned);
 
 module.exports = router;

@@ -14,8 +14,11 @@ export default {
   },
 
   createEvent: function(eventData) {
-
     return axios.post('/api/createEvent', eventData );
+  },
+
+  updateEvent: function(id,eventData) {
+    return axios.put('/api/event/' + id, eventData );
   }
 
 };
