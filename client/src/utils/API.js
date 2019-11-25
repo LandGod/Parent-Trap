@@ -11,6 +11,11 @@ export default {
   getAllHouseholdEvents: function(id) {
     console.log(`HouseholdId: ${id}`)
     return axios.get("/api/event/all/" + id);
+  },
+
+  createEvent: function(eventData) {
+
+    return axios.post('/api/createEvent', eventData );
   }
 
 };
