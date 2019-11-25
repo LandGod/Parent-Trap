@@ -6,36 +6,41 @@ import Button from "../components/Button";
 import EventLine from "../components/EventLine";
 import SideNav from "../components/SideNav";
 import TopNav from "../components/TopNav";
+import ModalCardBody from "../components/Modal/modalBody"
 
 
-// // mock up date for early testing prior to API route availability 
-// const eventData = [
-// { date: "Monday 11/18/2019",
-//   events: [{status: "closed", title: "Ride to Practice", eventType: "ride", time: "9:00 AM", creator: "Rory", assigned: "Myles"},
-//           {status: "closed", title: "Pick up from work", eventType: "ride", time: "9:00 AM", creator: "Rory", assigned: "Myles"},
-//           {status: "closed", title: "Sign permission slip", eventType: "task", time: "", creator: "Kyra", assigned: "Sean"},
-//           {status: "closed", title: "Pick up from Jane's", eventType: "ride", time: "8:00PM", creator: "Rory", assigned: "Myles"}]},
-//   {date: "Wednesday 11/20/2019",
-//   events: [{status: "open", title: "Pick up dinner", eventType: "task", time: "5:00 PM", creator: "Sean", assigned: "Myles"}]},
-//   {date: "Thursday 11/21/2019",
-//   events: [{status: "open", title: "Drop off at meet", eventType: "ride", time: "4:00 PM", creator: "Rory", assigned: ""},
-//           {status: "open", title: "Pick up from meet", eventType: "ride", time: "9:00 PM", creator: "Rory", assigned: ""}]}
-// ]
+// mock up date for early testing prior to API route availability 
+const eventData = [
+{ date: "Monday 11/18/2019",
+  events: [{status: "closed", title: "Ride to Practice", eventType: "ride", time: "9:00 AM", creator: "Rory", assigned: "Myles"},
+          {status: "closed", title: "Pick up from work", eventType: "ride", time: "9:00 AM", creator: "Rory", assigned: "Myles"},
+          {status: "closed", title: "Sign permission slip", eventType: "task", time: "", creator: "Kyra", assigned: "Sean"},
+          {status: "closed", title: "Pick up from Jane's", eventType: "ride", time: "8:00PM", creator: "Rory", assigned: "Myles"}]},
+  {date: "Wednesday 11/20/2019",
+  events: [{status: "open", title: "Pick up dinner", eventType: "task", time: "5:00 PM", creator: "Sean", assigned: "Myles"}]},
+  {date: "Thursday 11/21/2019",
+  events: [{status: "open", title: "Drop off at meet", eventType: "ride", time: "4:00 PM", creator: "Rory", assigned: ""},
+          {status: "open", title: "Pick up from meet", eventType: "ride", time: "9:00 PM", creator: "Rory", assigned: ""}]}
+]
 
 
 class Dashboard extends Component {
+  
 
   // Define state for Dahsboard object
   state = {
     householdName: "No current household", // HouseholdName defaults to an error and should be updated when loading other household info
-    //events: eventData
-    events: []
+    events: eventData
+    //events: []
   };
 
 
   // Attaching ref to SideNav so that we can access its internal state
   // We can now access functions from SideNav using: this.SideNav.current.someFunction()
   sidenavRef = React.createRef();
+
+  //Attaching modal ref
+  modalRef = React.createRef();
 
   // Function for closing the side nav panel. Only does anything if the nav is currently open
   closeNav = () => {
@@ -49,8 +54,12 @@ class Dashboard extends Component {
   };
 
 
-  // click add event button - botton for dashboard
+  // click add event button - bottom for dashboard
   clickAddEvent = () => {
+    this.modalRef.current.setState({modalType: 'NewEventTable'}, () => {
+
+      this.modalRef.current.toggleModal();
+  });
     console.log(`you clicked the add event button`);
   }
 
@@ -123,13 +132,15 @@ class Dashboard extends Component {
                     <Button
                       id="add-event"
                       icon="fas fa-plus-circle fa-3x"
-                      clickAddEvent={this.clickAddEvent}
-                    ></Button>
+                      callback={this.clickAddEvent}
+                    >
+                    </Button>
                   </div>
               </Col>
             </Row>
           </Container>
         </div>
+        <ModalCardBody ref={this.modalRef} />
       </div>
     );
   }

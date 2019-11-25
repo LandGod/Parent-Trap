@@ -1,40 +1,45 @@
 import React, { Component } from 'react';
 import "./style.css";
-import ModalCardBody from '../Model/modalBody';
+import ModalCardBody from '../Modal/modalBody';
 
 
 class Button extends Component {
 
-  constructor() {
+  // constructor() {
 
-    super();
+  //   super();
 
-    this.state = {
+  //   this.state = {
 
-      showModal: false,
+  //     showModal: false,
 
-    };
+  //   };
 
-  };
+  // };
 
-  toggleModal = () => {
+  // toggleModal = () => {
 
-    this.setState({ showModal: !(this.state.showModal) });
-    console.log(this.state.showModal);
-    console.log('here for it');
+  //   this.setState({ showModal: !(this.state.showModal) });
+  //   console.log(this.state.showModal);
+  //   console.log('here for it');
 
-  };
+  // };
+
+  // buttonAction = () => {
+  //   switch(this.props.id){
+  //     case 'add-event': 
+  //       this.toggleModal()
+  //       break;
+  //   }
+  // }
 
   render() {
     return (
       <div>
-      <button id={this.props.id} className="" onClick={this.toggleModal.bind(this)}>
+      <button id={this.props.id} className="" onClick={this.props.callback}>
         <i className={`${this.props.icon}`} 
            aria-hidden="true" /> {this.props.title}
       </button>
-
-      <ModalCardBody showModal={this.state.showModal} toggleModalFunction={this.toggleModal}  modalType='NewEventTable' />
-
       </div>
     )
   }
