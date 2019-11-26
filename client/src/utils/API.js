@@ -19,6 +19,14 @@ export default {
 
   updateEvent: function(id,eventData) {
     return axios.put('/api/event/' + id, eventData );
+  },
+
+  addInvitee: function(id,eventData) {
+    return axios.put('/api/event/assign/' + id, eventData );
+  },
+
+  removeInvitee: function(id,eventData) {
+    return axios.put('/api/event/unassign/' + id, eventData );
   }
 
 };

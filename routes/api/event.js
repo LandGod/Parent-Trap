@@ -124,4 +124,9 @@ router
   .route("/unassign/:id")
   .put(eventController.removeAssigned);
 
+  // Matches with "/api/event/assign"
+  router
+  .route("/assign/:id")
+  .put(eventController.addAssigned);
+
 module.exports = router;

@@ -19,21 +19,35 @@ module.exports = {
   //   });
   // },
   
-  
   findAllEventsPopulated: function(householdId) {
     return new Promise((resolve, reject) => {
-      db.Household.find({ _id: householdId },{members:0,name:0,_id:0,__v:0 })
-        .populate({path: "events", select: ["_id","title","eventType","status","location1","location2",
-        "startTime","endTime","note","invitees._id"], options: {sort: {startTime: 1}},
+      db.Household.find({ _id: householdId },{members:0,name:0,_id:0,__v:0,invitees:0 })
+        .populate({path: "events", options: {sort: {startTime: 1}},
             populate: [{path: "creator", select: ["_id","firstName", "lastName"]},
-                       
-                       {path: "invitees.member", select: ["_id","firstName","lastName"]}],
+                       {path: "assignee", select: ["_id","firstName", "lastName"]}
+                      ]
+   
             // populate: [{path: "invitees", select: ["_id"]},]           
-    })
+        })
         .then(dbEvent => {resolve(dbEvent)})
         .catch(err => {reject(err)});
     });
-  },
+  }, 
+  
+  // findAllEventsPopulated: function(householdId) {
+  //   return new Promise((resolve, reject) => {
+  //     db.Household.find({ _id: householdId },{members:0,name:0,_id:0,__v:0 })
+  //       .populate({path: "events", select: ["_id","title","eventType","status","location1","location2",
+  //       "assignedState","startTime","endTime","note","invitees._id"], options: {sort: {startTime: 1}},
+  //           populate: [{path: "creator", select: ["_id","firstName", "lastName"]},
+                       
+  //                      {path: "invitees.member", select: ["_id","firstName","lastName"]}],
+  //           // populate: [{path: "invitees", select: ["_id"]},]           
+  //   })
+  //       .then(dbEvent => {resolve(dbEvent)})
+  //       .catch(err => {reject(err)});
+  //   });
+  // },
 
   // Add a new event to the database using an already validated body (probably the req.body of the api route) and the _id value of the creator
   create: function(body, creator) {
@@ -63,6 +77,22 @@ module.exports = {
     db.Event.findOneAndUpdate({ _id: id }, req.body, {new: true})
       .then(dbEvent => res.json(dbEvent))
       .catch(err => res.status(422).json(err));
+  },
+
+
+  // quick version of find and remove invitee subdocument until it can be refactored into the go-forward pattern
+  addAssigned: function (req, res) {
+    var eventId = mongoose.Types.ObjectId(req.params.id);
+    const memberId = '5dd596bf8813384487dca854'
+    db.Event.update(
+      { _id: eventId },
+      { $push: { invitees: { member: memberId, status: "claimed"} } },
+    //  { upsert: true},
+      { new: true },
+      function(err) {
+          if (err) { console.log(err) }
+      }
+    )
   },
 
   // quick version of find and remove invitee subdocument until it can be refactored into the go-forward pattern

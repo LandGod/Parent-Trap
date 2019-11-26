@@ -86,16 +86,29 @@ class Dashboard extends Component {
     // console.log(`assign click: ${newEvents[dateIndex].events[itemIndex].assigned }`)
     // newEvents[dateIndex].events[itemIndex].assigned = newEvents[dateIndex].events[itemIndex].assigned === undefined ? 'TBD' : undefined;
     if (newEvents[dateIndex].events[itemIndex].assigned) {
+      console.log(`was assigned`)
       // console.log(`was assigned`)
       newEvents[dateIndex].events[itemIndex].assigned = undefined;
       newEvents[dateIndex].events[itemIndex].assigned_id = undefined;
+      console.log(`event: ${newEvents[dateIndex].events[itemIndex].title} event id: ${newEvents[dateIndex].events[itemIndex].event_id} user: ${newEvents[dateIndex].events[itemIndex].assigned} user_id: ${newEvents[dateIndex].events[itemIndex].assigned_id}`)
+      this.setState({events: newEvents});
+      // add database update here to pull the invitee
+      
+      
     } else {
-      // console.log(`was un-assigned`)
+      console.log(`was un-assigned`)
       newEvents[dateIndex].events[itemIndex].assigned = 'current user';
       newEvents[dateIndex].events[itemIndex].assigned_id = 'current userId';
-    };
-    console.log(`event: ${newEvents[dateIndex].events[itemIndex].title} event id: ${newEvents[dateIndex].events[itemIndex].event_id} user: ${newEvents[dateIndex].events[itemIndex].assigned} user_id: ${newEvents[dateIndex].events[itemIndex].assigned_id}`)
-    this.setState({events: newEvents});
+      console.log(`event: ${newEvents[dateIndex].events[itemIndex].title} event id: ${newEvents[dateIndex].events[itemIndex].event_id} user: ${newEvents[dateIndex].events[itemIndex].assigned} user_id: ${newEvents[dateIndex].events[itemIndex].assigned_id}`)
+      this.setState({events: newEvents});
+      // update the database - to push the invitee -  hardcode user id to Myles
+      const id = newEvents[dateIndex].events[itemIndex].event_id;
+      const memberId = '5dd596bf8813384487dca854'
+      const eventData = {member: memberId, status: "claimed"}
+      API.addInvitee(id,eventData)
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
+      };
   }
 
   modifyEventStatus = (eventId, eventDate) => {
@@ -106,7 +119,6 @@ class Dashboard extends Component {
     console.log(`event: ${newEvents[dateIndex].events[itemIndex].title} event id: ${newEvents[dateIndex].events[itemIndex].event_id} status: ${newEvents[dateIndex].events[itemIndex].status}`)
     this.setState({events: newEvents});
     // update the database
-    // hardcoded test household id: 
     const id = newEvents[dateIndex].events[itemIndex].event_id;
     const eventData = {status: newEvents[dateIndex].events[itemIndex].status}
     API.updateEvent(id,eventData)
