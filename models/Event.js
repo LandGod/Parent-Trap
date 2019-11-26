@@ -62,8 +62,8 @@ var EventSchema = new mongoose.Schema({
       ref: 'Member'
     },
     assignedStatus: {
-      type: String,
-      enum: ['claimed', 'declined', 'invited'],
+      type: String, 
+      enum: ['claimed', 'unassigned', 'declined', 'invited'],
       required: true
     },
     // Invitees (Array of subdocuments)

@@ -19,6 +19,7 @@ function formatAMPM(date) {
 // helper function to build and event array element
 buildEventObject = event => {
   // var eventObj = {placeholder: "this is an event"};
+  //console.log(`EVENT: ${event}`);
   var eventObj = {};
   eventObj.event_id = event._id;
   eventObj.title = event.title;
@@ -31,9 +32,16 @@ buildEventObject = event => {
   eventObj.endTime = event.endTime;
   eventObj.creator_id = event.creator._id;
   eventObj.creator = event.creator.firstName;
-  (event.invitees.length > 0) ? eventObj.invitees_id = event.invitees[0]._id : eventObj.invitees_id  = "";
-  (event.invitees.length > 0) ? eventObj.assigned_id = event.invitees[0].member._id : eventObj.assigned_id = "";
-  (event.invitees.length > 0) ? eventObj.assigned = event.invitees[0].member.firstName : eventObj.assigned = "";
+  if (event.assignee) {
+    // console.log('has ')
+    eventObj.assigned_id = event.assignee._id;
+    eventObj.assigned = event.assignee.firstName
+  } else {
+    // console.log('not has')
+    eventObj.assigned_id = undefined;
+    eventObj.assigned = undefined;
+  };
+  eventObj.assignedStatus = event.assignedStatus;
   eventObj.note = event.note;
   return eventObj;
 }
@@ -45,6 +53,7 @@ transformEvents = result => {
   var transformedData = [];  
   const daysOfWeek = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
   result[0].events.map((event,i) => {
+    // if (i < 2) {
     var newEventStartDate = (`${daysOfWeek[event.startTime.getDay()]} ${event.startTime.getMonth()}/${event.startTime.getDate()}/${event.startTime.getFullYear()}`);
     if (i === 0) {  // need to create first object
       currentDateEvents = {date: newEventStartDate};
@@ -64,7 +73,12 @@ transformEvents = result => {
       currentDateEvents.events = [];
       currentDateEvents.events.push(buildEventObject(event));
     }
+
+  // }
+
   });
+
+
   // finish up by loading last date's object into master
   transformedData.push(currentDateEvents);
   // console.log(`Transformed Data: ${JSON.stringify(transformedData)}`);
@@ -106,7 +120,7 @@ router
       // Resolve request with results from db operation
       .then(function(result) {
         // console.log(JSON.stringify(result));
-        // res.status(200).json(result);
+        //res.status(200).json(result);
         res.status(200).json(transformEvents(result));
       })
       .catch(function(err) {

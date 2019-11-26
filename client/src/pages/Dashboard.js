@@ -88,24 +88,36 @@ class Dashboard extends Component {
     if (newEvents[dateIndex].events[itemIndex].assigned) {
       console.log(`was assigned`)
       // console.log(`was assigned`)
-      newEvents[dateIndex].events[itemIndex].assigned = undefined;
-      newEvents[dateIndex].events[itemIndex].assigned_id = undefined;
+      newEvents[dateIndex].events[itemIndex].assigned = undefined;   // name
+      newEvents[dateIndex].events[itemIndex].assigned_id = undefined;  // member id
+      newEvents[dateIndex].events[itemIndex].assignedStatus = 'unassigned';  // assigned status
       console.log(`event: ${newEvents[dateIndex].events[itemIndex].title} event id: ${newEvents[dateIndex].events[itemIndex].event_id} user: ${newEvents[dateIndex].events[itemIndex].assigned} user_id: ${newEvents[dateIndex].events[itemIndex].assigned_id}`)
       this.setState({events: newEvents});
-      // add database update here to pull the invitee
-      
-      
+      // add database update here to remove assignee
+      const id = newEvents[dateIndex].events[itemIndex].event_id;
+      // const eventData = {assignee: undefined, assignedStatus: "unassigned"}
+      const eventData = {$set: {assignedStatus: "unassigned"}, $unset: {assignee: 1}}
+      API.updateEvent(id,eventData)
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
     } else {
       console.log(`was un-assigned`)
-      newEvents[dateIndex].events[itemIndex].assigned = 'current user';
-      newEvents[dateIndex].events[itemIndex].assigned_id = 'current userId';
+      newEvents[dateIndex].events[itemIndex].assigned = 'current user';  // name
+      newEvents[dateIndex].events[itemIndex].assigned_id = 'current userId';  // member id
+      newEvents[dateIndex].events[itemIndex].assignedStatus = 'claimed';  // assigned status
       console.log(`event: ${newEvents[dateIndex].events[itemIndex].title} event id: ${newEvents[dateIndex].events[itemIndex].event_id} user: ${newEvents[dateIndex].events[itemIndex].assigned} user_id: ${newEvents[dateIndex].events[itemIndex].assigned_id}`)
       this.setState({events: newEvents});
-      // update the database - to push the invitee -  hardcode user id to Myles
+      // update the database -  hardcode user id to Myles
+      // const id = newEvents[dateIndex].events[itemIndex].event_id;
+      // const memberId = '5dd596bf8813384487dca854'
+      // const eventData = {member: memberId, status: "claimed"}
+      // API.addInvitee(id,eventData)
+      //   .then(res => console.log(res))
+      //   .catch(err => console.log(err))
       const id = newEvents[dateIndex].events[itemIndex].event_id;
       const memberId = '5dd596bf8813384487dca854'
-      const eventData = {member: memberId, status: "claimed"}
-      API.addInvitee(id,eventData)
+      const eventData = {assignee: memberId, assignedStatus: "claimed"}
+      API.updateEvent(id,eventData)
         .then(res => console.log(res))
         .catch(err => console.log(err))
       };
