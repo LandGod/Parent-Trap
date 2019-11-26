@@ -15,7 +15,7 @@ export default {
 
   // determing login route
   login: function(userData) {
-    return axios.get("/api/member/member");
+    return axios.put("/api/member/login", userData);
   }
 
 };

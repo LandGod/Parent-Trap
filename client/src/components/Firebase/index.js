@@ -46,8 +46,7 @@ const uiConfig = {
 
       // Send API call to evaluate:
       API.login(userData)
-        .then(res => {console.log('success', res);
-        })
+        .then(res => console.log('success', res))
         .catch(err => console.log(err));
       
       // this.props.history.push('/dashboard');

@@ -3,7 +3,7 @@ const memberController = require("../../controllers/memberController");
 const mongoose = require("mongoose"); // For working with mongoose Date and ObjectId objects
 
 router
-  .route("/member")
+  .route("/all")
   // GET all members 
   .get(function(req, res) {
       console.log(req.body)
@@ -16,20 +16,71 @@ router
         // send request to get all of the members
         memberController
             .findAll()
-            .then(function(res) {
-                res.status(200).json(res);
-                console.log('success')
+            .then(function(result) {
+                console.log(result)
+                res.status(200).json(result);
             })
             .catch(function(err){
                 res.status(500).send(err);
             })
 
-        // upon result perform the follow 3 if statements
+    });
 
-        // if the email and authkey exists take them to the dashboard
-        // if the email exists but the authkey does not, add the authkey to the document, then take them to the dashboard
-        // if no email exists, add the user and take to create household screen
+router
+    .route("/login")
+    .put(function(req, res) {
 
-});
+        memberController
+            .findByEmail(req.body.email)
+            .then(function(result) {
+
+                // if no email exists, return 204 status message to client. This will tell the client to redirect to the household page
+                if (result.length === 0) {
+                    res.status(204).end();
+                    console.log('204 logged')
+                    return
+                }
+
+                // if there are two emails in the database shut that shit down
+                if (result.length > 1) {
+                    res.status(500).send('Multiple users found with that email');
+                    console.log('why are there 2 users with the same email')
+                    return
+                }
+
+                // if auth key exists it should match the auth key associated with the email
+                if (result[0].userOauthKey) {
+                    if (result[0].userOauthKey === req.body.userOauthKey) {
+                    res.status(200).send('success')
+                    return
+                    } else {
+                        // shut that shit down if the auth keys do not match
+                        console.log('auth keys don\'t match')
+                        res.status(500).send('auth keys do not match')
+                    }
+                } else {
+                    // if auth key does not exist but the email exists then add the auth key to the database
+                    memberController
+                        .updateUser(result[0]._id, {
+                            userOauthKey: req.body.userOauthKey,
+                            status: 'full'
+                        })
+                        .then(function(res) {
+                            res.status(200).send('auth key successfully added to existing user')
+                        })
+                        .catch(function(err) {
+                            console.log(err)
+                            res.status(500).send(err);
+                        })
+                }
+
+
+            })
+            .catch(function(err){
+                res.status(500).send(err);
+            })
+    });
+    
+
 
 module.exports = router;
