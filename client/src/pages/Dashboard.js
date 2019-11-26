@@ -71,8 +71,12 @@ class Dashboard extends Component {
   // When the component mounts, get a list of all events
   componentDidMount() {
     // hardcoded test household id: 
-    const id = "5dd726706ddba45e5d59db35";
-    API.getAllHouseholdEvents(id)
+    const householdId = "5dd726706ddba45e5d59db35"; // moriarty-carey house
+    const userId = "5dd596ae8813384487dca853"; // kyra's id
+    //const type = "all";
+    const type = "unassigned";
+    //const type = "current-user"
+    API.getHouseholdEvents(householdId,userId,type)
       .then(res => {this.setState({ events: res.data });
       console.log(`Events: ${JSON.stringify(res.data)}`);
       })

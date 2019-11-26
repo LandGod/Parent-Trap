@@ -8,9 +8,22 @@ export default {
   },
 
   // Gets all events for household
-  getAllHouseholdEvents: function(id) {
-    console.log(`HouseholdId: ${id}`)
-    return axios.get("/api/event/all/" + id);
+  getHouseholdEvents: function(householdId,userId,type) {
+    console.log(`HouseholdId: ${householdId} userid: ${userId} type: ${type}`)
+    switch (type) {
+      case "all": 
+        // return axios.get("/api/event/all/" + householdId);
+        return axios.get(`/api/event/all/${householdId}`);
+        break;
+      case "unassigned":
+        return axios.get(`/api/event/unassigned/${householdId}`);
+        break;  
+      case "current-user": 
+        return axios.get(`/api/event/current-user/${householdId}/${userId}`);
+        break;   
+      default:
+          break; 
+    }
   },
 
   createEvent: function(eventData) {

@@ -3,22 +3,6 @@ const mongoose = require("mongoose");
 
 module.exports = {
   // Return all events for the given household and populate all member references
-  // TODO: This method partially works, but populate creator seems broken and populate invitees has not been tested yet
-  // findAllEventsPopulated: function(householdId) {
-  //   return new Promise((resolve, reject) => {
-  //     db.Household.find({ _id: householdId },{members:0,name:0,_id:0,__v:0 })
-  //       .populate({path: "events", select: ["_id","title","eventType","status","location1","location2",
-  //       "startTime","endTime","note"], options: {sort: {startTime: 1}},
-  //           populate: [{path: "creator", select: ["_id","firstName", "lastName"]},
-                       
-  //                      {path: "invitees.member", select: ["_id","firstName","lastName"]}],
-  //           // populate: [{path: "invitees", select: ["_id"]},]           
-  //   })
-  //       .then(dbEvent => {resolve(dbEvent)})
-  //       .catch(err => {reject(err)});
-  //   });
-  // },
-  
   findAllEventsPopulated: function(householdId) {
     return new Promise((resolve, reject) => {
       db.Household.find({ _id: householdId },{members:0,name:0,_id:0,__v:0,invitees:0 })
@@ -33,7 +17,42 @@ module.exports = {
         .catch(err => {reject(err)});
     });
   }, 
+
+  // Return unassigned events for the given household and populate all member references
+  findUnassignedEventsPopulated: function(householdId) {
+    return new Promise((resolve, reject) => {
+      db.Household.find({ _id: householdId },{members:0,name:0,_id:0,__v:0,invitees:0 })
+        .populate({path: "events", match: {assignedStatus: "unassigned"}, options: {sort: {startTime: 1}},
+            populate: [{path: "creator", select: ["_id","firstName", "lastName"]},
+                        {path: "assignee", select: ["_id","firstName", "lastName"]}
+                      ]
+    
+            // populate: [{path: "invitees", select: ["_id"]},]           
+        })
+        .then(dbEvent => {resolve(dbEvent)})
+        .catch(err => {reject(err)});
+    });
+  }, 
+
+  // Return user's events for the given household and populate member references
+  // match: {assigneeStatus: "claimed"},
+  //, match: {assignedStatus: "unclaimed"}
+  findUserEventsPopulated: function(householdId,userId) {
+    return new Promise((resolve, reject) => {
+      db.Household.find({ _id: householdId },{members:0,name:0,_id:0,__v:0,invitees:0 })
+        .populate({path: "events", match: {creator: userId}, options: {sort: {startTime: 1}},
+            populate: [{path: "creator", select: ["_id","firstName", "lastName"]},
+                        {path: "assignee", select: ["_id","firstName", "lastName"]}
+                      ]
+    
+            // populate: [{path: "invitees", select: ["_id"]},]           
+        })
+        .then(dbEvent => {resolve(dbEvent)})
+        .catch(err => {reject(err)});
+    });
+  }, 
   
+  // old version when invitees what used - keep in case of reviving invitee model
   // findAllEventsPopulated: function(householdId) {
   //   return new Promise((resolve, reject) => {
   //     db.Household.find({ _id: householdId },{members:0,name:0,_id:0,__v:0 })
@@ -80,35 +99,35 @@ module.exports = {
   },
 
 
-  // quick version of find and remove invitee subdocument until it can be refactored into the go-forward pattern
-  addAssigned: function (req, res) {
-    var eventId = mongoose.Types.ObjectId(req.params.id);
-    const memberId = '5dd596bf8813384487dca854'
-    db.Event.update(
-      { _id: eventId },
-      { $push: { invitees: { member: memberId, status: "claimed"} } },
-    //  { upsert: true},
-      { new: true },
-      function(err) {
-          if (err) { console.log(err) }
-      }
-    )
-  },
+  // // quick version of find and remove invitee subdocument until it can be refactored into the go-forward pattern
+  // addAssigned: function (req, res) {
+  //   var eventId = mongoose.Types.ObjectId(req.params.id);
+  //   const memberId = '5dd596bf8813384487dca854'
+  //   db.Event.update(
+  //     { _id: eventId },
+  //     { $push: { invitees: { member: memberId, status: "claimed"} } },
+  //   //  { upsert: true},
+  //     { new: true },
+  //     function(err) {
+  //         if (err) { console.log(err) }
+  //     }
+  //   )
+  // },
 
-  // quick version of find and remove invitee subdocument until it can be refactored into the go-forward pattern
-  removeAssigned: function (req, res) {
-    var eventId = mongoose.Types.ObjectId(req.params.id);
-    // var inviteeId = mongoose.Types.ObjectId(req.params.id2);
-    //var eventId = "5dd59e7c8813384487dca857"
-    var inviteeId = "5dd5a51ef7b2cb4517d0c2a1"
-    db.Event.findOneAndUpdate(
-      { _id: eventId },
-      { $pull: { invitees: { _id: inviteeId} } },
-      { new: true },
-      function(err) {
-          if (err) { console.log(err) }
-      }
-    )
-  }
+  // // quick version of find and remove invitee subdocument until it can be refactored into the go-forward pattern
+  // removeAssigned: function (req, res) {
+  //   var eventId = mongoose.Types.ObjectId(req.params.id);
+  //   // var inviteeId = mongoose.Types.ObjectId(req.params.id2);
+  //   //var eventId = "5dd59e7c8813384487dca857"
+  //   var inviteeId = "5dd5a51ef7b2cb4517d0c2a1"
+  //   db.Event.findOneAndUpdate(
+  //     { _id: eventId },
+  //     { $pull: { invitees: { _id: inviteeId} } },
+  //     { new: true },
+  //     function(err) {
+  //         if (err) { console.log(err) }
+  //     }
+  //   )
+  // }
 
 };

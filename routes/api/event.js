@@ -126,21 +126,131 @@ router
       .catch(function(err) {
         res.status(500).send(err);
       });
+
   });
+
+
+
+  router
+  .route("/unassigned/:id")
+  // GET all events from the given household
+  .get(function(req, res) {
+    // Validate req body
+    if (!req.params) {
+      res.status(400).send("Request object has no parameters!");
+      return;
+    }
+
+    // Get household id & assert that it is not undefined 
+    let householdId = req.params.id;
+    // let householdId = "5dd726706ddba45e5d59db35";
+    // console.log(`Events.js ServerSide householdId is:  ${householdId}`)
+    if (!householdId) {
+      res.status(400).send("No householdId");
+      return;
+    }
+
+    // Validate household id and cast to ObjectId
+    // TODO: Call object id validation function (Currently written in a different branch that hasn't been merged to dev yet)
+
+    // Cast to mongoose ObjectId
+    householdId = mongoose.Types.ObjectId(householdId);
+
+
+    // Send parsed and validated request data to event controller
+    eventController
+    .findUnassignedEventsPopulated(householdId)
+
+    // Resolve request with results from db operation
+    .then(function(result) {
+      // console.log(JSON.stringify(result));
+      //res.status(200).json(result);
+      res.status(200).json(transformEvents(result));
+    })
+    .catch(function(err) {
+      res.status(500).send(err);
+    }); 
+
+  });
+
+
+
+  router
+  .route("/current-user/:id/:userid")
+  // GET all events from the given household
+  .get(function(req, res) {
+    // Validate req body
+    if (!req.params) {
+      res.status(400).send("Request object has no parameters!");
+      return;
+    }
+
+    // Get household id & assert that it is not undefined 
+    let householdId = req.params.id;
+    // let householdId = "5dd726706ddba45e5d59db35";
+    console.log(`Events.js ServerSide householdId is:  ${householdId}`)
+    if (!householdId) {
+      res.status(400).send("No householdId");
+      return;
+    }
+
+    // Get user id & assert that it is not undefined 
+    let userId = req.params.userid;
+    // let householdId = "5dd726706ddba45e5d59db35";
+    console.log(`Events.js ServerSide userId is:  ${userId}`)
+    if (!userId) {
+      res.status(400).send("No userId");
+      return;
+    } 
+
+    // Validate household id and cast to ObjectId
+    // TODO: Call object id validation function (Currently written in a different branch that hasn't been merged to dev yet)
+
+    // Cast to mongoose ObjectId
+    householdId = mongoose.Types.ObjectId(householdId);
+    userId = mongoose.Types.ObjectId(userId);
+
+
+    // Send parsed and validated request data to event controller
+    eventController
+    .findUserEventsPopulated(householdId,userId)
+
+    // Resolve request with results from db operation
+    .then(function(result) {
+      // console.log(JSON.stringify(result));
+      //res.status(200).json(result);
+      res.status(200).json(transformEvents(result));
+    })
+    .catch(function(err) {
+      res.status(500).send(err);
+    }); 
+
+  });
+
+
+
+
+
+
+
+
+ 
+
+
 
    // Matches with "/api/event/:id"
   router
     .route("/:id")
     .put(eventController.update);
 
-  // Matches with "/api/event/unassign"
-  router
-  .route("/unassign/:id")
-  .put(eventController.removeAssigned);
+  // // Matches with "/api/event/unassign"
+  // router
+  // .route("/unassign/:id")
+  // .put(eventController.removeAssigned);
 
-  // Matches with "/api/event/assign"
-  router
-  .route("/assign/:id")
-  .put(eventController.addAssigned);
+  // // Matches with "/api/event/assign"
+  // router
+  // .route("/assign/:id")
+  // .put(eventController.addAssigned);
 
 module.exports = router;
