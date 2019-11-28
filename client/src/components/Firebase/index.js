@@ -5,10 +5,6 @@ import API from "../../utils/API";
 import "../../pages/style/Home.css";
 
 class SignIn extends Component {
-  state = {
-    redirectDashboard: false, // Set this to true to redirect to dashboard
-    redirectSignUp: false // Set this to true to redirect to signup flow
-  };
 
   // This is our firebaseui configuration object
   uiConfig = {
@@ -51,11 +47,11 @@ class SignIn extends Component {
           .then(res => {
             // If status 200, user exists and is good to go
             if (res.status === 200) {
-              this.setState({ redirectDashboard: true });
+              this.props.parent.setState({ redirectDashboard: true });
             }
             // If status 204, user does not exist, send to signup flow
             else if (res.status === 204) {
-              this.setState({ redirectSignUp: true });
+              this.props.parent.setState({ redirectSignUp: true });
             }
             // If neither of those is true, something is broken
             else {
@@ -71,18 +67,11 @@ class SignIn extends Component {
   };
 
   render() {
-    if (this.state.redirectDashboard) {
-      return <Redirect to="/dashboard" />;
-    }
-
-    if (this.state.redirectDashboard) {
-      return <Redirect to="/signup" />;
-    }
 
     return (
       <div>
         <StyledFirebaseAuth
-          uiConfig={uiConfig}
+          uiConfig={this.uiConfig}
           firebaseAuth={firebase.auth()}
         />
       </div>
