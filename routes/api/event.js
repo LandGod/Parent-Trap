@@ -77,8 +77,8 @@ router
   // GET all events from the given household
   .get(function(req, res) {
     // Validate req body
-    if (!req.body) {
-      res.status(400).send("Request has no body!");
+    if (!req.params) {
+      res.status(400).send("Request object has no parameters!");
       return;
     }
 
