@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import MemberFormRow from "./MemberFormRow";
+import { getLocalUserInfo } from "../utilityFunctions";
 import "./style.css";
 
 /* 
@@ -41,14 +42,22 @@ import "./style.css";
 // Household create/edit component
 class HouseHold extends Component {
   state = {
-    householdName: this.props.householdName || '',
+    householdName: this.props.householdName || "",
     members: this.props.members
   };
 
-  isCurrentUser = id => {
+  isCurrentUser = (id, mem) => {
     // Compare supplied id to id of currently logged in user
     // For debug purposes this function will return true for a set value
-    if (id === this.props.currentUserId) {
+
+    let currentUser = getLocalUserInfo();
+
+    if (!currentUser) {
+      console.log("No current user!");
+      let notLoggedIn = new Error("No user data in session storage.");
+      throw notLoggedIn;
+    }
+    if (id === currentUser.id) {
       return true;
     }
     return false;
@@ -98,8 +107,8 @@ class HouseHold extends Component {
 
     // If creating new household:
     if (this.props.createMode === true) {
-        //TODO: Write api call for creating household (and user)
-        console.log('Send data to api call')
+      //TODO: Write api call for creating household (and user)
+      console.log("Send data to api call");
     }
     // If updating and existing household:
     else {
@@ -115,7 +124,7 @@ class HouseHold extends Component {
           <div className="row justify-content-center">
             <div className="col-md-4">
               <h2 className="text-center">
-                {this.props.createMode ? 'Create' : 'Edit'} Household
+                {this.props.createMode ? "Create" : "Edit"} Household
               </h2>
             </div>
           </div>
@@ -144,15 +153,15 @@ class HouseHold extends Component {
           </div>
           {/* Column Headers */}
           <div className="row">
-              <div className="col-md-3">
-                <h5>First Name</h5>
-              </div>
-              <div className="col-md-3">
+            <div className="col-md-3">
+              <h5>First Name</h5>
+            </div>
+            <div className="col-md-3">
               <h5>Last Name</h5>
-              </div>
-              <div className="col-md-4">
+            </div>
+            <div className="col-md-4">
               <h5>Email</h5>
-              </div>
+            </div>
           </div>
           {this.state.members.map((member, i) => {
             // If we've set the deleted key in the member object that coresponds to this component to 'true', don't render it
@@ -164,7 +173,7 @@ class HouseHold extends Component {
                   lastName={member.lastName}
                   email={member.email}
                   // Add readonly attribute if member object matches currently logged in member (You can't delete yourself)
-                  readOnly={this.isCurrentUser(member._id)}
+                  readOnly={this.isCurrentUser(member.userOathKey)}
                   // While the component allows for dynamically hiding the add button. There is no good reason to do so at this time.
                   showAddButton={true}
                   // Hook into function for adding new member form rows
