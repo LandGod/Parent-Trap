@@ -70,17 +70,79 @@ class Dashboard extends Component {
 
   // When the component mounts, get a list of all events
   componentDidMount() {
-    // hardcoded test household id: 
-    const householdId = "5dd726706ddba45e5d59db35"; // moriarty-carey house
-    const userId = "5dd596ae8813384487dca853"; // kyra's id
-    //const type = "all";
-    const type = "unassigned";
-    //const type = "current-user"
-    API.getHouseholdEvents(householdId,userId,type)
-      .then(res => {this.setState({ events: res.data });
-      console.log(`Events: ${JSON.stringify(res.data)}`);
-      })
-      .catch(err => console.log(err));
+
+       // hardcoded test household id: 
+       const householdId = "5dd726706ddba45e5d59db35";
+       const userId = "5dd596ae8813384487dca853"; // kyra's id
+       //const type = "all";
+       //const type = "unassigned";
+       //const type = "current-user"
+
+       //get the raw parameters submitted. eg. this will be "?view=assigned"
+       let queryStringParams = this.props.location.search;
+       //get only the "view=[something] part" by matching it with a regex
+       let viewParam = queryStringParams.match(/view=[a-zA-Z]+/);
+       //viewParam contains an array with all matches
+       //Only one match in our case, so it'll look like:
+       //["view=assigned"] or ["view=unclaimed"]
+       //viewParam will be null if no matches are found
+       if(viewParam){
+         //We found a view parameter, get its value
+         // on split, "view=assigned" becomes:
+         //["view","assigned"] 
+         viewParam = viewParam[0].split('=')[1];
+         if(viewParam == 'assigned'){
+           //API call for assigned events
+           const type = "current-user"
+           API.getHouseholdEvents(householdId,userId,type)
+         .then(res => {this.setState({ events: res.data });
+         console.log(`Events: ${JSON.stringify(res.data)}`);
+         })
+         .catch(err => console.log(err));
+         }else if(viewParam == 'unclaimed'){
+           //API call for unclaimed events
+           const type = "unassigned";
+           API.getHouseholdEvents(householdId,userId,type)
+         .then(res => {this.setState({ events: res.data });
+         console.log(`Events: ${JSON.stringify(res.data)}`);
+         })
+         .catch(err => console.log(err));
+         }else{
+           //something that doesn't make sense. Default Dashboard.
+           const type = "all";
+           API.getHouseholdEvents(householdId,userId,type)
+         .then(res => {this.setState({ events: res.data });
+         console.log(`Events: ${JSON.stringify(res.data)}`);
+         })
+         .catch(err => console.log(err));
+         }
+       }else{
+         //We didn't find a view parameter, show the default dashboard
+         console.log("No parameter. Default dashboard.");
+         const type = "all";
+         API.getHouseholdEvents(householdId,userId,type)
+         .then(res => {this.setState({ events: res.data });
+         console.log(`Events: ${JSON.stringify(res.data)}`);
+         })
+         .catch(err => console.log(err));
+       }
+
+
+
+
+
+    
+    // // hardcoded test household id: 
+    // const householdId = "5dd726706ddba45e5d59db35"; // moriarty-carey house
+    // const userId = "5dd596ae8813384487dca853"; // kyra's id
+    // //const type = "all";
+    // const type = "unassigned";
+    // //const type = "current-user"
+    // API.getHouseholdEvents(householdId,userId,type)
+    //   .then(res => {this.setState({ events: res.data });
+    //   console.log(`Events: ${JSON.stringify(res.data)}`);
+    //   })
+    //   .catch(err => console.log(err));
   }
 
   modifyEventAssign = (eventId, eventDate) => {
