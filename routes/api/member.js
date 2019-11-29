@@ -90,6 +90,16 @@ router
             })
     });
     
-
+router
+    .route("/updateMany")
+    .put(function(req, res){
+        memberController.createMany(req.body.members)
+        .then((results) => {
+            res.status(200).json(results);
+        })
+        .catch((err) => {
+            res.status(500).send(err);
+        })
+    })
 
 module.exports = router;

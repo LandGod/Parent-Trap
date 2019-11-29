@@ -90,7 +90,7 @@ module.exports = {
         console.log('It worked???')
         console.log(results)
 
-        resolve('success')
+        resolve(results)
 
       })
       .catch((err) => {
