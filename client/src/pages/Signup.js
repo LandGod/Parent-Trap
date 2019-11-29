@@ -16,7 +16,7 @@ class Signup extends Component {
           //Add the info from current user to list of members
           members={[
             {
-              userOathKey: currentUser.oauthKey,
+              userOauthKey: currentUser.oauthKey,
               firstName: currentUser.firstName,
               lastName: currentUser.lastName,
               email: currentUser.email,

@@ -173,7 +173,7 @@ class HouseHold extends Component {
                   lastName={member.lastName}
                   email={member.email}
                   // Add readonly attribute if member object matches currently logged in member (You can't delete yourself)
-                  readOnly={this.isCurrentUser(member.userOathKey)}
+                  readOnly={this.isCurrentUser(member.userOauthKey)}
                   // While the component allows for dynamically hiding the add button. There is no good reason to do so at this time.
                   showAddButton={true}
                   // Hook into function for adding new member form rows
