@@ -7,13 +7,6 @@ import "./style.css";
 class EventLine extends Component {
 
   state = {
-    // iconCompleted: this.props.iconCompleted, // can remove now
-    // iconAssigned: this.props.iconAssigned,
-    // assigned_id: this.props.assigned_id,
-    // assigned: this.props.assigned
-    // will need to add the remaining Event props so they
-    // can be passed to the Edit modal and be returned
-    // as set of data for state changes 
   }
 
   // click view event button 
@@ -64,7 +57,7 @@ class EventLine extends Component {
     // ? "fas fa-plus-square fa-lg" : "far fa-plus-square fa-lg" ;
 
     // show hide class
-    const showhide = this.props.showhideclass;
+    // const showhide = this.props.showhideclass;
 
     return (
       // <div className="event-div border rounded-sm">

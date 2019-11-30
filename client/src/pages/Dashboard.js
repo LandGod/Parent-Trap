@@ -70,10 +70,9 @@ class Dashboard extends Component {
   // been added for any existing date or a new date
   clickAddEvent = () => {
     this.modalRef.current.setState({modalType: 'NewEventTable'}, () => {
-
       this.modalRef.current.toggleModal();
-  });
-    console.log(`you clicked the add event button`);
+    });
+    // console.log(`you clicked the add event button`);
   }
 
   // When the component mounts, get a list of all events
@@ -86,133 +85,133 @@ class Dashboard extends Component {
        //Only one match in our case, so it'll look like:
        //["view=assigned"] or ["view=unclaimed"]
        //viewParam will be null if no matches are found
-       console.log(`ViewParm0:  ${viewParam}`)
        if(viewParam){
          //We found a view parameter, get its value
          // on split, "view=assigned" becomes:
          //["view","assigned"] 
          viewParam = viewParam[0].split('=')[1];
          this.setState({viewType: viewParam});
-         console.log(`StateView1: ${this.state.viewType}`)
          if(viewParam === 'myevents'){
            //API call for assigned events
            const type = "current-user"
            API.getHouseholdEvents(this.state.householdId,this.state.userId,type)
-         .then(res => {
-           //console.log(`Events: ${JSON.stringify(res.data)}`);
-            // reformat response data if empty into empty array
-            if (res.data[0].hasOwnProperty("events")) {
-              this.setState({ events: res.data })
-            } else {
-              this.setState({ events: [] })
-            }
-          })
-         .catch(err => console.log(err));
+              .then(res => {
+                // reformat response data if empty into empty array
+                if (res.data[0].hasOwnProperty("events")) {
+                  this.setState({ events: res.data })
+                } else {
+                  this.setState({ events: [] })
+                }
+              })
+              .catch(err => console.log(err));
          }else if(viewParam === 'unassigned'){
            //API call for unclaimed events
            const type = "unassigned";
-           //console.log(`StateView2: ${this.state.viewType}`)
            API.getHouseholdEvents(this.state.householdId,this.state.userId,type)
-          .then(res => {
-            //console.log(`Events: ${JSON.stringify(res.data)}`);
-            // reformat response data if empty into empty array
-            if (res.data[0].hasOwnProperty("events")) {
-              this.setState({ events: res.data })
-            } else {
-              this.setState({ events: [] })
-            }
-          })
-         .catch(err => console.log(err));
+              .then(res => {
+                // reformat response data if empty into empty array
+                if (res.data[0].hasOwnProperty("events")) {
+                  this.setState({ events: res.data })
+                } else {
+                  this.setState({ events: [] })
+                }
+              })
+              .catch(err => console.log(err));
          }else{
            //something that doesn't make sense. Default Dashboard.
            const type = "all";
            this.setState({viewType: ""});
-           //console.log(`StateView3: ${this.state.viewType}`)
            API.getHouseholdEvents(this.state.householdId,this.state.userId,type)
-         .then(res => {
-           //console.log(`Events: ${JSON.stringify(res.data)}`);
-           // reformat response data if empty into empty array
-           if (res.data[0].hasOwnProperty("events")) {
-              this.setState({ events: res.data })
-           } else {
-             this.setState({ events: [] })
-           }
-         })
-         .catch(err => console.log(err));
+              .then(res => {
+                // reformat response data if empty into empty array
+                if (res.data[0].hasOwnProperty("events")) {
+                    this.setState({ events: res.data })
+                } else {
+                  this.setState({ events: [] })
+                }
+              })
+              .catch(err => console.log(err));
          }
        }else{
          //We didn't find a view parameter, show the default dashboard
-         console.log("No parameter. Default dashboard.");
+        //  console.log("No parameter. Default dashboard.");
          this.setState({viewType: viewParam});
-         //console.log(`StateView4: ${this.state.viewType}`)
          const type = "all";
          API.getHouseholdEvents(this.state.householdId,this.state.userId,type)
-         .then(res => {
-            //console.log(`Events: ${JSON.stringify(res.data)}`);
-            // reformat response data if empty into empty array
-            if (res.data[0].hasOwnProperty("events")) {
-              this.setState({ events: res.data })
-            } else {
-              this.setState({ events: [] })
-            };
-            console.log(`State of State-B: ${JSON.stringify(this.state.events)}`)  
-         })
-         .catch(err => console.log(err));
+            .then(res => {
+                // reformat response data if empty into empty array
+                if (res.data[0].hasOwnProperty("events")) {
+                  this.setState({ events: res.data })
+                } else {
+                  this.setState({ events: [] })
+                };
+            })
+            .catch(err => console.log(err));
        }
- 
   }
 
-
+  // manage the show more show less chevron button (appears if > 3 events for date)
   showHideChange = (toggleAction, eventDate) => { 
-    console.log(`In showHidChange EventDate: ${eventDate} toggleAction: ${toggleAction}`);
+    // console.log(`In showHidChange EventDate: ${eventDate} toggleAction: ${toggleAction}`);
     const newEvents = [...this.state.events];
     const dateIndex = newEvents.findIndex(event => event.date === eventDate);
     const newShowHideClass = (toggleAction === 'show') ? 'show-event' : 'hide-event';
+    // adjusting 4th and greater events for date to either show or hide them
     newEvents[dateIndex].events.map((event,i) => {
-      console.log(`Event is: ${i} event details: ${JSON.stringify(event)}`)
+      // console.log(`Event is: ${i} event details: ${JSON.stringify(event)}`)
       if (i > 2 ) {
-        console.log(`this is: ${i} event id is ${event.event_id}`)
+        // console.log(`this is: ${i} event id is ${event.event_id}`)
         const itemIndex = newEvents[dateIndex].events.findIndex(dateEvent => dateEvent.event_id === event.event_id);
-        console.log(`dateIndex: ${dateIndex} item index: ${itemIndex}`)
+        // console.log(`dateIndex: ${dateIndex} item index: ${itemIndex}`)
         newEvents[dateIndex].events[itemIndex].showhideclass = newShowHideClass;  // assigned the toggled showhideclass
       };
       this.setState({events: newEvents});
     })
   };
 
+  // manage the assign event to self button - either assigning to self or removing from self
   modifyEventAssign = (eventId, eventDate) => {
     const newEvents = [...this.state.events];
     const dateIndex = newEvents.findIndex(event => event.date === eventDate);
     const itemIndex = newEvents[dateIndex].events.findIndex(event => event.event_id === eventId);
-    console.log(`assign click: ${newEvents[dateIndex].events[itemIndex].assigned }`)
-    // newEvents[dateIndex].events[itemIndex].assigned = newEvents[dateIndex].events[itemIndex].assigned === undefined ? 'TBD' : undefined;
+//    console.log(`assign click: ${newEvents[dateIndex].events[itemIndex].assigned }`)
     if (newEvents[dateIndex].events[itemIndex].assigned) {
       // console.log(`was assigned`)
       newEvents[dateIndex].events[itemIndex].assigned = undefined;   // name
       newEvents[dateIndex].events[itemIndex].assigned_id = undefined;  // member id
       newEvents[dateIndex].events[itemIndex].assignedStatus = 'unassigned';  // assigned status
-      console.log(`event: ${newEvents[dateIndex].events[itemIndex].title} event id: ${newEvents[dateIndex].events[itemIndex].event_id} user: ${newEvents[dateIndex].events[itemIndex].assigned} user_id: ${newEvents[dateIndex].events[itemIndex].assigned_id}`)
+      // console.log(`event: ${newEvents[dateIndex].events[itemIndex].title} 
+      //              event id: ${newEvents[dateIndex].events[itemIndex].event_id} 
+      //              user: ${newEvents[dateIndex].events[itemIndex].assigned}
+      //             user_id: ${newEvents[dateIndex].events[itemIndex].assigned_id}`)
       this.setState({events: newEvents});
-      // add database update here to remove assignee
+
+      // update database to remove assignee and set event assigned status to unassigned
       const id = newEvents[dateIndex].events[itemIndex].event_id;
-      // const eventData = {assignee: undefined, assignedStatus: "unassigned"}
       const eventData = {$set: {assignedStatus: "unassigned"}, $unset: {assignee: 1}}
       API.updateEvent(id,eventData)
         .then(res => console.log(res))
-        .catch(err => console.log(err));
-      //console.log(`State of State-A: ${this.state.events}`)  
+        .catch(err => console.log(err)); 
     } else {
       newEvents[dateIndex].events[itemIndex].assigned = 'current user';  // name
       newEvents[dateIndex].events[itemIndex].assigned_id = 'current userId';  // member id
       newEvents[dateIndex].events[itemIndex].assignedStatus = 'claimed';  // assigned status
-      // console.log(`event: ${newEvents[dateIndex].events[itemIndex].title} event id: ${newEvents[dateIndex].events[itemIndex].event_id} user: ${newEvents[dateIndex].events[itemIndex].assigned} user_id: ${newEvents[dateIndex].events[itemIndex].assigned_id}`)
+      // console.log(`event: ${newEvents[dateIndex].events[itemIndex].title} 
+      //              event id: ${newEvents[dateIndex].events[itemIndex].event_id} 
+      //              user: ${newEvents[dateIndex].events[itemIndex].assigned}
+      //              user_id: ${newEvents[dateIndex].events[itemIndex].assigned_id}`)
       this.setState({events: newEvents});
       const id = newEvents[dateIndex].events[itemIndex].event_id;
+
+      // update database to add assignee and set event assigned status to claimed
       const eventData = {assignee: this.state.memberId, assignedStatus: "claimed"}
       API.updateEvent(id,eventData)
       .then(res => console.log(res))
       .catch(err => console.log(err))
     };
+      // the  code below is under further evaluation and testing due to 
+      // unintended UX behaviour - will be revived if can be fixed
+
       // // if current view is Unassigned Events then
       // // a change in those events needs to trigger page refresh
       // // since an event an possibly its date would no longer be part
@@ -235,14 +234,17 @@ class Dashboard extends Component {
 
   }
 
+  // manage the event status button - either marking as closed or open
   modifyEventStatus = (eventId, eventDate) => {
     const newEvents = [...this.state.events];
     const dateIndex = newEvents.findIndex(event => event.date === eventDate);
     const itemIndex = newEvents[dateIndex].events.findIndex(event => event.event_id === eventId);
     newEvents[dateIndex].events[itemIndex].status = newEvents[dateIndex].events[itemIndex].status === 'closed' ? 'open' : 'closed';
-    console.log(`event: ${newEvents[dateIndex].events[itemIndex].title} event id: ${newEvents[dateIndex].events[itemIndex].event_id} status: ${newEvents[dateIndex].events[itemIndex].status}`)
+    // console.log(`event: ${newEvents[dateIndex].events[itemIndex].title}    
+    //              event id: ${newEvents[dateIndex].events[itemIndex].event_id}
+    //              status: ${newEvents[dateIndex].events[itemIndex].status}`)
     this.setState({events: newEvents});
-    // update the database
+    // update the database to set event to open or closed
     const id = newEvents[dateIndex].events[itemIndex].event_id;
     const eventData = {status: newEvents[dateIndex].events[itemIndex].status}
     API.updateEvent(id,eventData)
@@ -250,6 +252,7 @@ class Dashboard extends Component {
       .catch(err => console.log(err))
   }
 
+  // render the Dashboard Component
   render() {
     return (
       <div>

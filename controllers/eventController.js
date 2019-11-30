@@ -1,6 +1,11 @@
 const db = require("../models");
 const mongoose = require("mongoose");
 
+
+// TO-DO - the 3 DB Read operations are very similiar
+// if time permits refactor into 1 function using parameter
+// based Match clause object on the populate Events line
+
 module.exports = {
   // Return all events for the given household and populate all member references
   findAllEventsPopulated: function(householdId) {

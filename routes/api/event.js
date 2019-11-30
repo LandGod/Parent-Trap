@@ -18,8 +18,6 @@ function formatAMPM(date) {
 
 // helper function to build and event array element
 buildEventObject = (event,eventCount) => {
-  // var eventObj = {placeholder: "this is an event"};
-  //console.log(`EVENT: ${event}`);
   let showhideval = (eventCount > 3) ? "hide-event" : "show-event";
   var eventObj = {};
   eventObj.event_id = event._id;
@@ -34,11 +32,9 @@ buildEventObject = (event,eventCount) => {
   eventObj.creator_id = event.creator._id;
   eventObj.creator = event.creator.firstName;
   if (event.assignee) {
-    // console.log('has ')
     eventObj.assigned_id = event.assignee._id;
     eventObj.assigned = event.assignee.firstName
   } else {
-    // console.log('not has')
     eventObj.assigned_id = undefined;
     eventObj.assigned = undefined;
   };
@@ -56,18 +52,16 @@ transformEvents = result => {
   let eventCount = 1;
   const daysOfWeek = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
   result[0].events.map((event,i) => {
-    // if (i < 2) {
     var newEventStartDate = (`${daysOfWeek[event.startTime.getDay()]} ${event.startTime.getMonth()}/${event.startTime.getDate()}/${event.startTime.getFullYear()}`);
     if (i === 0) {  // need to create first object
       currentDateEvents = {date: newEventStartDate};
       currentStartDate = newEventStartDate;
       currentDateEvents.events = [];
       currentDateEvents.events.push(buildEventObject(event,eventCount));
-    } else if (newEventStartDate === currentStartDate) {
-      // process the current event
+    } else if (newEventStartDate === currentStartDate) {  // process the current event
       eventCount = eventCount + 1;
       currentDateEvents.events.push(buildEventObject(event,eventCount));
-    } else {
+    } else { // process a new date
       eventCount = 1;
       // reset currentStartDate to that of the new inbound data's date
       currentStartDate = newEventStartDate;
@@ -78,11 +72,7 @@ transformEvents = result => {
       currentDateEvents.events = [];
       currentDateEvents.events.push(buildEventObject(event,eventCount));
     }
-
-  // }
-
   });
-
 
   // finish up by loading last date's object into master
   transformedData.push(currentDateEvents);
@@ -91,12 +81,15 @@ transformEvents = result => {
 }
 
 
+// TO-DO - if time permits these 3 routes below are all very similiar
+// and could be refactored here and also in the eventController, dashboard and API files
+// to converted to functions with passed in parameters to handle the route uniqueness
 
+// GET all events from the given household
 router
   .route("/all/:id")
-  // GET all events from the given household
   .get(function(req, res) {
-    // Validate req body
+    // Validate req params
     if (!req.params) {
       res.status(400).send("Request object has no parameters!");
       return;
@@ -136,11 +129,11 @@ router
 
 
 
+  // GET all unassigned events
   router
   .route("/unassigned/:id")
-  // GET all events from the given household
   .get(function(req, res) {
-    // Validate req body
+    // Validate req params
     if (!req.params) {
       res.status(400).send("Request object has no parameters!");
       return;
@@ -180,9 +173,9 @@ router
 
 
 
+  // GET all of a user's events
   router
   .route("/current-user/:id/:userid")
-  // GET all events from the given household
   .get(function(req, res) {
     // Validate req body
     if (!req.params) {
@@ -232,18 +225,8 @@ router
 
   });
 
-
-
-
-
-
-
-
- 
-
-
-
-   // Matches with "/api/event/:id"
+  // event PUT route to update one Event
+  // Matches with "/api/event/:id"
   router
     .route("/:id")
     .put(eventController.update);
