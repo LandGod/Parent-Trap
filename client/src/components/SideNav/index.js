@@ -21,9 +21,9 @@ class SideNav extends Component {
         <button className="closebtn" onClick={this.closeNav}>
           &times; {/* X symbol html code */}
         </button>
-        <button>Link 1</button>
-        <button>Link 2</button>
-        <button>Link 3</button>
+        <button> <a href='/dashboard?view=assigned'>Assigned To Myself</a> </button>
+        <button></button>
+        <button></button>
       </div>
     );
   }

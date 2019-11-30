@@ -68,6 +68,7 @@ transformEvents = result => {
   transformedData.push(currentDateEvents);
   // console.log(`Transformed Data: ${JSON.stringify(transformedData)}`);
   return transformedData;
+
 }
 
 
@@ -110,5 +111,8 @@ router
         res.status(500).send(err);
       });
   });
+
+  router.route("/")
+  .post(eventController.create);
 
 module.exports = router;
