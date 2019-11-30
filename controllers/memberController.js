@@ -1,33 +1,48 @@
 const db = require("../models");
-const mongoose = require("mongoose");
+const { ObjectId } = require("mongoose").Types; // Import mongoose ObjectId for validation, etc
 
-// Defining methods for the eventController
 module.exports = {
-  findAll: function(req, res) {
-    db.Member.find(req.query)
-      .then(dbMember => res.json(dbMember))
-      .catch(err => res.status(422).json(err));
+  // find all members
+  findAll: function() {
+    return new Promise(function(resolve, reject) {
+      db.Member.find()
+        .then(results => {
+          resolve(results);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
   },
-  findById: function(req, res) {
-    db.Member.findById(req.params.id)
-      .then(dbMember => res.json(dbMember))
-      .catch(err => res.status(422).json(err));
+
+  // find user by email
+  findByEmail: function(email) {
+    return new Promise(function(resolve, reject) {
+      db.Member.find({ email: email })
+        .then(results => {
+          resolve(results);
+        })
+        .catch(err => {
+          console.log("catch error message for findByEmail");
+          reject(err);
+        });
+    });
   },
-  create: function(req, res) {
-    db.Member.create(req.body)
-      .then(dbMember => res.json(dbMember))
-      .catch(err => res.status(422).json(err));
-  },
-  update: function(req, res) {
-    var id = mongoose.Types.ObjectId(req.params.id);
-    db.Member.findOneAndUpdate({ _id: id }, req.body, {new: true})
-      .then(dbMember => res.json(dbMember))
-      .catch(err => res.status(422).json(err));
-  },
-  remove: function(req, res) {
-    db.Member.findById(req.params.id)
-      .then(dbMember => dbMember.remove())
-      .then(dbMember => res.json(dbMember))
-      .catch(err => res.status(422).json(err));
+
+  // update current user
+  updateUser: function(id, userData) {
+    console.log(id, userData);
+    return new Promise(function(resolve, reject) {
+      db.Member.update({ _id: id }, userData)
+        .then(results => {
+          resolve(results);
+        })
+        .catch(err => {
+          console.log("catch error message for UpdateUser");
+          reject(err);
+        });
+    });
   }
+
+  // add Oauth key
 };
