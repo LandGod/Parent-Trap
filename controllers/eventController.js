@@ -135,7 +135,7 @@ module.exports = {
   //   )
   // }
 
-  create: function(req, res) {
+  createEvent: function(req, res) {
     let houseHoldId = req.body.houseHoldId;
     //delete the householdId from the body because it doesn't need to be in the event document
     delete req.body.houseHoldId;

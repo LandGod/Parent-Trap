@@ -241,6 +241,6 @@ router
   // .route("/assign/:id")
   // .put(eventController.addAssigned);
   router.route("/")
-  .post(eventController.create);
+  .post(eventController.createEvent);
 
 module.exports = router;

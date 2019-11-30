@@ -31,7 +31,6 @@ class Dashboard extends Component {
   // Define state for Dashboard object
   state = {
     householdName: "No current household", // HouseholdName defaults to an error and should be updated when loading other household info
-<<<<<<< HEAD
     //events: eventData
     events: [],
     householdId: "5dd726706ddba45e5d59db35", // carey-moriary household
@@ -42,10 +41,7 @@ class Dashboard extends Component {
     //userId:  "0dd596ae8813384487dca000",  // invalid user id test
     memberId: '5dd596bf8813384487dca854', // assigner's id (Myles)
     viewType: "" // page view type
-=======
     // events: eventData,
-    events: []
->>>>>>> 12507b8f357dfb1d4bad6ed6ed38f538264885fa
   };
 
 
@@ -100,7 +96,6 @@ class Dashboard extends Component {
 
   // When the component mounts, get a list of all events
   componentDidMount() {
-<<<<<<< HEAD
        //get the raw parameters submitted. eg. this will be "?view=assigned"
        let queryStringParams = this.props.location.search;
        //get only the "view=[something] part" by matching it with a regex
@@ -172,61 +167,6 @@ class Dashboard extends Component {
             })
             .catch(err => console.log(err));
        }
-=======
-
-    // hardcoded test household id: 
-    const id = this.getHouseholdId();
-    
-
-    //get the raw parameters submitted. eg. this will be "?view=assigned"
-    let queryStringParams = this.props.location.search;
-    //get only the "view=[something] part" by matching it with a regex
-    let viewParam = queryStringParams.match(/view=[a-zA-Z]+/);
-    //viewParam contains an array with all matches
-    //Only one match in our case, so it'll look like:
-    //["view=assigned"] or ["view=unclaimed"]
-    //viewParam will be null if no matches are found
-    if(viewParam){
-      //We found a view parameter, get its value
-      // on split, "view=assigned" becomes:
-      //["view","assigned"] 
-      viewParam = viewParam[0].split('=')[1];
-      if(viewParam == 'assigned'){
-        //API call for assigned events
-        API.getAllHouseholdEvents(id)
-      .then(res => {
-        this.setState({ events: res.data });
-      console.log(`Events: ${JSON.stringify(res.data)}`);
-      })
-      .catch(err => console.log(err));
-
-      }else if(viewParam == 'unclaimed'){
-        //API call for unclaimed events
-        API.getAllHouseholdEvents(id)
-      .then(res => {this.setState({ events: res.data });
-      console.log(`Events: ${JSON.stringify(res.data)}`);
-      })
-      .catch(err => console.log(err));
-
-      }else{
-        //something that doesn't make sense. Default Dashboard.
-        console.log("ALL EVENTS");
-        API.getAllHouseholdEvents(id)
-      .then(res => {this.setState({ events: res.data });
-      console.log(`Events: ${JSON.stringify(res.data)}`);
-      })
-      .catch(err => console.log(err));
-      }
-    }else{
-      //We didn't find a view parameter, show the default dashboard
-      console.log("No parameter. Default dashboard.");
-      API.getAllHouseholdEvents(id)
-      .then(res => {this.setState({ events: res.data });
-      console.log(`Events: ${JSON.stringify(res.data)}`);
-      })
-      .catch(err => console.log(err));
-    }
->>>>>>> 12507b8f357dfb1d4bad6ed6ed38f538264885fa
   }
 
   // manage the show more show less chevron button (appears if > 3 events for date)
@@ -361,12 +301,8 @@ class Dashboard extends Component {
                       events={eventDate.events}
                       eventDate={eventDate.date}
                       firstdashcard={(i === 0) ? "first-dashcard" : ""}
-<<<<<<< HEAD
                       onClickShowHide={this.showHideChange}
                      ></DashCard>
-=======
-                      />
->>>>>>> 12507b8f357dfb1d4bad6ed6ed38f538264885fa
                       {
                         eventDate.events.map((event,i) => {
                           // console.log(`assigned: ${event.assigned} assigned_id: ${event.assigned_id} status: ${event.status} `)
