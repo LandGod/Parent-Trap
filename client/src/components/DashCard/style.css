@@ -23,3 +23,7 @@ button {
 .first-dashcard h3 {
   font-weight: 900;
 }
+
+.date-card-div {
+  box-shadow: 3px 6px 6px #888888;
+}

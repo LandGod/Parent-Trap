@@ -7,6 +7,7 @@ import EventLine from "../components/EventLine";
 import SideNav from "../components/SideNav";
 import TopNav from "../components/TopNav";
 import ModalCardBody from "../components/Modal/modalBody"
+import "./style/Dashboard.css";
 
 
 // mock up date for early testing prior to API route availability 
@@ -272,7 +273,7 @@ class Dashboard extends Component {
                   this.state.events.map((eventDate,i) => {
                     // console.log(`EVENT: ${JSON.stringify(eventDate.date)}`)
                     return (
-                      <div>
+                      <div className="date-card-div">
                       <DashCard
                       key={eventDate.date}
                       icon="fa fa-calendar-alt"
@@ -306,7 +307,9 @@ class Dashboard extends Component {
                             creator={event.creator}
                             assigned_id={(event.assigned_id) ? event.assigned_id : undefined}
                             assigned={(event.assigned) ? event.assigned : undefined}
-                            iconView="fas fa-info-circle fa-lg"
+                            // iconView="fas fa-info-circle fa-lg"
+                            //iconView="fas fa-binoculars fa-lg"
+                            iconView="fas fa-eye fa-lg"
                             iconEdit="fas fa-edit fa-lg"
                             // iconAssigned={(event.assigned) ? "fas fa-plus-square fa-lg" : "far fa-plus-square fa-lg"}
                             iconAssigned={(event.assigned) ? true : false}
