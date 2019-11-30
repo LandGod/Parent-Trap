@@ -21,6 +21,10 @@ class DashCard extends Component {
       console.log(`Here is where CSS/classes needs to open the div to show more than 3 events`);
     };
     this.setState({showmoreIcon: newState })
+    var toggleAction = (newState === "fas fa-angle-double-up fa-lg") ? "show" : "hide";
+    if(typeof this.props.onClickShowHide === 'function'){
+      this.props.onClickShowHide(toggleAction, this.props.eventDate);
+    }
   }
 
   render() {

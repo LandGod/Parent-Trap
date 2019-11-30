@@ -162,6 +162,24 @@ class Dashboard extends Component {
  
   }
 
+
+  showHideChange = (toggleAction, eventDate) => { 
+    console.log(`In showHidChange EventDate: ${eventDate} toggleAction: ${toggleAction}`);
+    const newEvents = [...this.state.events];
+    const dateIndex = newEvents.findIndex(event => event.date === eventDate);
+    const newShowHideClass = (toggleAction === 'show') ? 'show-event' : 'hide-event';
+    newEvents[dateIndex].events.map((event,i) => {
+      console.log(`Event is: ${i} event details: ${JSON.stringify(event)}`)
+      if (i > 2 ) {
+        console.log(`this is: ${i} event id is ${event.event_id}`)
+        const itemIndex = newEvents[dateIndex].events.findIndex(dateEvent => dateEvent.event_id === event.event_id);
+        console.log(`dateIndex: ${dateIndex} item index: ${itemIndex}`)
+        newEvents[dateIndex].events[itemIndex].showhideclass = newShowHideClass;  // assigned the toggled showhideclass
+      };
+      this.setState({events: newEvents});
+    })
+  };
+
   modifyEventAssign = (eventId, eventDate) => {
     const newEvents = [...this.state.events];
     const dateIndex = newEvents.findIndex(event => event.date === eventDate);
@@ -184,47 +202,36 @@ class Dashboard extends Component {
         .catch(err => console.log(err));
       //console.log(`State of State-A: ${this.state.events}`)  
     } else {
-      //console.log(`was un-assigned`)
       newEvents[dateIndex].events[itemIndex].assigned = 'current user';  // name
       newEvents[dateIndex].events[itemIndex].assigned_id = 'current userId';  // member id
       newEvents[dateIndex].events[itemIndex].assignedStatus = 'claimed';  // assigned status
-      console.log(`event: ${newEvents[dateIndex].events[itemIndex].title} event id: ${newEvents[dateIndex].events[itemIndex].event_id} user: ${newEvents[dateIndex].events[itemIndex].assigned} user_id: ${newEvents[dateIndex].events[itemIndex].assigned_id}`)
+      // console.log(`event: ${newEvents[dateIndex].events[itemIndex].title} event id: ${newEvents[dateIndex].events[itemIndex].event_id} user: ${newEvents[dateIndex].events[itemIndex].assigned} user_id: ${newEvents[dateIndex].events[itemIndex].assigned_id}`)
       this.setState({events: newEvents});
-
-      // update the database -  hardcode user id to Myles
-      // const id = newEvents[dateIndex].events[itemIndex].event_id;
-      // const memberId = '5dd596bf8813384487dca854'
-      // const eventData = {member: memberId, status: "claimed"}
-      // API.addInvitee(id,eventData)
-      //   .then(res => console.log(res))
-      //   .catch(err => console.log(err))
       const id = newEvents[dateIndex].events[itemIndex].event_id;
       const eventData = {assignee: this.state.memberId, assignedStatus: "claimed"}
       API.updateEvent(id,eventData)
-        .then(res => console.log(res))
-        .catch(err => console.log(err))
-      };
-      
+      .then(res => console.log(res))
+      .catch(err => console.log(err))
+    };
+      // // if current view is Unassigned Events then
+      // // a change in those events needs to trigger page refresh
+      // // since an event an possibly its date would no longer be part
+      // // of the view
+      // console.log(`StateView5: ${this.state.viewType}`)
 
-
-      // if current view is Unassigned Events then
-      // a change in those events needs to trigger page refresh
-      // since an event an possibly its date would no longer be part
-      // of the view
-      console.log(`StateView5: ${this.state.viewType}`)
-      if (this.state.viewType === 'unassigned') {
-        const type = "unassigned";
-        API.getHouseholdEvents(this.state.householdId,this.state.userId,type)
-        .then(res => {
-        //  console.log(`Events: ${JSON.stringify(res.data)}`);
-        // reformat response data if empty into empty array
-          if (res.data[0].hasOwnProperty("events")) {
-             this.setState({ events: res.data })
-          } else {
-            this.setState({ events: [] })
-          }
-        });
-      };
+      // if (this.state.viewType === 'unassigned') {
+      //   const type = "unassigned";
+      //   API.getHouseholdEvents(this.state.householdId,this.state.userId,type)
+      //   .then(res => {
+      //   //  console.log(`Events: ${JSON.stringify(res.data)}`);
+      //   // reformat response data if empty into empty array
+      //     if (res.data[0].hasOwnProperty("events")) {
+      //        this.setState({ events: res.data })
+      //     } else {
+      //       this.setState({ events: [] })
+      //     }
+      //   });
+      // };
 
   }
 
@@ -270,7 +277,9 @@ class Dashboard extends Component {
                       id={(eventDate.events.length > 3) ? "show-more" : undefined }
                       showmoreIcon={(eventDate.events.length > 3) ? "fas fa-angle-double-down fa-lg" : undefined }
                       events={eventDate.events}
+                      eventDate={eventDate.date}
                       firstdashcard={(i === 0) ? "first-dashcard" : ""}
+                      onClickShowHide={this.showHideChange}
                      ></DashCard>
                       {
                         eventDate.events.map((event,i) => {
