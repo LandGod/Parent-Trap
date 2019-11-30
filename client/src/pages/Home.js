@@ -3,47 +3,38 @@ import { Container, Row, Col } from "../components/Grid/index.js";
 import "./style/Home.css";
 import SignIn from "../components/Firebase/index";
 import { Redirect } from "react-router-dom";
+import LoginText from "../components/LoginText";
 
 class Home extends Component {
   state = {
+    loginText: true,
     redirectDashboard: false, // Set this to true to redirect to dashboard
     redirectSignUp: false, // Set this to true to redirect to signup flow
-    loading: false
-  };
-
-  // Used to display a loading message after login, but before redirect
-  setLoadingStatus = () => {
-      this.setState({loading: true})
   };
 
   render() {
     if (this.state.redirectDashboard) {
-      console.log("Redirect to dahsbard");
+      console.log("Redirect to dashboard");
       return <Redirect to="/dashboard" />;
     }
 
     if (this.state.redirectSignUp) {
+      console.log('redirect to signup')
       return <Redirect to="/signup" />;
     }
 
     return (
       <Container>
-        <div className="wrapper">
           <Row>
             <Col size="md-12">
-              <h1>ParentTrap</h1>
+              { this.state.loginText ? <LoginText /> : null }
             </Col>
           </Row>
           <Row>
             <Col size="md-12">
-              <p>Welcome to parent trap!</p>
+              <SignIn parent={this} />
             </Col>
           </Row>
-          <Row>
-            <SignIn parent={this} />
-            <p hidden={this.state.loading}>Redirecting you now...</p>
-          </Row>
-        </div>
       </Container>
     );
   }

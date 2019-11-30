@@ -24,6 +24,7 @@
     "firebase": "^7.4.0",
     "firebaseui": "^4.3.0",
     "if-env": "^1.0.4",
-    "mongoose": "^5.7.11"
+    "mongoose": "^5.7.11",
+    "react-pose": "^4.0.10"
   }
 }
