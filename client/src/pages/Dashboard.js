@@ -87,16 +87,6 @@ class Dashboard extends Component {
 
   // When the component mounts, get a list of all events
   componentDidMount() {
-    //TEMP CODE - DELETE IT
-    // const db = require("../../../models");
-    // db.Household.create({
-    //   members: ["5ddca4f2663172b2a23b536a", "5ddca54a663172b2a23b536b"],
-    //   events: [ 
-    //     "5ddca8574b208db38f1089d5", "5de1df6009b4d51e97760776", "5de1f7dc09b4d51e97760777"]
-    // });
-
-    //DELETE ABOVE
-
 
     // hardcoded test household id: 
     const id = this.getHouseholdId();
@@ -118,7 +108,8 @@ class Dashboard extends Component {
       if(viewParam == 'assigned'){
         //API call for assigned events
         API.getAllHouseholdEvents(id)
-      .then(res => {this.setState({ events: res.data });
+      .then(res => {
+        this.setState({ events: res.data });
       console.log(`Events: ${JSON.stringify(res.data)}`);
       })
       .catch(err => console.log(err));

@@ -98,7 +98,6 @@ router
     // Cast to mongoose ObjectId
     householdId = mongoose.Types.ObjectId(householdId);
 
-
     // Send parsed and validated request data to event controller
     eventController
       .findAllEventsPopulated(householdId)
