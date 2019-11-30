@@ -135,4 +135,13 @@ module.exports = {
   //   )
   // }
 
-};
+  create: function(req, res) {
+    let houseHoldId = req.body.houseHoldId;
+    //delete the householdId from the body because it doesn't need to be in the event document
+    delete req.body.houseHoldId;
+    db.Event.create(req.body)
+      .then(dbEvent => res.json(dbEvent))
+      .catch(err => res.status(422).json(err));
+  }
+  }
+
