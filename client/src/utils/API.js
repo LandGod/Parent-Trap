@@ -4,13 +4,13 @@ export default {
 
   // Gets all events - sand-box edition
   getAllEvents: function() {
-    return axios.get("/api/events/members");
+    return axios.get("/api/event/members");
   },
 
   // Gets all events for household
   getAllHouseholdEvents: function(id) {
     console.log(`HouseholdId: ${id}`)
-    return axios.get("/api/events/all/" + id);
+    return axios.get("/api/event/all/" + id);
   },
 
   // determing login route
@@ -20,7 +20,7 @@ export default {
 
   createEvent: function(eventData) {
 
-    return axios.post('/api/createEvent', eventData );
+    return axios.post('/api/event', eventData );
   }
 
 };

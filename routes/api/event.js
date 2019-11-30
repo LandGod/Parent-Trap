@@ -68,6 +68,7 @@ transformEvents = result => {
   transformedData.push(currentDateEvents);
   // console.log(`Transformed Data: ${JSON.stringify(transformedData)}`);
   return transformedData;
+
 }
 
 
@@ -97,7 +98,6 @@ router
     // Cast to mongoose ObjectId
     householdId = mongoose.Types.ObjectId(householdId);
 
-
     // Send parsed and validated request data to event controller
     eventController
       .findAllEventsPopulated(householdId)
@@ -110,5 +110,8 @@ router
         res.status(500).send(err);
       });
   });
+
+  router.route("/")
+  .post(eventController.create);
 
 module.exports = router;
