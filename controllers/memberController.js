@@ -46,59 +46,60 @@ module.exports = {
 
   // Bulk add or update new member/user
   createMany: function(membersArray) {
-
     // Return the rest of the function's actions as a promise to make it thenable
     return new Promise(function(resolve, reject) {
-
-      // Define new bulk database operation queue
-      var bulk = db.users.initializeUnorderedBulkOp();
+      // Define array to add all our operations to
+      var bulkOps = [];
 
       // Create db query for each member object in array
       membersArray.forEach(memberObj => {
-        // Create find filter: look for existing account with matching email:
-        let filter = { email: memberObj.email };
-
-        // Create update package
-        let update = {
-          firstName: memberObj.firstName,
-          lastName: memberObj.lastName,
-          email: memberObj.email
+        let upsertQuery = {
+          // Each of these queries is an update of a single document
+          updateOne: {
+            // We're mathing to the email, since user may not have an oauth key and we may not know the id
+            filter: { email: memberObj.email },
+            // We'll add most of the update now, but some conditional elements later
+            update: {
+              firstName: memberObj.firstName,
+              lastName: memberObj.lastName,
+              email: memberObj.email
+            },
+            // Create if not found and return updated document 
+            upsert: true,
+            new: true
+          }
         };
 
         // Add oauth key to update package, if it exists. Also set user status accordingly.
         if (memberObj.userOauthKey) {
-          update["userOauthKey"] = memberObj.userOauthKey;
-          update["status"] = "full";
+          upsertQuery.updateOne.update["userOauthKey"] = memberObj.userOauthKey;
+          upsertQuery.updateOne.update["status"] = "full";
         }
 
         // If no oauth key, instead set user status to invited.
         else {
-          update["status"] = "invited";
+          upsertQuery.updateOne.update["status"] = "invited";
         }
 
-        // Finalize db query and add to bulk operation queue
-        bulk.findOneAndUpdate(filter, update, {
-          new: true, // Return modified document
-          upsert: true // Make this update into an upsert
-        });
+        // Add constructed query to array
+        bulkOps.push(upsertQuery);
       });
 
       // Excute bulk db action
-      bulk.execute()
-      .then((results) => {
-        console.log('**************************')
-        console.log('It worked???')
-        console.log(results)
+      db.Member.bulkWrite(bulkOps)
+        .execute()
+        .then(results => {
+          console.log("**************************");
+          console.log("It worked???");
+          console.log(results);
 
-        resolve(results)
-
-      })
-      .catch((err) => {
-        console.log('*****ERRR*****')
-        console.log(err)
-        reject(err)
-      })
-
+          resolve(results);
+        })
+        .catch(err => {
+          console.log("*****ERRR*****");
+          console.log(err);
+          reject(err);
+        });
     });
   }
 };
