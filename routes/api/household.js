@@ -1,6 +1,5 @@
 const router = require("express").Router();
 const householdController = require("../../controllers/householdController");
-const { findAll, create, findById, update, remove } = require("../../controllers/householdController");
 const mongoose = require("mongoose"); // For working with mongoose Date and ObjectId objects
 const {
   validateOauthKey,
@@ -11,9 +10,8 @@ const {
 
 router
   .route("/")
-  .post(create)
   // GET household id(s) of the household(s) which contain the specified user id
-  .get(function (req, res) {
+  .get(function(req, res) {
     // Validate req.body
     if (!req.body) {
       res.status(400).send("Request body was empty.");
@@ -49,26 +47,16 @@ router
       .findById(userId)
 
       // Resolve request with results from db operation
-      .then(function (result) {
+      .then(function(result) {
         if (!result.length) {
           res.status(204); // If no results are returned, just send status 204
         } else {
           res.status(200).json(result); // If results are returned, send them along with status 200 (ok)
         }
       })
-      .catch(function (err) {
+      .catch(function(err) {
         res.status(500).send(err);
       });
-
-
   });
-
-
-// Matches with "/api/household/:id"
-router
-  .route("/:id")
-  .get(findById)
-  .put(update)
-  .delete(remove);
 
 module.exports = router;
