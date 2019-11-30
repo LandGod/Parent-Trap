@@ -62,8 +62,13 @@ class EventLine extends Component {
     const isAssigned = this.props.iconAssigned
     ? "fas fa-user-check fa-lg" : "far fa-user fa-lg" ;
     // ? "fas fa-plus-square fa-lg" : "far fa-plus-square fa-lg" ;
+
+    // show hide class
+    const showhide = this.props.showhideclass;
+
     return (
-      <div className="event-div border rounded-sm">
+      // <div className="event-div border rounded-sm">
+      <div className={`event-div border rounded-sm ${this.props.showhideclass}`}>
         <div className='row no-gutters'>
           <Col size="6">
             <p>{this.props.title}</p>

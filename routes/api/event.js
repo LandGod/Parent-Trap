@@ -17,9 +17,10 @@ function formatAMPM(date) {
 }
 
 // helper function to build and event array element
-buildEventObject = event => {
+buildEventObject = (event,eventCount) => {
   // var eventObj = {placeholder: "this is an event"};
   //console.log(`EVENT: ${event}`);
+  let showhideval = (eventCount > 3) ? "hide-event" : "show-event";
   var eventObj = {};
   eventObj.event_id = event._id;
   eventObj.title = event.title;
@@ -43,6 +44,7 @@ buildEventObject = event => {
   };
   eventObj.assignedStatus = event.assignedStatus;
   eventObj.note = event.note;
+  eventObj.showhideclass = showhideval;
   return eventObj;
 }
 
@@ -51,6 +53,7 @@ transformEvents = result => {
   var currentStartDate  = "";
   var currentDateEvents = {};
   var transformedData = [];  
+  let eventCount = 1;
   const daysOfWeek = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
   result[0].events.map((event,i) => {
     // if (i < 2) {
@@ -59,11 +62,13 @@ transformEvents = result => {
       currentDateEvents = {date: newEventStartDate};
       currentStartDate = newEventStartDate;
       currentDateEvents.events = [];
-      currentDateEvents.events.push(buildEventObject(event));
+      currentDateEvents.events.push(buildEventObject(event,eventCount));
     } else if (newEventStartDate === currentStartDate) {
       // process the current event
-      currentDateEvents.events.push(buildEventObject(event));
+      eventCount = eventCount + 1;
+      currentDateEvents.events.push(buildEventObject(event,eventCount));
     } else {
+      eventCount = 1;
       // reset currentStartDate to that of the new inbound data's date
       currentStartDate = newEventStartDate;
       // push current object into master array then create new object
@@ -71,7 +76,7 @@ transformEvents = result => {
       currentDateEvents = {date: newEventStartDate};
       // events - call helper function - starting new day's events
       currentDateEvents.events = [];
-      currentDateEvents.events.push(buildEventObject(event));
+      currentDateEvents.events.push(buildEventObject(event,eventCount));
     }
 
   // }

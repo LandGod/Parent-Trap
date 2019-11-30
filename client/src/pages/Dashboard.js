@@ -33,8 +33,8 @@ class Dashboard extends Component {
     //events: eventData
     events: [],
     householdId: "5dd726706ddba45e5d59db35", // carey-moriary household
-    //userId: "5dd596ae8813384487dca853",  // kyra's id
-    userId: "5dd58d43d5592c419101a05f", // rory's id
+    userId: "5dd596ae8813384487dca853",  // kyra's id
+    //userId: "5dd58d43d5592c419101a05f", // rory's id
     //userId: "5dd596cf8813384487dca855", // sean's id
     //userId: "5dd596bf8813384487dca854", // myles's id
     //userId:  "0dd596ae8813384487dca000",  // invalid user id test
@@ -154,10 +154,12 @@ class Dashboard extends Component {
               this.setState({ events: res.data })
             } else {
               this.setState({ events: [] })
-            }
+            };
+            console.log(`State of State-B: ${JSON.stringify(this.state.events)}`)  
          })
          .catch(err => console.log(err));
        }
+ 
   }
 
   modifyEventAssign = (eventId, eventDate) => {
@@ -202,7 +204,7 @@ class Dashboard extends Component {
         .then(res => console.log(res))
         .catch(err => console.log(err))
       };
-      //console.log(`State of State-B: ${JSON.stringify(this.state.events)}`)  
+      
 
 
       // if current view is Unassigned Events then
@@ -258,14 +260,13 @@ class Dashboard extends Component {
                   // render if dates & event exist else render 'No Event' text
                   (this.state.events.length > 0) ?
                   this.state.events.map((eventDate,i) => {
-                    // console.log(`EVENTS: ${JSON.stringify(this.state.events)}`)
+                    // console.log(`EVENT: ${JSON.stringify(eventDate.date)}`)
                     return (
                       <div>
                       <DashCard
                       key={eventDate.date}
                       icon="fa fa-calendar-alt"
                       title={eventDate.date}
-                      id={(eventDate.events.length > 3) ? "show-more" : undefined }
                       id={(eventDate.events.length > 3) ? "show-more" : undefined }
                       showmoreIcon={(eventDate.events.length > 3) ? "fas fa-angle-double-down fa-lg" : undefined }
                       events={eventDate.events}
@@ -274,9 +275,11 @@ class Dashboard extends Component {
                       {
                         eventDate.events.map((event,i) => {
                           // console.log(`assigned: ${event.assigned} assigned_id: ${event.assigned_id} status: ${event.status} `)
+                          // console.log(`EVENT: ${JSON.stringify(event)}`)
                           return (
                             <EventLine
                             key={event.event_id}
+                            showhideclass={event.showhideclass}
                             event_id={event.event_id}
                             title={event.title}
                             eventType={event.eventType}
