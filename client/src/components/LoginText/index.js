@@ -15,7 +15,10 @@ class LoginText extends Component {
         const { open } = this.state;
 
         let instructions = [{
-            title: "Learn more",
+            title: "How does it work?",
+            body: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestiae dolorum eligendi iste excepturi vero nobis veritatis illum iusto minus, obcaecati, culpa dolores dicta aliquam. Quia beatae totam perspiciatis consectetur libero?"
+        }, {
+            title: "What was your inspiration?",
             body: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestiae dolorum eligendi iste excepturi vero nobis veritatis illum iusto minus, obcaecati, culpa dolores dicta aliquam. Quia beatae totam perspiciatis consectetur libero?"
         }]
     
@@ -24,10 +27,6 @@ class LoginText extends Component {
                     <Row>
                         <Col size="md-12">
                             <h1>ParentTrap</h1>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col size="md-12">
                             <p>Welcome to parent trap!</p>
                         </Col>
                     </Row>
