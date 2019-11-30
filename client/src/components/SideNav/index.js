@@ -22,8 +22,8 @@ class SideNav extends Component {
           &times; {/* X symbol html code */}
         </button>
         <button> <a href='/dashboard'>All Household Events</a> </button>
-        <button> <a href='/dashboard?view=assigned'>My Events</a> </button>
-        <button> <a href='/dashboard?view=unclaimed'>Unassigned Events</a> </button>
+        <button> <a href='/dashboard?view=myevents'>My Events</a> </button>
+        <button> <a href='/dashboard?view=unassigned'>Unassigned Events</a> </button>
       </div>
     );
   }

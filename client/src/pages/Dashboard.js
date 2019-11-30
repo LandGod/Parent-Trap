@@ -31,7 +31,15 @@ class Dashboard extends Component {
   state = {
     householdName: "No current household", // HouseholdName defaults to an error and should be updated when loading other household info
     //events: eventData
-    events: []
+    events: [],
+    householdId: "5dd726706ddba45e5d59db35", // carey-moriary household
+    //userId: "5dd596ae8813384487dca853",  // kyra's id
+    userId: "5dd58d43d5592c419101a05f", // rory's id
+    //userId: "5dd596cf8813384487dca855", // sean's id
+    //userId: "5dd596bf8813384487dca854", // myles's id
+    //userId:  "0dd596ae8813384487dca000",  // invalid user id test
+    memberId: '5dd596bf8813384487dca854', // assigner's id (Myles)
+    viewType: "" // page view type
   };
 
 
@@ -70,14 +78,6 @@ class Dashboard extends Component {
 
   // When the component mounts, get a list of all events
   componentDidMount() {
-
-       // hardcoded test household id: 
-       const householdId = "5dd726706ddba45e5d59db35";
-       const userId = "5dd596ae8813384487dca853"; // kyra's id
-       //const type = "all";
-       //const type = "unassigned";
-       //const type = "current-user"
-
        //get the raw parameters submitted. eg. this will be "?view=assigned"
        let queryStringParams = this.props.location.search;
        //get only the "view=[something] part" by matching it with a regex
@@ -86,73 +86,87 @@ class Dashboard extends Component {
        //Only one match in our case, so it'll look like:
        //["view=assigned"] or ["view=unclaimed"]
        //viewParam will be null if no matches are found
+       console.log(`ViewParm0:  ${viewParam}`)
        if(viewParam){
          //We found a view parameter, get its value
          // on split, "view=assigned" becomes:
          //["view","assigned"] 
          viewParam = viewParam[0].split('=')[1];
-         if(viewParam == 'assigned'){
+         this.setState({viewType: viewParam});
+         console.log(`StateView1: ${this.state.viewType}`)
+         if(viewParam === 'myevents'){
            //API call for assigned events
            const type = "current-user"
-           API.getHouseholdEvents(householdId,userId,type)
-         .then(res => {this.setState({ events: res.data });
-         console.log(`Events: ${JSON.stringify(res.data)}`);
-         })
+           API.getHouseholdEvents(this.state.householdId,this.state.userId,type)
+         .then(res => {
+           //console.log(`Events: ${JSON.stringify(res.data)}`);
+            // reformat response data if empty into empty array
+            if (res.data[0].hasOwnProperty("events")) {
+              this.setState({ events: res.data })
+            } else {
+              this.setState({ events: [] })
+            }
+          })
          .catch(err => console.log(err));
-         }else if(viewParam == 'unclaimed'){
+         }else if(viewParam === 'unassigned'){
            //API call for unclaimed events
            const type = "unassigned";
-           API.getHouseholdEvents(householdId,userId,type)
-         .then(res => {this.setState({ events: res.data });
-         console.log(`Events: ${JSON.stringify(res.data)}`);
-         })
+           //console.log(`StateView2: ${this.state.viewType}`)
+           API.getHouseholdEvents(this.state.householdId,this.state.userId,type)
+          .then(res => {
+            //console.log(`Events: ${JSON.stringify(res.data)}`);
+            // reformat response data if empty into empty array
+            if (res.data[0].hasOwnProperty("events")) {
+              this.setState({ events: res.data })
+            } else {
+              this.setState({ events: [] })
+            }
+          })
          .catch(err => console.log(err));
          }else{
            //something that doesn't make sense. Default Dashboard.
            const type = "all";
-           API.getHouseholdEvents(householdId,userId,type)
-         .then(res => {this.setState({ events: res.data });
-         console.log(`Events: ${JSON.stringify(res.data)}`);
+           this.setState({viewType: ""});
+           //console.log(`StateView3: ${this.state.viewType}`)
+           API.getHouseholdEvents(this.state.householdId,this.state.userId,type)
+         .then(res => {
+           //console.log(`Events: ${JSON.stringify(res.data)}`);
+           // reformat response data if empty into empty array
+           if (res.data[0].hasOwnProperty("events")) {
+              this.setState({ events: res.data })
+           } else {
+             this.setState({ events: [] })
+           }
          })
          .catch(err => console.log(err));
          }
        }else{
          //We didn't find a view parameter, show the default dashboard
          console.log("No parameter. Default dashboard.");
+         this.setState({viewType: viewParam});
+         //console.log(`StateView4: ${this.state.viewType}`)
          const type = "all";
-         API.getHouseholdEvents(householdId,userId,type)
-         .then(res => {this.setState({ events: res.data });
-         console.log(`Events: ${JSON.stringify(res.data)}`);
+         API.getHouseholdEvents(this.state.householdId,this.state.userId,type)
+         .then(res => {
+            //console.log(`Events: ${JSON.stringify(res.data)}`);
+            // reformat response data if empty into empty array
+            if (res.data[0].hasOwnProperty("events")) {
+              this.setState({ events: res.data })
+            } else {
+              this.setState({ events: [] })
+            }
          })
          .catch(err => console.log(err));
        }
-
-
-
-
-
-    
-    // // hardcoded test household id: 
-    // const householdId = "5dd726706ddba45e5d59db35"; // moriarty-carey house
-    // const userId = "5dd596ae8813384487dca853"; // kyra's id
-    // //const type = "all";
-    // const type = "unassigned";
-    // //const type = "current-user"
-    // API.getHouseholdEvents(householdId,userId,type)
-    //   .then(res => {this.setState({ events: res.data });
-    //   console.log(`Events: ${JSON.stringify(res.data)}`);
-    //   })
-    //   .catch(err => console.log(err));
   }
 
   modifyEventAssign = (eventId, eventDate) => {
     const newEvents = [...this.state.events];
     const dateIndex = newEvents.findIndex(event => event.date === eventDate);
     const itemIndex = newEvents[dateIndex].events.findIndex(event => event.event_id === eventId);
-    // console.log(`assign click: ${newEvents[dateIndex].events[itemIndex].assigned }`)
+    console.log(`assign click: ${newEvents[dateIndex].events[itemIndex].assigned }`)
     // newEvents[dateIndex].events[itemIndex].assigned = newEvents[dateIndex].events[itemIndex].assigned === undefined ? 'TBD' : undefined;
     if (newEvents[dateIndex].events[itemIndex].assigned) {
-      console.log(`was assigned`)
       // console.log(`was assigned`)
       newEvents[dateIndex].events[itemIndex].assigned = undefined;   // name
       newEvents[dateIndex].events[itemIndex].assigned_id = undefined;  // member id
@@ -166,13 +180,15 @@ class Dashboard extends Component {
       API.updateEvent(id,eventData)
         .then(res => console.log(res))
         .catch(err => console.log(err));
+      //console.log(`State of State-A: ${this.state.events}`)  
     } else {
-      console.log(`was un-assigned`)
+      //console.log(`was un-assigned`)
       newEvents[dateIndex].events[itemIndex].assigned = 'current user';  // name
       newEvents[dateIndex].events[itemIndex].assigned_id = 'current userId';  // member id
       newEvents[dateIndex].events[itemIndex].assignedStatus = 'claimed';  // assigned status
       console.log(`event: ${newEvents[dateIndex].events[itemIndex].title} event id: ${newEvents[dateIndex].events[itemIndex].event_id} user: ${newEvents[dateIndex].events[itemIndex].assigned} user_id: ${newEvents[dateIndex].events[itemIndex].assigned_id}`)
       this.setState({events: newEvents});
+
       // update the database -  hardcode user id to Myles
       // const id = newEvents[dateIndex].events[itemIndex].event_id;
       // const memberId = '5dd596bf8813384487dca854'
@@ -181,12 +197,33 @@ class Dashboard extends Component {
       //   .then(res => console.log(res))
       //   .catch(err => console.log(err))
       const id = newEvents[dateIndex].events[itemIndex].event_id;
-      const memberId = '5dd596bf8813384487dca854'
-      const eventData = {assignee: memberId, assignedStatus: "claimed"}
+      const eventData = {assignee: this.state.memberId, assignedStatus: "claimed"}
       API.updateEvent(id,eventData)
         .then(res => console.log(res))
         .catch(err => console.log(err))
       };
+      //console.log(`State of State-B: ${JSON.stringify(this.state.events)}`)  
+
+
+      // if current view is Unassigned Events then
+      // a change in those events needs to trigger page refresh
+      // since an event an possibly its date would no longer be part
+      // of the view
+      console.log(`StateView5: ${this.state.viewType}`)
+      if (this.state.viewType === 'unassigned') {
+        const type = "unassigned";
+        API.getHouseholdEvents(this.state.householdId,this.state.userId,type)
+        .then(res => {
+        //  console.log(`Events: ${JSON.stringify(res.data)}`);
+        // reformat response data if empty into empty array
+          if (res.data[0].hasOwnProperty("events")) {
+             this.setState({ events: res.data })
+          } else {
+            this.setState({ events: [] })
+          }
+        });
+      };
+
   }
 
   modifyEventStatus = (eventId, eventDate) => {
@@ -217,14 +254,18 @@ class Dashboard extends Component {
           <Container>
             <Row>
               <Col size="md-12 fluid">
-                {this.state.events.map((eventDate,i) => {
-                  // console.log(`>>>>>>>>>>>>>>>>>`)
-                  return (
-                    <div>
+                {  
+                  // render if dates & event exist else render 'No Event' text
+                  (this.state.events.length > 0) ?
+                  this.state.events.map((eventDate,i) => {
+                    // console.log(`EVENTS: ${JSON.stringify(this.state.events)}`)
+                    return (
+                      <div>
                       <DashCard
-                      key={i + 234}
+                      key={eventDate.date}
                       icon="fa fa-calendar-alt"
                       title={eventDate.date}
+                      id={(eventDate.events.length > 3) ? "show-more" : undefined }
                       id={(eventDate.events.length > 3) ? "show-more" : undefined }
                       showmoreIcon={(eventDate.events.length > 3) ? "fas fa-angle-double-down fa-lg" : undefined }
                       events={eventDate.events}
@@ -263,9 +304,10 @@ class Dashboard extends Component {
                           )
                         })
                       }
-                    </div>
-                  ) 
-                })}
+                    </div>) 
+                  })
+                  : <p id="no-events-msg">No Events</p>
+                }
                 <div>
                     <Button
                       id="add-event"

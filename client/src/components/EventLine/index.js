@@ -60,7 +60,8 @@ class EventLine extends Component {
 
     // setting the assigned icon class
     const isAssigned = this.props.iconAssigned
-    ? "fas fa-plus-square fa-lg" : "far fa-plus-square fa-lg" ;
+    ? "fas fa-user-check fa-lg" : "far fa-user fa-lg" ;
+    // ? "fas fa-plus-square fa-lg" : "far fa-plus-square fa-lg" ;
     return (
       <div className="event-div border rounded-sm">
         <div className='row no-gutters'>
