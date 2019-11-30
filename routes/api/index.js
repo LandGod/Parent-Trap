@@ -1,10 +1,13 @@
 const path = require("path");
 const router = require("express").Router();
-// const exampleModel = require("./exampleModel");
+const eventRoutes = require("./event");
+const householdRoutes = require("./household")
+const memberRoutes = require("./member");
 
-
-// API ROUTES
-// router.use("/", exampleModel);
+// Event routes
+router.use("/event", eventRoutes);
+router.use("/household", householdRoutes);
+router.use("/member", memberRoutes);
 
 // For anything else, render the html page
 router.use(function(req, res) {
