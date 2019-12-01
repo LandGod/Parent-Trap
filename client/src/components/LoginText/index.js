@@ -4,8 +4,12 @@ import posed from "react-pose";
 import './style.css';
 
 const Content = posed.div({
-    closed: { height: 0 },
-    open: { height: 'auto' }
+    closed: { 
+        height: 0,
+     },
+    open: { 
+        height: 'auto',
+    }
 });
 
 class LoginText extends Component {
@@ -26,8 +30,10 @@ class LoginText extends Component {
             <Container>
                     <Row>
                         <Col size="md-12">
-                            <h1>ParentTrap</h1>
-                            <p>Welcome to parent trap!</p>
+                            <div className="header">
+                                <h3>Welcome to ParentTrap.</h3>
+                                <p className="description">Designed to simplify your family's busy schedule.</p>
+                            </div>
                         </Col>
                     </Row>
                     <Row>
@@ -35,7 +41,8 @@ class LoginText extends Component {
                             {instructions.map(({ title, body }, i) => (
                                 <div>
                                     <h2 className="title" onClick={() => this.setState({ open: open === i ? false : i })}>
-                                        {title}
+                                        {open === i ? "-                               " : "+                               "}
+                                        {title}  
                                     </h2>
                                     <Content className="content" pose={open === i ? 'open' : 'closed'}>
                                         <div className="content-wrapper">{body}</div>
