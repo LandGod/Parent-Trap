@@ -22,8 +22,8 @@ class LoginText extends Component {
             title: "How does it work?",
             body: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestiae dolorum eligendi iste excepturi vero nobis veritatis illum iusto minus, obcaecati, culpa dolores dicta aliquam. Quia beatae totam perspiciatis consectetur libero?"
         }, {
-            title: "What was your inspiration?",
-            body: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestiae dolorum eligendi iste excepturi vero nobis veritatis illum iusto minus, obcaecati, culpa dolores dicta aliquam. Quia beatae totam perspiciatis consectetur libero?"
+            title: "How did this get started?",
+            body: "After searching for ways to and coming up empty, an idea was sprouted to create an app to empower any family to stay on top of their busy schedule. This idea came to life when four software engineers put their minds together and the rest is history..."
         }]
     
         return (
