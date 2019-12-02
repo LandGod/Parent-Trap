@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { Modal } from 'react-bootstrap';
 import NewEventTable from '../NewEventForm/newEventTable';
+import ViewEvent from '../ViewEvent/index'
 import "./style.css";
+
 
 export class ModalCardBody extends Component {
 
@@ -12,7 +14,8 @@ export class ModalCardBody extends Component {
     this.state = {
 
       showModal: false,
-      modalType: 'NewEventTable'
+      modalType: 'NewEventTable',
+      event: {}
 
     };
 
@@ -28,37 +31,36 @@ export class ModalCardBody extends Component {
 
   render() {
 
-    if(this.state.modalType == 'NewEventTable'){
+    if(this.state.modalType === 'NewEventTable'){
 
     return (
 
        <div>
         <Modal show={this.state.showModal} onHide={this.toggleModal}>
           <Modal.Header closeButton>
-            <Modal.Title id='.'>{this.props.title}</Modal.Title>
+            <Modal.Title id='.'>{this.props.title} Create New Event</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <NewEventTable />
+            <NewEventTable getHouseholdIdFunction={this.props.getHouseholdIdFunction} modalClose={this.toggleModal}/>
           </Modal.Body>
         </Modal>
       </div>
 
     )}
-    else{
+    else if(this.state.modalType === 'ViewEvent'){
       return (
         <div>
         <Modal show={this.state.showModal} onHide={this.toggleModal}>
           <Modal.Header closeButton>
-            <Modal.Title id='.'>{this.props.title}</Modal.Title>
+            <Modal.Title id='.'>{this.state.event.title}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <h1>hahahahahahahahahah</h1>
+            <ViewEvent event={this.state.event}/>
           </Modal.Body>
         </Modal>
       </div>
       )
     }
-
   }
 }
 

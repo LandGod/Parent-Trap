@@ -1,7 +1,7 @@
 {
   "name": "parent-trap",
   "version": "1.0.0",
-  "description": "",
+  "description": "Parent Trap is an app that allows kids and parents to better coordinate rides and tasks.",
   "main": "server.js",
   "scripts": {
     "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
@@ -25,5 +25,13 @@
     "firebaseui": "^4.3.0",
     "if-env": "^1.0.4",
     "mongoose": "^5.7.11"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LandGod/Parent-Trap.git"
+  },
+  "bugs": {
+    "url": "https://github.com/LandGod/Parent-Trap/issues"
+  },
+  "homepage": "https://github.com/LandGod/Parent-Trap#readme"
 }

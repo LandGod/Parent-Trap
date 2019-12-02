@@ -8,3 +8,10 @@ p {
   padding: .25em;
 }
 
+.hide-event {
+  display: none;
+}
+
+.show-event {
+  display: block;
+}
