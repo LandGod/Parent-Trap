@@ -43,7 +43,7 @@ export default {
   },
 
   addHouseholdMembers: function(body) {
-    return axios.post('/api/household/add-members', body);
+    return axios.put('/api/household/add-members', body);
   }
 
   // addInvitee: function(id,eventData) {

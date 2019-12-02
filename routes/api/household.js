@@ -77,7 +77,7 @@ router
 
   })
 
-  router.route('add-members')
+  router.route('/add-members')
   .put(function(req, res){
 
     // Validate

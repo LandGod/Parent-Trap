@@ -154,6 +154,7 @@ class HouseHold extends Component {
                 householdId: results1.data._id,
                 idsArray: idsArray
               }).then(result3 => {
+                console.log(result3)
                 // Redirect to dashboard
                 this.setState({ redirect: true });
               })
