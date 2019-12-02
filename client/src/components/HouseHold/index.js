@@ -111,15 +111,9 @@ class HouseHold extends Component {
 
     // If creating new household:
     if (this.props.createMode === true) {
-      //TODO: Write api call for creating household (and user)
-      console.log("Sending data to api call");
-
       // Create household in database
       API.createHousehold({ name: this.state.householdName })
         .then(results1 => {
-          console.log("Results recieved from createHousehold!");
-          console.log(results1);
-          console.log("---------------------------");
           // Add newly created household id to state
           this.setState({ householdId: results1.data._id });
           // Also add it to session storage
@@ -154,7 +148,6 @@ class HouseHold extends Component {
                 householdId: results1.data._id,
                 idsArray: idsArray
               }).then(result3 => {
-                console.log(result3)
                 // Redirect to dashboard
                 this.setState({ redirect: true });
               })

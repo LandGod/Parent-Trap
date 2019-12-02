@@ -23,7 +23,6 @@ module.exports = {
           resolve(results);
         })
         .catch(err => {
-          console.log("catch error message for findByEmail");
           reject(err);
         });
     });
@@ -31,7 +30,6 @@ module.exports = {
 
   // update current user
   updateUser: function(id, userData) {
-    console.log(id, userData);
     return new Promise(function(resolve, reject) {
       db.Member.update({ _id: id }, userData)
         .then(results => {
@@ -166,12 +164,10 @@ module.exports = {
           report.rawResults = results.result;
 
           // Resolve result with generated report
-          console.log("Resolving in controller. --> Sending report.");
           resolve(report);
         })
         // Handle errors
         .catch(err => {
-          console.log("*****ERRR*****");
           console.log(err);
           reject(err);
         });
