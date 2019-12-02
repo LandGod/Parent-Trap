@@ -95,7 +95,7 @@ router.route("/update-many").put(function(req, res) {
   }
 
   memberController
-    .createMany(req.body.members)
+    .createMany(req.body.members, req.body.householdId)
     .then(results => {
       console.log(results);
       res.status(200).json(results);

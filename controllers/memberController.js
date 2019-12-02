@@ -45,7 +45,7 @@ module.exports = {
   },
 
   // Bulk add or update new member/user
-  createMany: function(membersArray) {
+  createMany: function(membersArray, householdId) {
     // Return the rest of the function's actions as a promise to make it thenable
     return new Promise(function(resolve, reject) {
       // Track which user is given which index during bulk write (so we know which results corespond to which users)
@@ -56,18 +56,31 @@ module.exports = {
 
       // Create db query for each member object in array
       membersArray.forEach(memberObj => {
+
+        // Create update package for member and add static elements
+        let updatePackage = {
+          firstName: memberObj.firstName,
+          lastName: memberObj.lastName,
+          email: memberObj.email
+        }
+
+        // If householdId provided, add it 
+        if (householdId) {
+          updatePackage['$addToSet'] = {households: householdId}
+        }
+
+        // If oauth key provided, add it
+        if (memberObj.userOauthKey) {
+          updatePackage.userOauthKey = memberObj.userOauthKey
+        }
+
         let upsertQuery = {
           // Each of these queries is an update of a single document
           updateOne: {
             // We're mathing to the email, since user may not have an oauth key and we may not know the id
             filter: { email: memberObj.email },
             // We'll add most of the update now, but some conditional elements later
-            update: {
-              firstName: memberObj.firstName,
-              lastName: memberObj.lastName,
-              email: memberObj.email,
-              userOauthKey: memberObj.userOauthKey || null
-            },
+            update: updatePackage,
             // Create if not found and return updated document
             upsert: true,
             new: true

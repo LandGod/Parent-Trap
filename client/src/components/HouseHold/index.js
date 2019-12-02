@@ -111,13 +111,27 @@ class HouseHold extends Component {
       //TODO: Write api call for creating household (and user)
       console.log("Sending data to api call");
 
-      API.upsertMembers({ members: this.state.members })
-        .then(results => {
-          console.log('res')
-          console.log(results);
+      // Create household in database
+      API.createHousehold({ name: this.state.householdName })
+        .then(results1 => {
+          // Add newly created household id to state
+          this.setState({ householdId: results1.data._id });
+          // Also add it to session storage
+          sessionStorage.setItem("householdId", results1.data._id);
+        })
+        .catch(err => {
+          console.log("ERROR");
+          console.log(err);
+        });
+
+      // Add or update members in database and include household Id
+      API.upsertMembers({ members: this.state.members, householdId: results1.data._id })
+        .then(results2 => {
+
+
         })
         .catch(function(err) {
-          console.log('err')
+          console.log("err");
           console.log(err);
         });
     }
