@@ -88,7 +88,7 @@ router
     });
     
 router
-    .route("/updateMany")
+    .route("/update-many")
     .put(function(req, res){
         memberController.createMany(req.body.members)
         .then((results) => {

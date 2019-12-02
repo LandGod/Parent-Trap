@@ -41,4 +41,8 @@ export default {
   //   return axios.put('/api/event/unassign/' + id, eventData );
   // }
 
+  upsertMembers: function(data) {
+    return axios.put('/api/update-many', data);
+  }
+
 };
