@@ -117,6 +117,9 @@ class HouseHold extends Component {
       // Create household in database
       API.createHousehold({ name: this.state.householdName })
         .then(results1 => {
+          console.log('Results recieved from createHousehold!')
+          console.log(results1)
+          console.log('---------------------------')
           // Add newly created household id to state
           this.setState({ householdId: results1.data._id });
           // Also add it to session storage
@@ -162,7 +165,8 @@ class HouseHold extends Component {
   render() {
     // If redirect is set to true, redirect to dashboard, else render component
     if (this.state.redirect) {
-      return <Redirect to="/dashboard" />;
+      // return <Redirect to="/dashboard" />;
+      console.log('This would be the redirect')
     }
 
     return (
