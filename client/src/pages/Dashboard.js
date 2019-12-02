@@ -343,7 +343,7 @@ class Dashboard extends Component {
                       }
                     </div>) 
                   })
-                  : <p id="no-events-msg">No Events</p>
+                  : <p className="no-events-msg">No Events</p>
                 }
                 <div>
                     <Button
