@@ -176,7 +176,7 @@ class Dashboard extends Component {
          }else{
            //something that doesn't make sense. Default Dashboard.
            const type = "all";
-           this.setState({viewType: ""});
+           this.setState({viewType: "all"});
            API.getHouseholdEvents(this.state.householdId,userData.userId,type)
               .then(res => {
                 // reformat response data if empty into empty array
@@ -191,7 +191,7 @@ class Dashboard extends Component {
        }else{
          //We didn't find a view parameter, show the default dashboard
         //  console.log("No parameter. Default dashboard.");
-         this.setState({viewType: viewParam});
+         this.setState({viewType: "all"});
          const type = "all";
          API.getHouseholdEvents(this.state.householdId,userData.userId,type)
             .then(res => {
@@ -236,6 +236,7 @@ class Dashboard extends Component {
       newEvents[dateIndex].events[itemIndex].assigned = undefined;   // name
       newEvents[dateIndex].events[itemIndex].assigned_id = undefined;  // member id
       newEvents[dateIndex].events[itemIndex].assignedStatus = 'unassigned';  // assigned status
+
       // console.log(`event: ${newEvents[dateIndex].events[itemIndex].title} 
       //              event id: ${newEvents[dateIndex].events[itemIndex].event_id} 
       //              user: ${newEvents[dateIndex].events[itemIndex].assigned}
@@ -257,6 +258,14 @@ class Dashboard extends Component {
       //              event id: ${newEvents[dateIndex].events[itemIndex].event_id} 
       //              user: ${newEvents[dateIndex].events[itemIndex].assigned}
       //              user_id: ${newEvents[dateIndex].events[itemIndex].assigned_id}`)
+
+      // turning this off due to UX behavior issues - no easy solution
+      // to managing the show-more/show-less chevron from the unassigned view
+      // gracefully without more extensive refactoring
+      // if (this.state.viewType === "unassigned") {
+      //   newEvents[dateIndex].events[itemIndex].showhideclass = 'hide-event'
+      // } 
+
       this.setState({events: newEvents});
       const id = newEvents[dateIndex].events[itemIndex].event_id;
 
@@ -319,7 +328,10 @@ class Dashboard extends Component {
         <div onClick={this.closeNav}>
           <TopNav 
           slideOut={this.openNav}
-          householdName={this.state.householdName}
+          // householdName={this.state.householdName}
+          householdName={(this.state.viewType === "all") ? `${this.state.householdName} - All Events`
+                          : ((this.state.viewType === "myevents") ? `All Events for ${this.state.firstName}` 
+                          : `${this.state.householdName} - Unassigned Events`) }
           />
           <Container>
             <Row>
