@@ -34,9 +34,6 @@ router
             .findByEmail(req.body.email)
             .then(function(result) {
 
-                console.log('Got results from findByEmail')
-                console.log(result)
-
                 // if no email exists, return 204 status message to client. This will tell the client to redirect to the household page
                 if (result.length === 0) {
                     res.status(204).end();
@@ -54,7 +51,7 @@ router
                 // if auth key exists it should match the auth key associated with the email
                 if (result[0].userOauthKey) {
                     if (result[0].userOauthKey === req.body.id) {
-                    res.status(200).send('success')
+                    res.status(200).send(result)
                     return;
                     } else {
                         // shut that shit down if the auth keys do not match

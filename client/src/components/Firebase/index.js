@@ -46,6 +46,13 @@ class SignIn extends Component {
         // Send API call to evaluate:
         API.login(userData)
           .then(res => {
+
+            // store user ID found in the database
+            let userID = res.data[0]._id
+
+            // store user ID in session storage
+            sessionStorage.setItem('userID', userID)
+
             // If status 200, user exists and is good to go
             if (res.status === 200) {
               this.props.parent.setState({ redirectDashboard: true });
@@ -60,9 +67,6 @@ class SignIn extends Component {
             }
           })
           .catch(err => console.log(err));
-
-        // this.props.history.push('/dashboard');
-        // return false
       }
     }
   };
