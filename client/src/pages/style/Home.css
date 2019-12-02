@@ -2,3 +2,7 @@
     width: 75%;
     margin: 15%;
 }
+
+#no-events-msg {
+  font-size: 28px;
+}

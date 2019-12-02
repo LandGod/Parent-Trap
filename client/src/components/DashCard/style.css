@@ -9,7 +9,7 @@ button {
 
 #show-more {
   float: right;
-  background-color: #d6d6d6;
+  /* background-color: #d6d6d6; */
 }
 
 .fa-calendar-alt {
@@ -22,4 +22,8 @@ button {
 
 .first-dashcard h3 {
   font-weight: 900;
+}
+
+.date-card-div {
+  box-shadow: 3px 6px 6px #888888;
 }
