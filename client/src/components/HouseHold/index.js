@@ -182,8 +182,7 @@ class HouseHold extends Component {
   render() {
     // If redirect is set to true, redirect to dashboard, else render component
     if (this.state.redirect) {
-      // return <Redirect to="/dashboard" />;
-      console.log("This would be the redirect");
+      return <Redirect to="/dashboard" />;
     }
 
     return (

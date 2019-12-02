@@ -64,8 +64,8 @@ router
   .post(function(req, res){
     
     // Validation
-    if ( !req.body ) {res.status(400).send('No Body!')};
-    if ( !req.body.name ) {res.status(400).send('No household name!')}
+    if ( !req.body ) {res.status(400).send('No Body!'); return};
+    if ( !req.body.name ) {res.status(400).send('No household name!'); return}
 
     householdController.create(req.body.name)
     .then((result) => {
@@ -81,9 +81,9 @@ router
   .put(function(req, res){
 
     // Validate
-    if (!req.body) {res.status(400).send('Request had no body!')};
-    if (!req.body.householdId) {res.status(400).send('No household id!')};
-    if (!req.body.idsArray || req.body.idsArray.lenght < 1) {res.status(400).send('Array of member ids was empty or undefined!')};
+    if (!req.body) {res.status(400).send('Request had no body!'); return};
+    if (!req.body.householdId) {res.status(400).send('No household id!'); return};
+    if (!req.body.idsArray || req.body.idsArray.lenght < 1) {res.status(400).send('Array of member ids was empty or undefined!'); return};
 
     householdController.addMembers(req.body.householdId, req.body.idsArray)
     .then((results) => {
