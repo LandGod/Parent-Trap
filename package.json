@@ -24,20 +24,7 @@
     "firebase": "^7.4.0",
     "firebaseui": "^4.3.0",
     "if-env": "^1.0.4",
-<<<<<<< HEAD
     "mongoose": "^5.7.11",
     "react-pose": "^4.0.10"
   }
-=======
-    "mongoose": "^5.7.11"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/LandGod/Parent-Trap.git"
-  },
-  "bugs": {
-    "url": "https://github.com/LandGod/Parent-Trap/issues"
-  },
-  "homepage": "https://github.com/LandGod/Parent-Trap#readme"
->>>>>>> 905de944119e3380655c94379764c737b8177c55
 }
