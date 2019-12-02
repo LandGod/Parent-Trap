@@ -87,6 +87,41 @@ router
             })
     });
     
+// resolves as /api/member/:id    
+router
+  .route("/:id")
+  .get(function(req, res) {
+    // Validate req params
+    if (!req.params) {
+      res.status(400).send("Request object has no parameters!");
+      return;
+    }
 
+    // Get member id & assert that it is not undefined 
+    let memberId = req.params.id;
+    console.log(`Events.js ServerSide memberId is:  ${memberId}`)
+    if (!memberId) {
+      res.status(400).send("No memberId");
+      return;
+    }
+
+    // Cast to mongoose ObjectId
+    memberId = mongoose.Types.ObjectId(memberId);
+
+    // Send parsed and validated request data to event controller
+    memberController
+    .findById(memberId)
+
+    // Resolve request with results from db operation
+    .then(function(result) {
+      // console.log(JSON.stringify(result));
+      res.status(200).json(result);
+    })
+    .catch(function(err) {
+      res.status(500).send(err);
+    }); 
+});
+  
+  
 
 module.exports = router;

@@ -29,6 +29,20 @@ module.exports = {
     });
   },
 
+  // find user by id
+  findById: function(memberId) {
+    return new Promise(function(resolve, reject) {
+      db.Member.find({ _id: memberId })
+        .then(results => {
+          resolve(results);
+        })
+        .catch(err => {
+          console.log("catch error message for findById");
+          reject(err);
+        });
+    });
+  },
+
   // update current user
   updateUser: function(id, userData) {
     console.log(id, userData);

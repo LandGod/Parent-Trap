@@ -34,7 +34,11 @@ class Dashboard extends Component {
     //events: eventData
     events: [],
     householdId: "5dd726706ddba45e5d59db35", // carey-moriary household
-    userId: "5dd596ae8813384487dca853",  // kyra's id
+    userId: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    //userId: "5dd596ae8813384487dca853",  // kyra's id
     //userId: "5dd58d43d5592c419101a05f", // rory's id
     //userId: "5dd596cf8813384487dca855", // sean's id
     //userId: "5dd596bf8813384487dca854", // myles's id
@@ -97,6 +101,38 @@ class Dashboard extends Component {
 
   // When the component mounts, get a list of all events
   componentDidMount() {
+      // get the userId from session storage & householdId also (soon)
+      var userData = {
+          userId: sessionStorage.getItem("userID"),
+          firstName: sessionStorage.getItem("firstName"),
+          lastName: sessionStorage.getItem("lastName"),
+          email: sessionStorage.getItem("email")
+          // ,householdId: sessionStorage.getItem("householdId")
+        };
+       console.log(`User Id from Session Storage: ${userData.userId}`) 
+       this.setState({userId: userData.userId}); 
+      //  this.setState({householdId: userData.householdId}); 
+       this.setState({email: userData.email}); 
+
+       // get the user so we can have the first and last name (not the email first/last)
+       API.getMember(userData.userId)
+       .then(res => {
+         //console.log(`Member Lookup: ${res.data[0].firstName}`)
+         // capture the user account first & last names
+         this.setState({firstName: res.data[0].firstName}); 
+         this.setState({lastName: res.data[0].lastName}); 
+       })
+       .catch(err => console.log(err));
+
+       // get the household so we can have the household name on Nav Bar
+       API.getHousehold(this.state.householdId)
+       .then(res => {
+         //console.log(`Member Lookup: ${res.data[0].firstName}`)
+         // capture the user account first & last names
+         this.setState({householdName: res.data[0].name}); 
+       })
+       .catch(err => console.log(err));
+
        //get the raw parameters submitted. eg. this will be "?view=assigned"
        let queryStringParams = this.props.location.search;
        //get only the "view=[something] part" by matching it with a regex
@@ -114,7 +150,7 @@ class Dashboard extends Component {
          if(viewParam === 'myevents'){
            //API call for assigned events
            const type = "current-user"
-           API.getHouseholdEvents(this.state.householdId,this.state.userId,type)
+           API.getHouseholdEvents(this.state.householdId,userData.userId,type)
               .then(res => {
                 // reformat response data if empty into empty array
                 if (res.data[0].hasOwnProperty("events")) {
@@ -127,7 +163,7 @@ class Dashboard extends Component {
          }else if(viewParam === 'unassigned'){
            //API call for unclaimed events
            const type = "unassigned";
-           API.getHouseholdEvents(this.state.householdId,this.state.userId,type)
+           API.getHouseholdEvents(this.state.householdId,userData.userId,type)
               .then(res => {
                 // reformat response data if empty into empty array
                 if (res.data[0].hasOwnProperty("events")) {
@@ -141,7 +177,7 @@ class Dashboard extends Component {
            //something that doesn't make sense. Default Dashboard.
            const type = "all";
            this.setState({viewType: ""});
-           API.getHouseholdEvents(this.state.householdId,this.state.userId,type)
+           API.getHouseholdEvents(this.state.householdId,userData.userId,type)
               .then(res => {
                 // reformat response data if empty into empty array
                 if (res.data[0].hasOwnProperty("events")) {
@@ -157,7 +193,7 @@ class Dashboard extends Component {
         //  console.log("No parameter. Default dashboard.");
          this.setState({viewType: viewParam});
          const type = "all";
-         API.getHouseholdEvents(this.state.householdId,this.state.userId,type)
+         API.getHouseholdEvents(this.state.householdId,userData.userId,type)
             .then(res => {
                 // reformat response data if empty into empty array
                 if (res.data[0].hasOwnProperty("events")) {
@@ -213,8 +249,9 @@ class Dashboard extends Component {
         .then(res => console.log(res))
         .catch(err => console.log(err)); 
     } else {
-      newEvents[dateIndex].events[itemIndex].assigned = 'current user';  // name
-      newEvents[dateIndex].events[itemIndex].assigned_id = 'current userId';  // member id
+      console.log(`State of Member: ${this.state.firstName} ${this.state.lastName} ${this.state.userId}`);
+      newEvents[dateIndex].events[itemIndex].assigned = this.state.firstName // 'current user';  // name
+      newEvents[dateIndex].events[itemIndex].assigned_id = this.state.userId // 'current userId';  // member id
       newEvents[dateIndex].events[itemIndex].assignedStatus = 'claimed';  // assigned status
       // console.log(`event: ${newEvents[dateIndex].events[itemIndex].title} 
       //              event id: ${newEvents[dateIndex].events[itemIndex].event_id} 
@@ -224,7 +261,8 @@ class Dashboard extends Component {
       const id = newEvents[dateIndex].events[itemIndex].event_id;
 
       // update database to add assignee and set event assigned status to claimed
-      const eventData = {assignee: this.state.memberId, assignedStatus: "claimed"}
+      // const eventData = {assignee: this.state.memberId, assignedStatus: "claimed"}
+      const eventData = {assignee: this.state.userId, assignedStatus: "claimed"}
       API.updateEvent(id,eventData)
       .then(res => console.log(res))
       .catch(err => console.log(err))

@@ -59,4 +59,39 @@ router
       });
   });
 
+// resolves as /api/household/:id    
+router
+.route("/:id")
+.get(function(req, res) {
+  // Validate req params
+  if (!req.params) {
+    res.status(400).send("Request object has no parameters!");
+    return;
+  }
+
+  // Get household id & assert that it is not undefined 
+  let householdId = req.params.id;
+  console.log(`Events.js ServerSide householdId is:  ${householdId}`)
+  if (!householdId) {
+    res.status(400).send("No householdId");
+    return;
+  }
+
+  // Cast to mongoose ObjectId
+  householdId = mongoose.Types.ObjectId(householdId);
+
+  // Send parsed and validated request data to event controller
+  householdController
+  .findByHouseHoldId(householdId)
+
+  // Resolve request with results from db operation
+  .then(function(result) {
+    // console.log(JSON.stringify(result));
+    res.status(200).json(result);
+  })
+  .catch(function(err) {
+    res.status(500).send(err);
+  }); 
+});
+
 module.exports = router;

@@ -33,6 +33,14 @@ export default {
     return axios.put('/api/event/' + id, eventData );
   },
 
+  getMember: function(id) {
+    return axios.get('/api/member/' + id);
+  },
+
+  getHousehold: function(id) {
+    return axios.get('/api/household/' + id);
+  },
+
   // addInvitee: function(id,eventData) {
   //   return axios.put('/api/event/assign/' + id, eventData );
   // },
