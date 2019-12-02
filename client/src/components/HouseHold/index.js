@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import MemberFormRow from "./MemberFormRow";
 import { getLocalUserInfo } from "../utilityFunctions";
-import { upsertMembers } from "../../utils/API";
+import API from "../../utils/API";
 import "./style.css";
 
 /* 
@@ -111,19 +111,20 @@ class HouseHold extends Component {
       //TODO: Write api call for creating household (and user)
       console.log("Sending data to api call");
 
-      upsertMembers({members: this.state.members})
-      .then(function(results) {
-        console.log(results)
-      })
-      .catch(function(err){
-        console.log(err)
-      });
-
+      API.upsertMembers({ members: this.state.members })
+        .then(results => {
+          console.log('res')
+          console.log(results);
+        })
+        .catch(function(err) {
+          console.log('err')
+          console.log(err);
+        });
     }
     // If updating and existing household:
     else {
       //TODO: Write api call for udating household
-      console.log('Update functionality not yet implemented!')
+      console.log("Update functionality not yet implemented!");
     }
   };
 

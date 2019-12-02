@@ -33,6 +33,10 @@ export default {
     return axios.put('/api/event/' + id, eventData );
   },
 
+  upsertMembers: function(data) {
+    return axios.put('/api/member/update-many', data);
+  }
+
   // addInvitee: function(id,eventData) {
   //   return axios.put('/api/event/assign/' + id, eventData );
   // },
@@ -40,9 +44,5 @@ export default {
   // removeInvitee: function(id,eventData) {
   //   return axios.put('/api/event/unassign/' + id, eventData );
   // }
-
-  upsertMembers: function(data) {
-    return axios.put('/api/update-many', data);
-  }
 
 };

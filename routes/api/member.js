@@ -90,8 +90,16 @@ router
 router
     .route("/update-many")
     .put(function(req, res){
+
+        console.log('update-many route hit!')
+
+        // Check for valid data payload
+        if (!req.body) {res.status(400).send('No body!')}
+        if (!req.body.members || req.body.members.length < 1) {res.status(400).send('Request contained 0 members!')}
+
         memberController.createMany(req.body.members)
         .then((results) => {
+            console.log(results)
             res.status(200).json(results);
         })
         .catch((err) => {

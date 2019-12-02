@@ -48,7 +48,6 @@ module.exports = {
   createMany: function(membersArray) {
     // Return the rest of the function's actions as a promise to make it thenable
     return new Promise(function(resolve, reject) {
-
       // Track which user is given which index during bulk write (so we know which results corespond to which users)
       let userOrder = [];
 
@@ -87,7 +86,7 @@ module.exports = {
         }
 
         // Add user object to userOrder array for tracking purposes
-        userOrder.push(upsertQuery.updateOne.update)
+        userOrder.push(upsertQuery.updateOne.update);
 
         // Add constructed query to array
         bulkOps.push(upsertQuery);
@@ -127,27 +126,26 @@ module.exports = {
 
           // If entries were upserted, return the entire object, as inserted into DB (ie: show us the objId + what we already had)
           if (results.result.upserted.length > 0) {
-
             report.newIds = [];
 
             results.result.upserted.forEach(function(item, index) {
-
-              let objIndex = item.index
-              let corespondingUser = userOrder[objIndex]
+              let objIndex = item.index;
+              let corespondingUser = userOrder[objIndex];
 
               report.newIds[objIndex] = {
                 _id: item._id || corespondingUser._id,
-                userOauthKey: item.userOauthKey || corespondingUser.userOauthKey || null,
+                userOauthKey:
+                  item.userOauthKey || corespondingUser.userOauthKey || null,
                 firstName: corespondingUser.firstName,
                 lastName: corespondingUser.lastName,
-                email: corespondingUser.email
-              }
-
-            })
+                email: corespondingUser.email,
+                status: item.status || corespondingUser.status
+              };
+            });
           }
 
           // Report total number of entries upserted, matched, errored
-          report.added = results.result.nUpserted || 0; 
+          report.added = results.result.nUpserted || 0;
           report.alreadyExisted = results.result.nMatched;
           report.errors = results.result.writeErrors;
 
@@ -155,6 +153,7 @@ module.exports = {
           report.rawResults = results.result;
 
           // Resolve result with generated report
+          console.log("Resolving in controller. --> Sending report.");
           resolve(report);
         })
         // Handle errors
