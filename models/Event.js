@@ -73,7 +73,11 @@ var EventSchema = new mongoose.Schema({
     // Note (Text)
     note: {
         type: String
-    }
+    },
+    household: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Household'
+    },
 
 });
 

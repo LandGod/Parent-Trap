@@ -6,13 +6,19 @@ const mongoose = require("mongoose"); // For working with mongoose Date and Obje
 
 // helper function time formatter
 function formatAMPM(date) {
+  // console.log(`start is: ${date}`)
   var hours = date.getHours();
   var minutes = date.getMinutes();
   var ampm = hours >= 12 ? 'pm' : 'am';
+  // console.log(`hours: ${hours}`);
+  // console.log(`minutes: ${minutes}`);
   hours = hours % 12;
   hours = hours ? hours : 12; // the hour '0' should be '12'
   minutes = minutes < 10 ? '0'+minutes : minutes;
+  // console.log(`hours: ${hours}`);
+  // console.log(`minutes: ${minutes}`);
   var strTime = hours + ':' + minutes + ' ' + ampm;
+  // console.log(`strTrime: ${strTime}`);
   return strTime;
 }
 
@@ -52,7 +58,12 @@ transformEvents = result => {
   let eventCount = 1;
   const daysOfWeek = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
   result[0].events.map((event,i) => {
-    var newEventStartDate = (`${daysOfWeek[event.startTime.getDay()]} ${event.startTime.getMonth()}/${event.startTime.getDate()}/${event.startTime.getFullYear()}`);
+    // console.log(`starTime: ${event.startTime}`);
+    // console.log(`Day ${event.startTime.getDay()}`);
+    // console.log(`Month ${event.startTime.getMonth()}`);
+    // console.log(`Date ${event.startTime.getDate()}`);
+    // console.log(`Year ${event.startTime.getFullYear()}`);
+    var newEventStartDate = (`${daysOfWeek[event.startTime.getDay()]} ${event.startTime.getMonth() + 1}/${event.startTime.getDate()}/${event.startTime.getFullYear()}`);
     if (i === 0) {  // need to create first object
       currentDateEvents = {date: newEventStartDate};
       currentStartDate = newEventStartDate;

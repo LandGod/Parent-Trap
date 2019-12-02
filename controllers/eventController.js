@@ -138,7 +138,11 @@ module.exports = {
   createEvent: function(req, res) {
     let houseHoldId = req.body.houseHoldId;
     //delete the householdId from the body because it doesn't need to be in the event document
-    delete req.body.houseHoldId;
+    //delete req.body.houseHoldId;
+    // var id = mongoose.Types.ObjectId(req.body.creator);
+    // req.body.creator = id;
+    req.body.assignedStatus = "unassigned";
+    console.log(`create event body: ${JSON.stringify(req.body)}`)
     db.Event.create(req.body)
       .then(dbEvent => res.json(dbEvent))
       .catch(err => res.status(422).json(err));

@@ -74,7 +74,7 @@ class Dashboard extends Component {
     this.modalRef.current.setState({modalType: 'NewEventTable'}, () => {
       this.modalRef.current.toggleModal();
     });
-    // console.log(`you clicked the add event button`);
+    console.log(`you clicked the add event button`);
   }
 
 
@@ -90,7 +90,8 @@ class Dashboard extends Component {
 
   getHouseholdId = () => {
     // hardcoded test household id: 
-    return "5de1fc3109b4d51e97760778";
+    //return "5de1fc3109b4d51e97760778";
+    return "5dd726706ddba45e5d59db35";  // moriart carey household id
     //return localStorage.getItem('householdId');
   }
 
