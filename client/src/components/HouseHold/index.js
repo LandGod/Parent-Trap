@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import MemberFormRow from "./MemberFormRow";
 import { getLocalUserInfo } from "../utilityFunctions";
 import API from "../../utils/API";
+import { Redirect } from "react-router-dom";
 import "./style.css";
 
 /* 
@@ -44,10 +45,12 @@ import "./style.css";
 class HouseHold extends Component {
   state = {
     householdName: this.props.householdName || "",
-    members: this.props.members
+    members: this.props.members,
+    redirect: false
   };
 
   isCurrentUser = (id, mem) => {
+    // NOTE: For the purposes of this function, 'id' referes to the OauthId, not the mongoose objectId
     // Compare supplied id to id of currently logged in user
     // For debug purposes this function will return true for a set value
 
@@ -118,20 +121,34 @@ class HouseHold extends Component {
           this.setState({ householdId: results1.data._id });
           // Also add it to session storage
           sessionStorage.setItem("householdId", results1.data._id);
+
+          // Continue operation with this then to avoid race condition if householdId isn't returned fast enough
+          // Add or update members in database and include household Id
+          API.upsertMembers({
+            members: this.state.members,
+            householdId: results1.data._id
+          })
+            .then(results2 => {
+              // On success, look through results for current user and pull out ObjectId to add to session storage
+              results2.data.newIds.forEach(member => {
+                if (
+                  member.userOauthKey &&
+                  this.isCurrentUser(member.userOauthKey)
+                ) {
+                  sessionStorage.setItem("userID", member._id);
+                }
+              });
+
+              // Redirect to dashboard
+              this.setState({ redirect: true });
+            })
+            .catch(function(err) {
+              console.log("error with create many members operation");
+              console.log(err);
+            });
         })
         .catch(err => {
-          console.log("ERROR");
-          console.log(err);
-        });
-
-      // Add or update members in database and include household Id
-      API.upsertMembers({ members: this.state.members, householdId: results1.data._id })
-        .then(results2 => {
-
-
-        })
-        .catch(function(err) {
-          console.log("err");
+          console.log("ERROR with create household operation");
           console.log(err);
         });
     }
@@ -143,6 +160,11 @@ class HouseHold extends Component {
   };
 
   render() {
+    // If redirect is set to true, redirect to dashboard, else render component
+    if (this.state.redirect) {
+      return <Redirect to="/dashboard" />;
+    }
+
     return (
       <div>
         <form>
