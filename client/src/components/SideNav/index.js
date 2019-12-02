@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import * as firebase from "firebase";
 import "./style.css";
 
 class SideNav extends Component {
@@ -15,6 +16,20 @@ class SideNav extends Component {
     this.setState({ navWidth: { width: "0" }, open: false });
   };
 
+  handleLogout = () => {
+
+    // clear session storage
+    sessionStorage.clear();
+
+    // logout of firebase
+    firebase.auth().signOut().then(function() {
+      console.log('signout succesful');
+    }, function(err) {
+      console.log(err);
+    }
+    
+    )}
+
   render() {
     return (
       <div id="mySidenav" className="sidenav" style={this.state.navWidth}>
@@ -26,8 +41,8 @@ class SideNav extends Component {
         <button> <a href='/dashboard?view=myevents'>My Events</a> </button>
         <button> <a href='/dashboard?view=unassigned'>Unassigned Events</a> </button>
         <div id="accountDivider">Account</div>
-        <button> <a href="/">Edit Household</a></button>
-        <button> <a href="/">Logout</a></button>
+        <button> <a href="/">Edit Household</a> </button>
+        <button onClick={this.handleLogout}> <a href="/">Logout</a> </button>
       </div>
     );
   }
