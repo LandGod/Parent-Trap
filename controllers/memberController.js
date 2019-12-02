@@ -66,7 +66,8 @@ module.exports = {
             update: {
               firstName: memberObj.firstName,
               lastName: memberObj.lastName,
-              email: memberObj.email
+              email: memberObj.email,
+              userOauthKey: memberObj.userOauthKey || null
             },
             // Create if not found and return updated document
             upsert: true,
@@ -122,16 +123,21 @@ module.exports = {
           */
 
           // Create custom results report from raw mongoose results
-          let report = {newIds: []};
+          let report = {};
 
-          if (results.upserted.length > 0) {
-            results.upserted.forEach(function(item, index) {
+          // If entries were upserted, return the entire object, as inserted into DB (ie: show us the objId + what we already had)
+          if (results.result.upserted.length > 0) {
+
+            report.newIds = [];
+
+            results.result.upserted.forEach(function(item, index) {
 
               let objIndex = item.index
               let corespondingUser = userOrder[objIndex]
 
               report.newIds[objIndex] = {
-                _id: item._id,
+                _id: item._id || corespondingUser._id,
+                userOauthKey: item.userOauthKey || corespondingUser.userOauthKey || null,
                 firstName: corespondingUser.firstName,
                 lastName: corespondingUser.lastName,
                 email: corespondingUser.email
@@ -140,14 +146,18 @@ module.exports = {
             })
           }
 
+          // Report total number of entries upserted, matched, errored
+          report.added = results.result.nUpserted || 0; 
+          report.alreadyExisted = results.result.nMatched;
+          report.errors = results.result.writeErrors;
 
+          // Attach raw results object as well, just in case we ever need that info
+          report.rawResults = results.result;
 
-          console.log("**************************");
-          console.log("It worked???");
-          console.log(results);
-
+          // Resolve result with generated report
           resolve(report);
         })
+        // Handle errors
         .catch(err => {
           console.log("*****ERRR*****");
           console.log(err);
