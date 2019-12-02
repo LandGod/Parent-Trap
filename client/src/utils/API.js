@@ -40,6 +40,10 @@ export default {
 
   createHousehold: function(body) {
     return axios.post('/api/household/create', body);
+  },
+
+  addHouseholdMembers: function(body) {
+    return axios.post('/api/household/add-members', body);
   }
 
   // addInvitee: function(id,eventData) {
