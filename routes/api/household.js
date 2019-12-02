@@ -59,4 +59,22 @@ router
       });
   });
 
+  // POST: /api/household/create
+  router.route('/create')
+  .post(function(req, res){
+    
+    // Validation
+    if ( !req.body ) {res.status(400).send('No Body!')};
+    if ( !req.body.name ) {res.status(400).send('No household name!')}
+
+    householdController.create(req.body.name)
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((err) => {
+      res.status(500).send(err)
+    })
+
+  })
+
 module.exports = router;
