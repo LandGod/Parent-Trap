@@ -117,9 +117,9 @@ class HouseHold extends Component {
       // Create household in database
       API.createHousehold({ name: this.state.householdName })
         .then(results1 => {
-          console.log('Results recieved from createHousehold!')
-          console.log(results1)
-          console.log('---------------------------')
+          console.log("Results recieved from createHousehold!");
+          console.log(results1);
+          console.log("---------------------------");
           // Add newly created household id to state
           this.setState({ householdId: results1.data._id });
           // Also add it to session storage
@@ -132,18 +132,34 @@ class HouseHold extends Component {
             householdId: results1.data._id
           })
             .then(results2 => {
-              // On success, look through results for current user and pull out ObjectId to add to session storage
+              // Create list of ids to add to household document
+              let idsArray = [];
+
+              // On success, look through results
               results2.data.newIds.forEach(member => {
+                // If is current user, add that objectId to session storage
                 if (
                   member.userOauthKey &&
                   this.isCurrentUser(member.userOauthKey)
                 ) {
                   sessionStorage.setItem("userID", member._id);
                 }
+
+                // Add all user ids to an array for update to household members list
+                idsArray.push(member._id);
               });
 
-              // Redirect to dashboard
-              this.setState({ redirect: true });
+              // Update household with user ids
+              API.addHouseholdMembers({
+                householdId: results1.data._id,
+                idsArray: idsArray
+              }).then(result3 => {
+                // Redirect to dashboard
+                this.setState({ redirect: true });
+              })
+              .catch((err) => {
+                console.log(err);
+              })
             })
             .catch(function(err) {
               console.log("error with create many members operation");
@@ -166,7 +182,7 @@ class HouseHold extends Component {
     // If redirect is set to true, redirect to dashboard, else render component
     if (this.state.redirect) {
       // return <Redirect to="/dashboard" />;
-      console.log('This would be the redirect')
+      console.log("This would be the redirect");
     }
 
     return (
