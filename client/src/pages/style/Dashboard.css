@@ -1,7 +1,13 @@
 .fa-plus-circle{filter:drop-shadow(2px 3px 3px #5f5f5f)}
 
 .no-events-msg {
-    font-size: 28px;
+    font-size: 18px;
+    background-color: #ecf0f1;
+    margin-top: 10%;
+    margin-bottom: 3%;
+    text-align: center;
+    padding: 2%;
+    border-radius: 15px;
 } 
 
 a {
