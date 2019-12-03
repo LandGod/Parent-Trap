@@ -6,6 +6,7 @@ import Button from "../components/Button";
 import EventLine from "../components/EventLine";
 import SideNav from "../components/SideNav";
 import TopNav from "../components/TopNav";
+import UtilFunc from "../components/utilityFunctions";
 import ModalCardBody from "../components/Modal/modalBody"
 import "./style/Dashboard.css";
 
@@ -101,6 +102,9 @@ class Dashboard extends Component {
 
   // When the component mounts, get a list of all events
   componentDidMount() {
+      // get user info from session storage
+      var userInfo = UtilFunc.getLocalUserInfo();
+      console.log(`userInfo: ${JSON.stringify(userInfo)}`);
       // get the userId from session storage & householdId also (soon)
       var userData = {
           userId: sessionStorage.getItem("userID"),
@@ -127,7 +131,7 @@ class Dashboard extends Component {
        // get the household so we can have the household name on Nav Bar
        API.getHousehold(this.state.householdId)
        .then(res => {
-         //console.log(`Member Lookup: ${res.data[0].firstName}`)
+         console.log(`Member Lookup: ${res.data[0].firstName}`)
          // capture the user account first & last names
          this.setState({householdName: res.data[0].name}); 
        })
@@ -437,7 +441,10 @@ class Dashboard extends Component {
                       }
                     </div>) 
                   })
-                  : <p id="no-events-msg">No Events</p>
+                  : <div className="no-events-msg">
+                    <h3>Welcome back 😄 </h3>
+                    <p>It looks like there aren't any events for this house! To add a new event, click the '+' sign below.</p>
+                    </div>
                 }
                 <div>
                     <Button
