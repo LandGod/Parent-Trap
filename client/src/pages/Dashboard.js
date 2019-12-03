@@ -254,6 +254,50 @@ class Dashboard extends Component {
       newEvents[dateIndex].events[itemIndex].assigned = this.state.firstName // 'current user';  // name
       newEvents[dateIndex].events[itemIndex].assigned_id = this.state.userId // 'current userId';  // member id
       newEvents[dateIndex].events[itemIndex].assignedStatus = 'claimed';  // assigned status
+
+      // capture id before possible splice
+      const id = newEvents[dateIndex].events[itemIndex].event_id;
+
+      if (this.state.viewType === "unassigned") {
+        // console.log(`assigning an event on the Unassigned view`)
+
+        newEvents[dateIndex].events.map((event,idx) => { 
+          console.log(`row: ${idx} ${event.showhideclass}  ${event.title} `)
+        });
+
+        // splice out the event from state
+        newEvents[dateIndex].events.splice(itemIndex,1);
+
+        // if there are >= 4 rows left & 4th row is hidden then show it to make up
+        // for the removal of a row before it
+        console.log(`length: ${newEvents[dateIndex].events.length}`);
+        
+        // if last event was spliced out then splic out the date itself
+        if (newEvents[dateIndex].events.length === 0) {
+          newEvents.splice(dateIndex,1);
+        } else if (newEvents[dateIndex].events.length >= 3 && 
+          newEvents[dateIndex].events[2].showhideclass === 'hide-event') {
+            newEvents[dateIndex].events[2].showhideclass = 'show-event'
+          };
+
+        // // if last event was spliced out then slice the date itself
+        // if (newEvents[dateIndex].events.length === 0) {
+        //     newEvents.splice(dateIndex,1);
+        // };  
+
+        // // otherwise if 3 or more events left - make sure 3 or more are shown
+        // if (newEvents[dateIndex].events.length >= 3 && 
+        //     newEvents[dateIndex].events[2].showhideclass === 'hide-event') {
+        //       newEvents[dateIndex].events[2].showhideclass = 'show-event'
+        //     };
+
+        // newEvents[dateIndex].events.map((event,idx) => { 
+        //   console.log(`row: ${idx} ${event.showhideclass}  ${event.title} `)
+        // });    
+        //const newShowHideClass = (toggleAction === 'show') ? 'show-event' : 'hide-event';
+        //
+      } 
+
       // console.log(`event: ${newEvents[dateIndex].events[itemIndex].title} 
       //              event id: ${newEvents[dateIndex].events[itemIndex].event_id} 
       //              user: ${newEvents[dateIndex].events[itemIndex].assigned}
@@ -267,7 +311,7 @@ class Dashboard extends Component {
       // } 
 
       this.setState({events: newEvents});
-      const id = newEvents[dateIndex].events[itemIndex].event_id;
+      // const id = newEvents[dateIndex].events[itemIndex].event_id;
 
       // update database to add assignee and set event assigned status to claimed
       // const eventData = {assignee: this.state.memberId, assignedStatus: "claimed"}
@@ -348,7 +392,7 @@ class Dashboard extends Component {
                       icon="fa fa-calendar-alt"
                       title={eventDate.date}
                       id={(eventDate.events.length > 3) ? "show-more" : undefined }
-                      showmoreIcon={(eventDate.events.length > 3) ? "fas fa-angle-double-down fa-lg" : undefined }
+                      showmoreIcon={(eventDate.events.length > 3) ? "fas fa-angle-double-down fa-lg" : "" }
                       events={eventDate.events}
                       eventDate={eventDate.date}
                       firstdashcard={(i === 0) ? "first-dashcard" : ""}
