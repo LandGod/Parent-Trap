@@ -49,8 +49,17 @@ class SignIn extends Component {
             // If status 200, user exists and is good to go
             if (res.status === 200) {
               // grab user ID and household ID found in the database
-              let userID = res.data[0]._id;
-              let householdID = res.data[0].households[0]; // Grabs only the first household a user belongs to becuse MVP
+              // Predefine let variables to avoid scope problems
+              let userID;
+              let householdID
+              // Based on whether or not res.data reurns an array, or a single results, extract data
+              if (res.data[0]) {
+                userID = res.data[0]._id;
+                householdID = res.data[0].households[0]; // Grabs only the first household a user belongs to becuse MVP
+              } else {
+                userID = res.data._id;
+                householdID = res.data.households[0]; // Grabs only the first household a user belongs to becuse MVP
+              }
 
               // store user ID and household ID in session storage
               sessionStorage.setItem("userID", userID);
