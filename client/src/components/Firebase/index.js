@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Container, Row, Col } from "../Grid";
 import * as firebase from "firebase";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import API from "../../utils/API";
@@ -73,12 +74,16 @@ class SignIn extends Component {
   render() {
 
     return (
-      <div>
-        <StyledFirebaseAuth
-          uiConfig={this.uiConfig}
-          firebaseAuth={firebase.auth()}
-        />
-      </div>
+      <Container>
+          <Row>
+            <Col size="md-12">
+              <StyledFirebaseAuth
+                uiConfig={this.uiConfig}
+                firebaseAuth={firebase.auth()}
+              />
+          </Col>
+          </Row>
+      </Container>
     );
   }
 }

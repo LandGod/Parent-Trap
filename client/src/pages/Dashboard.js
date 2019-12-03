@@ -343,7 +343,10 @@ class Dashboard extends Component {
                       }
                     </div>) 
                   })
-                  : <p id="no-events-msg">No Events</p>
+                  : <div className="no-events-msg">
+                    <h3>Welcome back 😄 </h3>
+                    <p>It looks like there aren't any events for this house! To add a new event, click the '+' sign below.</p>
+                    </div>
                 }
                 <div>
                     <Button
