@@ -7,7 +7,6 @@ import LoginText from "../components/LoginText";
 
 class Home extends Component {
   state = {
-    loginText: true,
     redirectDashboard: false, // Set this to true to redirect to dashboard
     redirectSignUp: false, // Set this to true to redirect to signup flow
   };
@@ -27,7 +26,7 @@ class Home extends Component {
       <Container>
           <Row>
             <Col size="md-12">
-              { this.state.loginText ? <LoginText /> : null }
+              <LoginText />
             </Col>
           </Row>
           <Row>
