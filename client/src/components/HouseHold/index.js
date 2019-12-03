@@ -49,9 +49,8 @@ class HouseHold extends Component {
     redirect: false
   };
 
-  isCurrentUser = (id, mem) => {
-    // NOTE: For the purposes of this function, 'id' referes to the OauthId, not the mongoose objectId
-    // Compare supplied id to id of currently logged in user
+  isCurrentUser = (oauthKey) => {
+    // Compare supplied oauthKey to oauthKey of currently logged in user
     // For debug purposes this function will return true for a set value
 
     let currentUser = getLocalUserInfo();
@@ -61,7 +60,7 @@ class HouseHold extends Component {
       let notLoggedIn = new Error("No user data in session storage.");
       throw notLoggedIn;
     }
-    if (id === currentUser.id) {
+    if (oauthKey === currentUser.oauthKey) {
       return true;
     }
     return false;
