@@ -32,19 +32,30 @@
 h5 {
     padding: 0px;
     margin-top: 5%;
+    text-align: center;
+    font-weight: bold;
 }
 
 #householdNameInput {
-    margin-bottom: 8%;
-    margin-left: 5%;
+    margin-bottom: 6%;
+    margin-left: 11%;
     width: 79%;
+    background-color: white;
+    -moz-box-shadow: 3px 3px 5px 6px #ccc;
+    -webkit-box-shadow: 3px 3px 5px 6px #ccc;
+    box-shadow: 3px 3px 5px 6px #ccc;
+    border-radius: 15px;
     
 }
 
 .member-card {
-    border: 1px solid black;
+    background-color: white;
+    -moz-box-shadow: 3px 3px 5px 6px #ccc;
+    -webkit-box-shadow: 3px 3px 5px 6px #ccc;
+    box-shadow: 3px 3px 5px 6px #ccc;
+    border-radius: 15px;
     margin-top: 3%;
-    padding: 1% 2% 1% 2%;
+    padding: 2% 2% 1% 2%;
 }
 
 .firstName {
@@ -57,4 +68,19 @@ h5 {
     width: 49%;
 }
 
+.buttons {
+    float: right;
+}
 
+#housebuttons {
+    margin-top: 5%;
+}
+
+#createbutton {
+    display: block;
+}
+
+#cancelbutton {
+    display: inline-block;
+    margin-left: 5%;
+}

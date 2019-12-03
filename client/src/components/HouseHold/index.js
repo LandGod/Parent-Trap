@@ -3,6 +3,7 @@ import { Container, Row, Col } from "../Grid/index.js";
 import MemberFormRow from "./MemberFormRow";
 import { getLocalUserInfo } from "../utilityFunctions";
 import API from "../../utils/API";
+import * as firebase from "firebase";
 import { Redirect } from "react-router-dom";
 import "./style.css";
 
@@ -172,6 +173,20 @@ class HouseHold extends Component {
     }
   };
 
+  handleCancel = () => {
+
+    // clear session storage
+    sessionStorage.clear();
+
+
+    // logout of firebase
+    firebase.auth().signOut().then(function() {
+      console.log('signout succesful');
+    }, function(err) {
+      console.log(err);
+    });
+  }
+
   render() {
     // If redirect is set to true, redirect to dashboard, else render component
     if (this.state.redirect) {
@@ -196,7 +211,7 @@ class HouseHold extends Component {
           <Row>
             <Col size="md-12">
               <div className="form-group">
-                <h5>Enter a Household Name:</h5>
+                <h5>Enter your house name</h5>
               </div>
             </Col>
           </Row>
@@ -218,7 +233,7 @@ class HouseHold extends Component {
           {/* Member input */}
           <Row>
             <Col size="md-12">
-              <h5>Add/Edit Members </h5>
+              <h5>Add/Edit members </h5>
             </Col>
           </Row>
 
@@ -256,10 +271,23 @@ class HouseHold extends Component {
           {/* Form Submit Button */}
           <Row>
             <Col size="md-12">
-              <button className="btn btn-primary" onClick={this.submitHouseForm}>
-                {this.props.createMode ? "Create" : "Update"}
-              </button>
-          </Col>
+            <div id="housebuttons">
+              <Row>
+                <Col size="md-12">
+                  <button className="btn btn-success" id="createbutton" onClick={this.submitHouseForm}>
+                    {this.props.createMode ? "Create" : "Update"}
+                  </button>
+                </Col>
+              </Row>
+              <Row>
+                <Col size="md-4">
+                  <button className="btn btn-danger" id="cancelbutton" onClick={this.handleCancel}>
+                    Cancel
+                  </button>
+                </Col>
+              </Row>
+            </div>
+            </Col>
           </Row>
         </form>
         </Col>

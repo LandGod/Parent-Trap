@@ -126,8 +126,9 @@ class MemberFormRow extends React.Component {
               {/* Button Row */}
               <Row>
                 <Col size="md-12">
+                <div className="buttons">
                   <button
-                className="btn btn-sm btn-circle btn-danger mr-1"
+                className="btn btn-sm btn-dark mr-1"
                 onClick={event => {
                   this.props.removeSelf(event, this.props.indexInState);
                 }}
@@ -137,13 +138,14 @@ class MemberFormRow extends React.Component {
                 <i className="fas fa-minus"></i>
               </button>
               <button
-                className="btn btn-sm btn-circle btn-success"
+                className="btn btn-sm btn-dark"
                 onClick={this.props.addNext}
                 hidden={!this.state.showAddButton}
                 disabled={!this.props.addNext}
               >
                 <i className="fas fa-plus"></i>
               </button>
+              </div>
                 </Col>
               </Row>
             </div>
