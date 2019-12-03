@@ -31,7 +31,7 @@ module.exports = {
   // update current user
   updateUser: function(id, userData) {
     return new Promise(function(resolve, reject) {
-      db.Member.update({ _id: id }, userData)
+      db.Member.findOneAndUpdate({ _id: id }, userData, {new: true})
         .then(results => {
           resolve(results);
         })
