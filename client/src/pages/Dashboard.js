@@ -34,7 +34,8 @@ class Dashboard extends Component {
     householdName: "No current household", // HouseholdName defaults to an error and should be updated when loading other household info
     //events: eventData
     events: [],
-    householdId: "5dd726706ddba45e5d59db35", // carey-moriary household
+    //householdId: "5dd726706ddba45e5d59db35", // carey-moriary household
+    householdId: "",
     userId: "",
     firstName: "",
     lastName: "",
@@ -44,7 +45,7 @@ class Dashboard extends Component {
     //userId: "5dd596cf8813384487dca855", // sean's id
     //userId: "5dd596bf8813384487dca854", // myles's id
     //userId:  "0dd596ae8813384487dca000",  // invalid user id test
-    memberId: '5dd596bf8813384487dca854', // assigner's id (Myles)
+    // memberId: '5dd596bf8813384487dca854', // assigner's id (Myles)
     viewType: "" // page view type
     // events: eventData,
   };
@@ -106,22 +107,31 @@ class Dashboard extends Component {
       var userInfo = UtilFunc.getLocalUserInfo();
       console.log(`userInfo: ${JSON.stringify(userInfo)}`);
       // get the userId from session storage & householdId also (soon)
-      var userData = {
-          userId: sessionStorage.getItem("userID"),
-          firstName: sessionStorage.getItem("firstName"),
-          lastName: sessionStorage.getItem("lastName"),
-          email: sessionStorage.getItem("email")
-          // ,householdId: sessionStorage.getItem("householdId")
-        };
-       console.log(`User Id from Session Storage: ${userData.userId}`) 
-       this.setState({userId: userData.userId}); 
-      //  this.setState({householdId: userData.householdId}); 
-       this.setState({email: userData.email}); 
+      // var userData = {
+      //     userId: sessionStorage.getItem("userID"),
+      //     firstName: sessionStorage.getItem("firstName"),
+      //     lastName: sessionStorage.getItem("lastName"),
+      //     email: sessionStorage.getItem("email")
+      //     // ,householdId: sessionStorage.getItem("householdId")
+      //   };
+      //  console.log(`User Id from Session Storage: ${userData.userId}`) 
+      //  this.setState({userId: userData.userId}); 
+      // //  this.setState({householdId: userData.householdId}); 
+      //  this.setState({email: userData.email}); 
+
+       console.log(`User Id from Session Storage: ${userInfo.memberId}`);
+       console.log(`Household Id from Session Storage: ${userInfo.currentHouseholdId}`)  
+       this.setState({userId: userInfo.memberId}); 
+       this.setState({householdId: userInfo.currentHouseholdId}); 
+
+      // console.log(`stateUser: ${this.state.userId} stateHouse: ${this.state.householdId}`);
+      //  this.setState({email: userData.email}); 
 
        // get the user so we can have the first and last name (not the email first/last)
-       API.getMember(userData.userId)
+//       API.getMember(userData.userId)
+       API.getMember(userInfo.memberId)
        .then(res => {
-         //console.log(`Member Lookup: ${res.data[0].firstName}`)
+         console.log(`Member Lookup: ${res.data[0].firstName}`)
          // capture the user account first & last names
          this.setState({firstName: res.data[0].firstName}); 
          this.setState({lastName: res.data[0].lastName}); 
@@ -129,7 +139,7 @@ class Dashboard extends Component {
        .catch(err => console.log(err));
 
        // get the household so we can have the household name on Nav Bar
-       API.getHousehold(this.state.householdId)
+       API.getHousehold(userInfo.currentHouseholdId)
        .then(res => {
          console.log(`Member Lookup: ${res.data[0].firstName}`)
          // capture the user account first & last names
@@ -154,7 +164,8 @@ class Dashboard extends Component {
          if(viewParam === 'myevents'){
            //API call for assigned events
            const type = "current-user"
-           API.getHouseholdEvents(this.state.householdId,userData.userId,type)
+//           API.getHouseholdEvents(this.state.householdId,userData.userId,type)
+           API.getHouseholdEvents(userInfo.currentHouseholdId,userInfo.memberId,type)
               .then(res => {
                 // reformat response data if empty into empty array
                 if (res.data[0].hasOwnProperty("events")) {
@@ -167,7 +178,8 @@ class Dashboard extends Component {
          }else if(viewParam === 'unassigned'){
            //API call for unclaimed events
            const type = "unassigned";
-           API.getHouseholdEvents(this.state.householdId,userData.userId,type)
+//           API.getHouseholdEvents(this.state.householdId,userData.userId,type)
+           API.getHouseholdEvents(userInfo.currentHouseholdId,userInfo.memberId,type)
               .then(res => {
                 // reformat response data if empty into empty array
                 if (res.data[0].hasOwnProperty("events")) {
@@ -181,7 +193,8 @@ class Dashboard extends Component {
            //something that doesn't make sense. Default Dashboard.
            const type = "all";
            this.setState({viewType: "all"});
-           API.getHouseholdEvents(this.state.householdId,userData.userId,type)
+//           API.getHouseholdEvents(this.state.householdId,userData.userId,type)
+           API.getHouseholdEvents(userInfo.currentHouseholdId,userInfo.memberId,type)
               .then(res => {
                 // reformat response data if empty into empty array
                 if (res.data[0].hasOwnProperty("events")) {
@@ -197,7 +210,8 @@ class Dashboard extends Component {
         //  console.log("No parameter. Default dashboard.");
          this.setState({viewType: "all"});
          const type = "all";
-         API.getHouseholdEvents(this.state.householdId,userData.userId,type)
+//         API.getHouseholdEvents(this.state.householdId,userData.userId,type)
+         API.getHouseholdEvents(userInfo.currentHouseholdId,userInfo.memberId,type)
             .then(res => {
                 // reformat response data if empty into empty array
                 if (res.data[0].hasOwnProperty("events")) {
