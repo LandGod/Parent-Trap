@@ -53,14 +53,14 @@ router.route("/login").put(function(req, res) {
       } else {
         // if auth key does not exist but the email exists then add the auth key to the database
         memberController
-          .updateUser(result[0]._id, {
-            userOauthKey: req.body.id,
-            status: "full"
-          })
+          .updateUser(
+            result[0]._id,
+            {
+              userOauthKey: req.body.id,
+              status: "full"
+            })
           .then(function(result2) {
-            res
-              .status(200)
-              .send("auth key successfully added to existing user");
+            res.status(200).json(result2);
             return;
           })
           .catch(function(err) {
@@ -76,7 +76,6 @@ router.route("/login").put(function(req, res) {
 });
 
 router.route("/update-many").put(function(req, res) {
-
   // Check for valid data payload
   if (!req.body) {
     res.status(400).send("No body!");
