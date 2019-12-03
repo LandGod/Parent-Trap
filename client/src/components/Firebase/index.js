@@ -6,7 +6,6 @@ import API from "../../utils/API";
 import "../../pages/style/Home.css";
 
 class SignIn extends Component {
-
   // This is our firebaseui configuration object
   uiConfig = {
     signInFlow: "redirect",
@@ -47,14 +46,14 @@ class SignIn extends Component {
         API.login(userData)
           .then(res => {
 
-            // store user ID found in the database
-            let userID = res.data[0]._id
-
-            // store user ID in session storage
-            sessionStorage.setItem('userID', userID)
-
             // If status 200, user exists and is good to go
             if (res.status === 200) {
+              // store user ID found in the database
+              let userID = res.data[0]._id;
+
+              // store user ID in session storage
+              sessionStorage.setItem("userID", userID);
+
               this.props.parent.setState({ redirectDashboard: true });
             }
             // If status 204, user does not exist, send to signup flow
@@ -63,7 +62,7 @@ class SignIn extends Component {
             }
             // If neither of those is true, something is broken
             else {
-              console.log('Invalid statis recieved from res:', res.status);
+              console.log("Invalid status recieved from res:", res.status);
             }
           })
           .catch(err => console.log(err));
@@ -72,17 +71,16 @@ class SignIn extends Component {
   };
 
   render() {
-
     return (
       <Container>
-          <Row>
-            <Col size="md-12">
-              <StyledFirebaseAuth
-                uiConfig={this.uiConfig}
-                firebaseAuth={firebase.auth()}
-              />
+        <Row>
+          <Col size="md-12">
+            <StyledFirebaseAuth
+              uiConfig={this.uiConfig}
+              firebaseAuth={firebase.auth()}
+            />
           </Col>
-          </Row>
+        </Row>
       </Container>
     );
   }
