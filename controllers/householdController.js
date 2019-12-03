@@ -102,10 +102,10 @@ module.exports = {
           resolve(results);
         })
         .catch(err => {
-          console.log("catch error message for findByHouseHoldId");
+          //console.log("catch error message for findByHouseHoldId");
           reject(err);
         });
     });
   }
 
-  }
+}

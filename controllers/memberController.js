@@ -36,7 +36,7 @@ module.exports = {
           resolve(results);
         })
         .catch(err => {
-          console.log("catch error message for findById");
+          //console.log("catch error message for findById");
           reject(err);
         });
     });
@@ -50,7 +50,7 @@ module.exports = {
           resolve(results);
         })
         .catch(err => {
-          console.log("catch error message for UpdateUser");
+          //console.log("catch error message for UpdateUser");
           reject(err);
         });
     });

@@ -43,7 +43,6 @@ class DashCard extends Component {
           <h3>
             <i className={this.props.icon} 
                 aria-hidden="true" /> {this.props.title}
-            {/* <Button id={this.props.id} icon={this.props.showmoreIcon} clickEvent={this.clickShowMoreLessEvent}title=""></Button> */}
             <Button id={this.props.id} icon={this.state.showmoreIcon} clickEvent={this.clickShowMoreLessEvent}title=""></Button>
           </h3>
         </div>

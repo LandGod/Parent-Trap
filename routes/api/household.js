@@ -71,7 +71,7 @@ router
 
   // Get household id & assert that it is not undefined 
   let householdId = req.params.id;
-  console.log(`Events.js ServerSide householdId is:  ${householdId}`)
+  //console.log(`household.js ServerSide householdId is:  ${householdId}`)
   if (!householdId) {
     res.status(400).send("No householdId");
     return;
@@ -93,6 +93,7 @@ router
     res.status(500).send(err);
   }); 
 });
+
   // POST: /api/household/create
   router.route('/create')
   .post(function(req, res){
@@ -111,6 +112,7 @@ router
 
   })
 
+  // Put: /api/household/add-members
   router.route('/add-members')
   .put(function(req, res){
 

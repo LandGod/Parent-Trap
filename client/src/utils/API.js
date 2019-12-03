@@ -5,7 +5,7 @@ export default {
 
   // Gets all events for household
   getHouseholdEvents: function(householdId,userId,type) {
-    console.log(`HouseholdId: ${householdId} userid: ${userId} type: ${type}`)
+    //console.log(`HouseholdId: ${householdId} userid: ${userId} type: ${type}`)
     switch (type) {
       case "all": 
         return axios.get(`/api/event/all/${householdId}`);

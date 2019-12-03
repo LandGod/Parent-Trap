@@ -2,6 +2,7 @@ const router = require("express").Router();
 const memberController = require("../../controllers/memberController");
 const mongoose = require("mongoose"); // For working with mongoose Date and ObjectId objects
 
+// resolves at /api/member/all
 router
   .route("/all")
   // GET all members
@@ -23,6 +24,7 @@ router
       });
   });
 
+// resolves at /api/member/login
 router.route("/login").put(function(req, res) {
   memberController
     .findByEmail(req.body.email)
@@ -75,6 +77,7 @@ router.route("/login").put(function(req, res) {
     });
 });
 
+// resolves at /api/member/update-many
 router.route("/update-many").put(function(req, res) {
   // Check for valid data payload
   if (!req.body) {
@@ -107,7 +110,7 @@ router
 
     // Get member id & assert that it is not undefined 
     let memberId = req.params.id;
-    console.log(`Events.js ServerSide memberId is:  ${memberId}`)
+    //console.log(`member.js ServerSide memberId is:  ${memberId}`)
     if (!memberId) {
       res.status(400).send("No memberId");
       return;
