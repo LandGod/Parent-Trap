@@ -23,3 +23,38 @@
             font-size: 12px; 
             text-align: center; 
         }
+
+#signupTitle {
+    color: white;
+    padding: 5% 0% 5% 0%;
+}
+
+h5 {
+    padding: 0px;
+    margin-top: 5%;
+}
+
+#householdNameInput {
+    margin-bottom: 8%;
+    margin-left: 5%;
+    width: 79%;
+    
+}
+
+.member-card {
+    border: 1px solid black;
+    margin-top: 3%;
+    padding: 1% 2% 1% 2%;
+}
+
+.firstName {
+    position: absolute;
+    width: 42%;
+}
+
+.lastName {
+    float: right;
+    width: 49%;
+}
+
+

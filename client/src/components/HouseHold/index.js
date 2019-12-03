@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Container, Row, Col } from "../Grid/index.js";
 import MemberFormRow from "./MemberFormRow";
 import { getLocalUserInfo } from "../utilityFunctions";
 import API from "../../utils/API";
@@ -178,52 +179,53 @@ class HouseHold extends Component {
     }
 
     return (
-      <div>
+        <Row>
+          <Col size="md-12">
         <form>
           {/* Title */}
-          <div className="row justify-content-center">
-            <div className="col-md-4">
-              <h2 className="text-center">
-                {this.props.createMode ? "Create" : "Edit"} Household
-              </h2>
-            </div>
-          </div>
+          <Row>
+            <Col size="md-12">
+              <div className="greenBackground justify-content-center" id="signupTitle">
+                <h3 className="text-center">
+                  {this.props.createMode ? "Create " : "Edit "} Household
+                </h3>
+              </div>
+            </Col>
+          </Row>
           {/* Household Name Input */}
-          <div className="form-group row justify-content-center">
-            <label
-              htmlFor="householdNameInput"
-              className="col-sm-2 col-form-label"
-            >
-              <h5>Household Name:</h5>
-            </label>
-            <div className="col-sm-4">
-              <input
-                type="text"
-                className="form-control"
-                id="householdNameInput"
-                placeholder="Smith"
-                onChange={this.handleChangeHouseholdName}
-                value={this.state.householdName}
-              />
-            </div>
-          </div>
+          <Row>
+            <Col size="md-12">
+              <div className="form-group">
+                <h5>Enter a Household Name:</h5>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col size="md-12">
+              <div>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="householdNameInput"
+                  placeholder="Smith"
+                  onChange={this.handleChangeHouseholdName}
+                  value={this.state.householdName}
+                />
+              </div>
+            </Col>
+          </Row>
+
           {/* Member input */}
-          <div className="row">
-            <h3>Add/Edit Members </h3>
-          </div>
-          {/* Column Headers */}
-          <div className="row">
-            <div className="col-md-3">
-              <h5>First Name</h5>
-            </div>
-            <div className="col-md-3">
-              <h5>Last Name</h5>
-            </div>
-            <div className="col-md-4">
-              <h5>Email</h5>
-            </div>
-          </div>
-          {this.state.members.map((member, i) => {
+          <Row>
+            <Col size="md-12">
+              <h5>Add/Edit Members </h5>
+            </Col>
+          </Row>
+
+          {/* Member cards */}
+          <Row>
+            <Col size="md-12">
+            {this.state.members.map((member, i) => {
             // If we've set the deleted key in the member object that coresponds to this component to 'true', don't render it
             if (!member.deleted) {
               return (
@@ -248,12 +250,20 @@ class HouseHold extends Component {
               );
             }
           })}
+            </Col>
+          </Row>
+          
           {/* Form Submit Button */}
-          <button className="btn btn-primary" onClick={this.submitHouseForm}>
-            {this.props.createMode ? "Create" : "Update"}
-          </button>
+          <Row>
+            <Col size="md-12">
+              <button className="btn btn-primary" onClick={this.submitHouseForm}>
+                {this.props.createMode ? "Create" : "Update"}
+              </button>
+          </Col>
+          </Row>
         </form>
-      </div>
+        </Col>
+        </Row>
     );
   }
 }

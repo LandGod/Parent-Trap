@@ -1,20 +1,20 @@
 import React from "react";
-import "./style.css";
+import "../../pages/style/Signup.css";
 
 function TopNav(props) {
   return (
     <div>
 
       {/* Bootstrap navbar */}
-      <nav className="navbar navbar-light bg-light">
+      <nav className="navbar greenBackground">
           
         {/* Hamburger menue button which activates popout side-nav */}
-        <button className="btn btn-secondary" onClick={props.slideOut}>
+        <button className="btn" onClick={props.slideOut}>
           {/* Font awesome hamburger/bars menue icon */}
-          <i className="fas fa-bars"></i>
+          <i className="fas fa-bars whiteFont"></i>
         </button>
 
-        <span className="navbar-brand mb-0 h1">{props.householdName}</span>
+        <span className="navbar-brand mb-0 h1 whiteFont">{props.householdName}</span>
 
         {/* This blank span keeps title centered with current row justifcation settings */}
         <span> </span>
