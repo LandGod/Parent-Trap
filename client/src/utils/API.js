@@ -1,4 +1,5 @@
 import axios from "axios";
+import { func } from "prop-types";
 
 export default {
 
@@ -32,6 +33,18 @@ export default {
   updateEvent: function(id,eventData) {
     return axios.put('/api/event/' + id, eventData );
   },
+
+  upsertMembers: function(data) {
+    return axios.put('/api/member/update-many', data);
+  },
+
+  createHousehold: function(body) {
+    return axios.post('/api/household/create', body);
+  },
+
+  addHouseholdMembers: function(body) {
+    return axios.put('/api/household/add-members', body);
+  }
 
   // addInvitee: function(id,eventData) {
   //   return axios.put('/api/event/assign/' + id, eventData );
