@@ -36,12 +36,12 @@ class SideNav extends Component {
         <button className="closebtn" onClick={this.closeNav}>
           &times; {/* X symbol html code */}
         </button>
-        <div id="filterDivider">Filters</div>
+        <div id="filterDivider">FILTERS</div>
         <button> <a href='/dashboard'>All Household Events</a> </button>
         <button> <a href='/dashboard?view=myevents'>My Events</a> </button>
         <button> <a href='/dashboard?view=assigned'>Assigned To Me</a> </button>
         <button> <a href='/dashboard?view=unassigned'>Unassigned Events</a> </button>
-        <div id="accountDivider">Account</div>
+        <div id="accountDivider">ACCOUNT</div>
         <button> <a href="/">Edit Household</a> </button>
         <button onClick={this.handleLogout}> <a href="/">Logout</a> </button>
       </div>

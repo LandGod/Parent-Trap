@@ -23,3 +23,76 @@
             font-size: 12px; 
             text-align: center; 
         }
+
+#signupTitle {
+    color: white;
+    width: 100%;
+    padding: 6% 0% 5% 0%;
+    background-color: #2E7580;
+    -moz-box-shadow: 0px 2px 5px 2px #ccc;
+    -webkit-box-shadow: 0px 2px 5px 2px #ccc;
+    box-shadow: 0px 2px 5px 2px #ccc;
+}
+
+h5 {
+    padding: 0px;
+    margin-top: 5%;
+    text-align: center;
+    font-weight: bold;
+}
+
+#householdNameInput {
+    margin-bottom: 3%;
+    margin-left: 11%;
+    width: 79%;
+    background-color: white;
+    -moz-box-shadow: 0px 2px 5px 2px #ccc;
+    -webkit-box-shadow: 0px 2px 5px 2px #ccc;
+    box-shadow: 0px 2px 5px 2px #ccc;
+    border-radius: 15px;
+    
+}
+
+.member-card {
+    background-color: white;
+    -moz-box-shadow: 0px 2px 5px 2px #ccc;
+    -webkit-box-shadow: 0px 2px 5px 2px #ccc;
+    box-shadow: 0px 2px 5px 2px #ccc;
+    border-radius: 15px;
+    margin-top: 3%;
+    padding: 2% 2% 1% 2%;
+}
+
+.firstName {
+    position: absolute;
+    width: 42%;
+    background-color: white;
+}
+
+.lastName {
+    float: right;
+    width: 49%;
+}
+
+.buttons {
+    float: right;
+    margin-right: 2%;
+    margin-bottom: 1%;
+}
+
+#housebuttons {
+    margin: 3% 5% 5% 13%;
+    width: 100%;
+    float: clear;
+}
+
+#createbutton {
+    padding: 10px 40px 10px 40px;
+    border-radius: 30px;
+}
+
+#cancelbutton {
+    margin-left: 10%;
+    padding: 10px 40px 10px 40px;
+    border-radius: 30px;
+}

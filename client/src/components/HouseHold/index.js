@@ -1,7 +1,9 @@
 import React, { Component } from "react";
+import { Container, Row, Col } from "../Grid/index.js";
 import MemberFormRow from "./MemberFormRow";
 import { getLocalUserInfo } from "../utilityFunctions";
 import API from "../../utils/API";
+import * as firebase from "firebase";
 import { Redirect } from "react-router-dom";
 import "./style.css";
 
@@ -46,7 +48,8 @@ class HouseHold extends Component {
   state = {
     householdName: this.props.householdName || "",
     members: this.props.members,
-    redirect: false
+    redirectToDashboard: false,
+    redirectToHomepage: false
   };
 
   isCurrentUser = (oauthKey) => {
@@ -148,7 +151,7 @@ class HouseHold extends Component {
                 idsArray: idsArray
               }).then(result3 => {
                 // Redirect to dashboard
-                this.setState({ redirect: true });
+                this.setState({ redirectToDashboard: true });
               })
               .catch((err) => {
                 console.log(err);
@@ -171,59 +174,84 @@ class HouseHold extends Component {
     }
   };
 
+  handleCancel = event => {
+    event.preventDefault();
+    console.log('hit handleCancel')
+
+    // clear session storage
+    sessionStorage.clear();
+    console.log('hit handleCancel')
+
+
+    // logout of firebase
+    firebase.auth().signOut().then(() => {
+      console.log('signout successful');
+      // redirect to homepage
+      this.setState({ redirectToHomepage: true });
+    }, function(err) {
+      console.log(err);
+    });
+  }
+
   render() {
     // If redirect is set to true, redirect to dashboard, else render component
-    if (this.state.redirect) {
+    if (this.state.redirectToDashboard) {
       return <Redirect to="/dashboard" />;
     }
 
+    // If redirect is set to true, redirect to homepage
+    if (this.state.redirectToHomepage) {
+      return <Redirect to="/" />;
+    }
+
     return (
-      <div>
+        <Row>
+          <Col size="md-12">
         <form>
           {/* Title */}
-          <div className="row justify-content-center">
-            <div className="col-md-4">
-              <h2 className="text-center">
-                {this.props.createMode ? "Create" : "Edit"} Household
-              </h2>
+          <Row>
+            <div className="justify-content-center" id="signupTitle">
+              <Col size="md-12">
+                <h4 className="text-center">
+                  {this.props.createMode ? "Create " : "Edit "} Household
+                </h4>
+              </Col>
             </div>
-          </div>
+          </Row>
           {/* Household Name Input */}
-          <div className="form-group row justify-content-center">
-            <label
-              htmlFor="householdNameInput"
-              className="col-sm-2 col-form-label"
-            >
-              <h5>Household Name:</h5>
-            </label>
-            <div className="col-sm-4">
-              <input
-                type="text"
-                className="form-control"
-                id="householdNameInput"
-                placeholder="Smith"
-                onChange={this.handleChangeHouseholdName}
-                value={this.state.householdName}
-              />
-            </div>
-          </div>
+          <Row>
+            <Col size="md-12">
+              <div className="form-group">
+                <h5>Enter a House Name</h5>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col size="md-12">
+              <div>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="householdNameInput"
+                  placeholder="Smith"
+                  onChange={this.handleChangeHouseholdName}
+                  value={this.state.householdName}
+                />
+              </div>
+            </Col>
+          </Row>
+
           {/* Member input */}
-          <div className="row">
-            <h3>Add/Edit Members </h3>
-          </div>
-          {/* Column Headers */}
-          <div className="row">
-            <div className="col-md-3">
-              <h5>First Name</h5>
-            </div>
-            <div className="col-md-3">
-              <h5>Last Name</h5>
-            </div>
-            <div className="col-md-4">
-              <h5>Email</h5>
-            </div>
-          </div>
-          {this.state.members.map((member, i) => {
+          <Row>
+            <Col size="md-12">
+              <h5>Add/Edit Members </h5>
+            </Col>
+          </Row>
+
+          {/* Member cards */}
+          <Row>
+            <Col size="md-12">
+            {this.state.members.map((member, i) => {
             // If we've set the deleted key in the member object that coresponds to this component to 'true', don't render it
             if (!member.deleted) {
               return (
@@ -248,12 +276,27 @@ class HouseHold extends Component {
               );
             }
           })}
-          {/* Form Submit Button */}
-          <button className="btn btn-primary" onClick={this.submitHouseForm}>
-            {this.props.createMode ? "Create" : "Update"}
-          </button>
-        </form>
-      </div>
+            </Col>
+          </Row>
+          
+          
+          {/* Form Buttons */}
+          <Row>
+            <div id="housebuttons">
+              <Col size="md-12">
+                  <button className="btn btn-success" id="createbutton" onClick={this.submitHouseForm}>
+                    {this.props.createMode ? "Create" : "Update"}
+                  </button>
+                <button className="btn btn-danger" id="cancelbutton" onClick={this.handleCancel}>
+                  Cancel
+                </button>
+              </Col>
+              </div>
+          </Row> 
+
+          </form>
+        </Col>
+      </Row>
     );
   }
 }

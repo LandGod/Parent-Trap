@@ -451,7 +451,7 @@ class Dashboard extends Component {
                 <div>
                     <Button
                       id="add-event"
-                      icon="fas fa-plus-circle fa-3x"
+                      icon="fas fa-plus-circle fa-3x "
                       clickEvent={this.clickAddEvent}
                     ></Button>
                   </div>
