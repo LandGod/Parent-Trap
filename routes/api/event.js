@@ -197,7 +197,7 @@ router
     // Get household id & assert that it is not undefined 
     let householdId = req.params.id;
     // let householdId = "5dd726706ddba45e5d59db35";
-    console.log(`Events.js ServerSide householdId is:  ${householdId}`)
+    // console.log(`Events.js ServerSide householdId is:  ${householdId}`)
     if (!householdId) {
       res.status(400).send("No householdId");
       return;
@@ -206,7 +206,7 @@ router
     // Get user id & assert that it is not undefined 
     let userId = req.params.userid;
     // let householdId = "5dd726706ddba45e5d59db35";
-    console.log(`Events.js ServerSide userId is:  ${userId}`)
+    // console.log(`Events.js ServerSide userId is:  ${userId}`)
     if (!userId) {
       res.status(400).send("No userId");
       return;
@@ -242,6 +242,11 @@ router
     .route("/:id")
     .put(eventController.update);
 
+  router.route("/")
+  .post(eventController.createEvent);
+
+  // commented out for now - needed if 
+  // invitees sub-document is coded for use.
   // // Matches with "/api/event/unassign"
   // router
   // .route("/unassign/:id")
@@ -251,7 +256,6 @@ router
   // router
   // .route("/assign/:id")
   // .put(eventController.addAssigned);
-  router.route("/")
-  .post(eventController.createEvent);
+
 
 module.exports = router;

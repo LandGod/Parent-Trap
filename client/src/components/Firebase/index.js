@@ -45,7 +45,7 @@ class SignIn extends Component {
         // Send API call to evaluate:
         API.login(userData)
           .then(res => {
-
+            // console.log(`res.data: ${JSON.stringify(res.data)}`)
             // If status 200, user exists and is good to go
             if (res.status === 200) {
               // grab user ID and household ID found in the database

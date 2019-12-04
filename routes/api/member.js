@@ -2,6 +2,7 @@ const router = require("express").Router();
 const memberController = require("../../controllers/memberController");
 const mongoose = require("mongoose"); // For working with mongoose Date and ObjectId objects
 
+// resolves at /api/member/all
 router
   .route("/all")
   // GET all members
@@ -23,6 +24,7 @@ router
       });
   });
 
+// resolves at /api/member/login
 router.route("/login").put(function(req, res) {
   memberController
     .findByEmail(req.body.email)
@@ -75,6 +77,7 @@ router.route("/login").put(function(req, res) {
     });
 });
 
+// resolves at /api/member/update-many
 router.route("/update-many").put(function(req, res) {
   // Check for valid data payload
   if (!req.body) {
@@ -92,6 +95,44 @@ router.route("/update-many").put(function(req, res) {
     .catch(err => {
       res.status(500).send(err);
     });
+
+  });
+    
+// resolves as /api/member/byId/:id    
+router
+  .route("/byId/:id")
+  .get(function(req, res) {
+    // Validate req params
+    if (!req.params) {
+      res.status(400).send("Request object has no parameters!");
+      return;
+    }
+
+    // Get member id & assert that it is not undefined 
+    let memberId = req.params.id;
+    //console.log(`member.js ServerSide memberId is:  ${memberId}`)
+    if (!memberId) {
+      res.status(400).send("No memberId");
+      return;
+    }
+
+    // Cast to mongoose ObjectId
+    memberId = mongoose.Types.ObjectId(memberId);
+
+    // Send parsed and validated request data to event controller
+    memberController
+    .findById(memberId)
+
+    // Resolve request with results from db operation
+    .then(function(result) {
+      // console.log(JSON.stringify(result));
+      res.status(200).json(result);
+    })
+    .catch(function(err) {
+      res.status(500).send(err);
+    }); 
 });
+  
+  
 
 module.exports = router;
