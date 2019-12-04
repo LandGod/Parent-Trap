@@ -59,9 +59,9 @@ router
       });
   });
 
-// resolves as /api/household/:id    
+// resolves as /api/household/byId/:id    
 router
-.route("/:id")
+.route("/byId/:id")
 .get(function(req, res) {
   // Validate req params
   if (!req.params) {

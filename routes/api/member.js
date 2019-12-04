@@ -98,9 +98,9 @@ router.route("/update-many").put(function(req, res) {
 
   });
     
-// resolves as /api/member/:id    
+// resolves as /api/member/byId/:id    
 router
-  .route("/:id")
+  .route("/byId/:id")
   .get(function(req, res) {
     // Validate req params
     if (!req.params) {

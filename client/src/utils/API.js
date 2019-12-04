@@ -35,11 +35,11 @@ export default {
   },
 
   getMember: function(id) {
-    return axios.get('/api/member/' + id);
+    return axios.get('/api/member/byId/' + id);
   },
 
   getHousehold: function(id) {
-    return axios.get('/api/household/' + id);
+    return axios.get('/api/household/byId/' + id);
   },
 
   upsertMembers: function(data) {
