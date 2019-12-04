@@ -168,10 +168,10 @@ module.exports = {
         .then((results) => {
           res.status(200).json(dbEvent)
         })
-        // .catch((err) => res.status(500).send(err));
-        // res.json(dbEvent);
+        .catch((err) => res.status(500).send(err));
+          res.json(dbEvent);
       })
-      // .catch(err => res.status(500).json(err));
+        .catch(err => res.status(500).json(err));
   },
   updateEvent: function(req, res) {
     console.error(req.params.id);

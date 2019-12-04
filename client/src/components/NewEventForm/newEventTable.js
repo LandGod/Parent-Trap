@@ -229,7 +229,7 @@ export class NewEventTable extends Component {
         });
 
             this.props.modalClose()
-            window.location.reload(true)
+            window.location.reload(false)
         }
 
 
