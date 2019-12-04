@@ -39,7 +39,7 @@ class SideNav extends Component {
         <div id="filterDivider">Filters</div>
         <button> <a href='/dashboard'>All Household Events</a> </button>
         <button> <a href='/dashboard?view=myevents'>My Events</a> </button>
-        <button> <a href='/dashboard?view=assigned'>Events Assigned To Me</a> </button>
+        <button> <a href='/dashboard?view=assigned'>Assigned To Me</a> </button>
         <button> <a href='/dashboard?view=unassigned'>Unassigned Events</a> </button>
         <div id="accountDivider">Account</div>
         <button> <a href="/">Edit Household</a> </button>
