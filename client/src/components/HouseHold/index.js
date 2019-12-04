@@ -48,7 +48,8 @@ class HouseHold extends Component {
   state = {
     householdName: this.props.householdName || "",
     members: this.props.members,
-    redirect: false
+    redirectToDashboard: false,
+    redirectToHomepage: false
   };
 
   isCurrentUser = (oauthKey) => {
@@ -150,7 +151,7 @@ class HouseHold extends Component {
                 idsArray: idsArray
               }).then(result3 => {
                 // Redirect to dashboard
-                this.setState({ redirect: true });
+                this.setState({ redirectToDashboard: true });
               })
               .catch((err) => {
                 console.log(err);
@@ -173,8 +174,8 @@ class HouseHold extends Component {
     }
   };
 
-  handleCancel = (e) => {
-    e.preventDefault();
+  handleCancel = event => {
+    event.preventDefault();
     console.log('hit handleCancel')
 
     // clear session storage
@@ -183,9 +184,10 @@ class HouseHold extends Component {
 
 
     // logout of firebase
-    firebase.auth().signOut().then(function() {
+    firebase.auth().signOut().then(() => {
       console.log('signout successful');
-      return <Redirect to="/home" />
+      // redirect to homepage
+      this.setState({ redirectToHomepage: true });
     }, function(err) {
       console.log(err);
     });
@@ -193,8 +195,13 @@ class HouseHold extends Component {
 
   render() {
     // If redirect is set to true, redirect to dashboard, else render component
-    if (this.state.redirect) {
+    if (this.state.redirectToDashboard) {
       return <Redirect to="/dashboard" />;
+    }
+
+    // If redirect is set to true, redirect to homepage
+    if (this.state.redirectToHomepage) {
+      return <Redirect to="/" />;
     }
 
     return (
