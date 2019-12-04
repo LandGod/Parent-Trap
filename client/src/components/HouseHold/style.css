@@ -26,7 +26,8 @@
 
 #signupTitle {
     color: white;
-    padding: 5% 0% 5% 0%;
+    width: 100%;
+    padding: 6% 0% 5% 0%;
 }
 
 h5 {
@@ -37,7 +38,7 @@ h5 {
 }
 
 #householdNameInput {
-    margin-bottom: 6%;
+    margin-bottom: 3%;
     margin-left: 11%;
     width: 79%;
     background-color: white;
@@ -70,17 +71,23 @@ h5 {
 
 .buttons {
     float: right;
+    margin-right: 2%;
+    margin-bottom: 1%;
 }
 
 #housebuttons {
-    margin-top: 5%;
+    margin: 3% 5% 5% 13%;
+    width: 100%;
+    float: clear;
 }
 
 #createbutton {
-    display: block;
+    padding: 10px 40px 10px 40px;
+    border-radius: 30px;
 }
 
 #cancelbutton {
-    display: inline-block;
-    margin-left: 5%;
+    margin-left: 10%;
+    padding: 10px 40px 10px 40px;
+    border-radius: 30px;
 }

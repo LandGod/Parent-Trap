@@ -109,7 +109,7 @@ class MemberFormRow extends React.Component {
               {/* Email row */}
               <Row>
                 <Col size="md-12">
-                  <div className="form-group">
+                  <div className="form-group email">
                     <label>Email:</label>
                     <input
                       type="email"

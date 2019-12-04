@@ -199,13 +199,13 @@ class HouseHold extends Component {
         <form>
           {/* Title */}
           <Row>
-            <Col size="md-12">
-              <div className="greenBackground justify-content-center" id="signupTitle">
-                <h3 className="text-center">
+            <div className="greenBackground justify-content-center" id="signupTitle">
+              <Col size="md-12">
+                <h4 className="text-center">
                   {this.props.createMode ? "Create " : "Edit "} Household
-                </h3>
-              </div>
-            </Col>
+                </h4>
+              </Col>
+            </div>
           </Row>
           {/* Household Name Input */}
           <Row>
@@ -268,30 +268,24 @@ class HouseHold extends Component {
             </Col>
           </Row>
           
+          
           {/* Form Submit Button */}
           <Row>
-            <Col size="md-12">
             <div id="housebuttons">
-              <Row>
-                <Col size="md-12">
+              <Col size="md-12">
                   <button className="btn btn-success" id="createbutton" onClick={this.submitHouseForm}>
                     {this.props.createMode ? "Create" : "Update"}
                   </button>
-                </Col>
-              </Row>
-              <Row>
-                <Col size="md-4">
-                  <button className="btn btn-danger" id="cancelbutton" onClick={this.handleCancel}>
-                    Cancel
-                  </button>
-                </Col>
-              </Row>
-            </div>
-            </Col>
-          </Row>
-        </form>
+                <button className="btn btn-danger" id="cancelbutton" onClick={this.handleCancel}>
+                  Cancel
+                </button>
+              </Col>
+              </div>
+          </Row> 
+
+          </form>
         </Col>
-        </Row>
+      </Row>
     );
   }
 }

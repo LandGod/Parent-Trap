@@ -1,5 +1,7 @@
 body {
     background: #f0f2f0;
+    margin: 0;
+    height: auto;
 }
 
 .greenBackground {
