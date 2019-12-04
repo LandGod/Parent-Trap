@@ -42,18 +42,18 @@ h5 {
     margin-left: 11%;
     width: 79%;
     background-color: white;
-    -moz-box-shadow: 3px 3px 5px 6px #ccc;
-    -webkit-box-shadow: 3px 3px 5px 6px #ccc;
-    box-shadow: 3px 3px 5px 6px #ccc;
+    -moz-box-shadow: 0px 2px 5px 2px #ccc;
+    -webkit-box-shadow: 0px 2px 5px 2px #ccc;
+    box-shadow: 0px 2px 5px 2px #ccc;
     border-radius: 15px;
     
 }
 
 .member-card {
     background-color: white;
-    -moz-box-shadow: 3px 3px 5px 6px #ccc;
-    -webkit-box-shadow: 3px 3px 5px 6px #ccc;
-    box-shadow: 3px 3px 5px 6px #ccc;
+    -moz-box-shadow: 0px 2px 5px 2px #ccc;
+    -webkit-box-shadow: 0px 2px 5px 2px #ccc;
+    box-shadow: 0px 2px 5px 2px #ccc;
     border-radius: 15px;
     margin-top: 3%;
     padding: 2% 2% 1% 2%;
@@ -62,6 +62,7 @@ h5 {
 .firstName {
     position: absolute;
     width: 42%;
+    background-color: white;
 }
 
 .lastName {

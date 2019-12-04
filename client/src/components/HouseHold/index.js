@@ -173,15 +173,19 @@ class HouseHold extends Component {
     }
   };
 
-  handleCancel = () => {
+  handleCancel = (e) => {
+    e.preventDefault();
+    console.log('hit handleCancel')
 
     // clear session storage
     sessionStorage.clear();
+    console.log('hit handleCancel')
 
 
     // logout of firebase
     firebase.auth().signOut().then(function() {
-      console.log('signout succesful');
+      console.log('signout successful');
+      return <Redirect to="/"/>
     }, function(err) {
       console.log(err);
     });
@@ -211,7 +215,7 @@ class HouseHold extends Component {
           <Row>
             <Col size="md-12">
               <div className="form-group">
-                <h5>Enter your house name</h5>
+                <h5>Enter a House Name</h5>
               </div>
             </Col>
           </Row>
@@ -233,7 +237,7 @@ class HouseHold extends Component {
           {/* Member input */}
           <Row>
             <Col size="md-12">
-              <h5>Add/Edit members </h5>
+              <h5>Add/Edit Members </h5>
             </Col>
           </Row>
 
@@ -269,7 +273,7 @@ class HouseHold extends Component {
           </Row>
           
           
-          {/* Form Submit Button */}
+          {/* Form Buttons */}
           <Row>
             <div id="housebuttons">
               <Col size="md-12">
