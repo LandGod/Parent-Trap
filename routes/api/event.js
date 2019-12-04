@@ -197,7 +197,7 @@ router
     // Get household id & assert that it is not undefined 
     let householdId = req.params.id;
     // let householdId = "5dd726706ddba45e5d59db35";
-    console.log(`Events.js ServerSide householdId is:  ${householdId}`)
+    // console.log(`Events.js ServerSide householdId is:  ${householdId}`)
     if (!householdId) {
       res.status(400).send("No householdId");
       return;
@@ -206,7 +206,7 @@ router
     // Get user id & assert that it is not undefined 
     let userId = req.params.userid;
     // let householdId = "5dd726706ddba45e5d59db35";
-    console.log(`Events.js ServerSide userId is:  ${userId}`)
+    // console.log(`Events.js ServerSide userId is:  ${userId}`)
     if (!userId) {
       res.status(400).send("No userId");
       return;
@@ -236,12 +236,70 @@ router
 
   });
 
+
+  // GET all events assigned to the user
+  router
+  .route("/current-user-assigned/:id/:userid")
+  .get(function(req, res) {
+    // Validate req body
+    if (!req.params) {
+      res.status(400).send("Request object has no parameters!");
+      return;
+    }
+
+    // Get household id & assert that it is not undefined 
+    let householdId = req.params.id;
+    // let householdId = "5dd726706ddba45e5d59db35";
+    // console.log(`Events.js ServerSide householdId is:  ${householdId}`)
+    if (!householdId) {
+      res.status(400).send("No householdId");
+      return;
+    }
+
+    // Get user id & assert that it is not undefined 
+    let userId = req.params.userid;
+    // let householdId = "5dd726706ddba45e5d59db35";
+    // console.log(`Events.js ServerSide userId is:  ${userId}`)
+    if (!userId) {
+      res.status(400).send("No userId");
+      return;
+    } 
+
+    // Validate household id and cast to ObjectId
+    // TODO: Call object id validation function (Currently written in a different branch that hasn't been merged to dev yet)
+
+    // Cast to mongoose ObjectId
+    householdId = mongoose.Types.ObjectId(householdId);
+    userId = mongoose.Types.ObjectId(userId);
+
+
+    // Send parsed and validated request data to event controller
+    eventController
+    .findUserAssignedPopulated(householdId,userId)
+
+    // Resolve request with results from db operation
+    .then(function(result) {
+      // console.log(JSON.stringify(result));
+      //res.status(200).json(result);
+      res.status(200).json(transformEvents(result));
+    })
+    .catch(function(err) {
+      res.status(500).send(err);
+    }); 
+
+  });
+  
   // event PUT route to update one Event
   // Matches with "/api/event/:id"
   router
     .route("/:id")
     .put(eventController.update);
 
+  router.route("/")
+  .post(eventController.createEvent);
+
+  // commented out for now - needed if 
+  // invitees sub-document is coded for use.
   // // Matches with "/api/event/unassign"
   // router
   // .route("/unassign/:id")
@@ -251,7 +309,6 @@ router
   // router
   // .route("/assign/:id")
   // .put(eventController.addAssigned);
-  router.route("/")
-  .post(eventController.createEvent);
+
 
 module.exports = router;

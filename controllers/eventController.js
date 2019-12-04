@@ -2,7 +2,7 @@ const db = require("../models");
 const mongoose = require("mongoose");
 
 
-// TO-DO - the 3 DB Read operations are very similiar
+// TO-DO - the 3 find Events operations are very similiar
 // if time permits refactor into 1 function using parameter
 // based Match clause object on the populate Events line
 
@@ -57,7 +57,25 @@ module.exports = {
     });
   }, 
   
-  // old version when invitees what used - keep in case of reviving invitee model
+  // Return events assigned to the user for the given household and populate member references
+  // match: {assigneeStatus: "claimed"},
+  //, match: {assignedStatus: "unclaimed"}
+  findUserAssignedPopulated: function(householdId,userId) {
+    return new Promise((resolve, reject) => {
+      db.Household.find({ _id: householdId },{members:0,name:0,_id:0,__v:0,invitees:0 })
+        .populate({path: "events", match: {assignee: userId}, options: {sort: {startTime: 1}},
+            populate: [{path: "creator", select: ["_id","firstName", "lastName"]},
+                        {path: "assignee", select: ["_id","firstName", "lastName"]}
+                      ]
+    
+            // populate: [{path: "invitees", select: ["_id"]},]           
+        })
+        .then(dbEvent => {resolve(dbEvent)})
+        .catch(err => {reject(err)});
+    });
+  }, 
+
+  // old version when invitees - keep in case of reviving invitee model
   // findAllEventsPopulated: function(householdId) {
   //   return new Promise((resolve, reject) => {
   //     db.Household.find({ _id: householdId },{members:0,name:0,_id:0,__v:0 })
@@ -95,7 +113,7 @@ module.exports = {
     });
   },
 
-  // quick version of update until it can be refactored into the go-forward pattern
+  // quick version of update event until it can be refactored into the go-forward pattern
   update: function(req, res) {
     var id = mongoose.Types.ObjectId(req.params.id);
     db.Event.findOneAndUpdate({ _id: id }, req.body, {new: true})
@@ -147,5 +165,5 @@ module.exports = {
       .then(dbEvent => res.json(dbEvent))
       .catch(err => res.status(422).json(err));
   }
-  }
+}
 

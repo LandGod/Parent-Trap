@@ -6,6 +6,7 @@ import Button from "../components/Button";
 import EventLine from "../components/EventLine";
 import SideNav from "../components/SideNav";
 import TopNav from "../components/TopNav";
+import UtilFunc from "../components/utilityFunctions";
 import ModalCardBody from "../components/Modal/modalBody"
 import "./style/Dashboard.css";
 
@@ -25,25 +26,18 @@ import "./style/Dashboard.css";
 // ]
 
 
+// Define state for Dashboard object
 class Dashboard extends Component {
-  
-
-  // Define state for Dashboard object
   state = {
     householdName: "No current household", // HouseholdName defaults to an error and should be updated when loading other household info
+    householdId: "",
     //events: eventData
     events: [],
-    householdId: "5dd726706ddba45e5d59db35", // carey-moriary household
-    userId: "5dd596ae8813384487dca853",  // kyra's id
-    //userId: "5dd58d43d5592c419101a05f", // rory's id
-    //userId: "5dd596cf8813384487dca855", // sean's id
-    //userId: "5dd596bf8813384487dca854", // myles's id
-    //userId:  "0dd596ae8813384487dca000",  // invalid user id test
-    memberId: '5dd596bf8813384487dca854', // assigner's id (Myles)
+    userId: "",
+    firstName: "",
+    lastName: "",
     viewType: "" // page view type
-    // events: eventData,
   };
-
 
   // Attaching ref to SideNav so that we can access its internal state
   // We can now access functions from SideNav using: this.SideNav.current.someFunction()
@@ -89,14 +83,39 @@ class Dashboard extends Component {
   }
 
   getHouseholdId = () => {
-    // hardcoded test household id: 
-    //return "5de1fc3109b4d51e97760778";
-    return "5dd726706ddba45e5d59db35";  // moriart carey household id
-    //return localStorage.getItem('householdId');
+    return this.state.householdId;
   }
 
   // When the component mounts, get a list of all events
   componentDidMount() {
+      // get user info from session storage
+      var userInfo = UtilFunc.getLocalUserInfo();
+      //console.log(`userInfo: ${JSON.stringify(userInfo)}`);
+
+       // console.log(`User Id from Session Storage: ${userInfo.memberId}`);
+       // console.log(`Household Id from Session Storage: ${userInfo.currentHouseholdId}`)  
+       this.setState({userId: userInfo.memberId}); 
+       this.setState({householdId: userInfo.currentHouseholdId}); 
+
+       // get the user so we can have the first and last name from the account information
+       API.getMember(userInfo.memberId)
+       .then(res => {
+         // console.log(`Member Lookup: ${res.data[0].firstName}`)
+         // capture the user account first & last names
+         this.setState({firstName: res.data[0].firstName}); 
+         this.setState({lastName: res.data[0].lastName}); 
+       })
+       .catch(err => console.log(err));
+
+       // get the household so we can have the household name on Nav Bar
+       API.getHousehold(userInfo.currentHouseholdId)
+       .then(res => {
+         // console.log(`Member Lookup: ${res.data[0].firstName}`)
+         // capture the user account first & last names
+         this.setState({householdName: res.data[0].name}); 
+       })
+       .catch(err => console.log(err));
+
        //get the raw parameters submitted. eg. this will be "?view=assigned"
        let queryStringParams = this.props.location.search;
        //get only the "view=[something] part" by matching it with a regex
@@ -110,13 +129,17 @@ class Dashboard extends Component {
          // on split, "view=assigned" becomes:
          //["view","assigned"] 
          viewParam = viewParam[0].split('=')[1];
+
+         // save view type in state
          this.setState({viewType: viewParam});
+
+         // evaluate which view is being rendered
          if(viewParam === 'myevents'){
-           //API call for assigned events
+           //API call for the events the user has created
            const type = "current-user"
-           API.getHouseholdEvents(this.state.householdId,this.state.userId,type)
+           API.getHouseholdEvents(userInfo.currentHouseholdId,userInfo.memberId,type)
               .then(res => {
-                // reformat response data if empty into empty array
+                // if no data retrieved return empty error for dashboard map render
                 if (res.data[0].hasOwnProperty("events")) {
                   this.setState({ events: res.data })
                 } else {
@@ -127,9 +150,9 @@ class Dashboard extends Component {
          }else if(viewParam === 'unassigned'){
            //API call for unclaimed events
            const type = "unassigned";
-           API.getHouseholdEvents(this.state.householdId,this.state.userId,type)
+           API.getHouseholdEvents(userInfo.currentHouseholdId,userInfo.memberId,type)
               .then(res => {
-                // reformat response data if empty into empty array
+                // if no data retrieved return empty error for dashboard map render
                 if (res.data[0].hasOwnProperty("events")) {
                   this.setState({ events: res.data })
                 } else {
@@ -137,11 +160,24 @@ class Dashboard extends Component {
                 }
               })
               .catch(err => console.log(err));
-         }else{
+         }else if(viewParam === 'assigned'){
+          //API call for events assigned to the current user
+          const type = "assigned";
+          API.getHouseholdEvents(userInfo.currentHouseholdId,userInfo.memberId,type)
+             .then(res => {
+               // if no data retrieved return empty error for dashboard map render
+               if (res.data[0].hasOwnProperty("events")) {
+                 this.setState({ events: res.data })
+               } else {
+                 this.setState({ events: [] })
+               }
+             })
+             .catch(err => console.log(err));
+          }else{
            //something that doesn't make sense. Default Dashboard.
            const type = "all";
-           this.setState({viewType: ""});
-           API.getHouseholdEvents(this.state.householdId,this.state.userId,type)
+           this.setState({viewType: "all"});
+           API.getHouseholdEvents(userInfo.currentHouseholdId,userInfo.memberId,type)
               .then(res => {
                 // reformat response data if empty into empty array
                 if (res.data[0].hasOwnProperty("events")) {
@@ -155,9 +191,9 @@ class Dashboard extends Component {
        }else{
          //We didn't find a view parameter, show the default dashboard
         //  console.log("No parameter. Default dashboard.");
-         this.setState({viewType: viewParam});
+         this.setState({viewType: "all"});
          const type = "all";
-         API.getHouseholdEvents(this.state.householdId,this.state.userId,type)
+         API.getHouseholdEvents(userInfo.currentHouseholdId,userInfo.memberId,type)
             .then(res => {
                 // reformat response data if empty into empty array
                 if (res.data[0].hasOwnProperty("events")) {
@@ -194,64 +230,124 @@ class Dashboard extends Component {
     const newEvents = [...this.state.events];
     const dateIndex = newEvents.findIndex(event => event.date === eventDate);
     const itemIndex = newEvents[dateIndex].events.findIndex(event => event.event_id === eventId);
-//    console.log(`assign click: ${newEvents[dateIndex].events[itemIndex].assigned }`)
+    // console.log(`assign click: ${newEvents[dateIndex].events[itemIndex].assigned }`)
+
+    // // if Event is assigned then toggle it to unassigned
+    // if (newEvents[dateIndex].events[itemIndex].assigned) {
+    //   // console.log(`was assigned`)
+    //   newEvents[dateIndex].events[itemIndex].assigned = undefined;   // name
+    //   newEvents[dateIndex].events[itemIndex].assigned_id = undefined;  // member id
+    //   newEvents[dateIndex].events[itemIndex].assignedStatus = 'unassigned';  // assigned status
+
+    //   // console.log(`event: ${newEvents[dateIndex].events[itemIndex].title} 
+    //   //              event id: ${newEvents[dateIndex].events[itemIndex].event_id} 
+    //   //              user: ${newEvents[dateIndex].events[itemIndex].assigned}
+    //   //             user_id: ${newEvents[dateIndex].events[itemIndex].assigned_id}`)
+    //   this.setState({events: newEvents});
+
+    //   // update database to remove assignee and set event assigned status to unassigned
+    //   const id = newEvents[dateIndex].events[itemIndex].event_id;
+    //   const eventData = {$set: {assignedStatus: "unassigned"}, $unset: {assignee: 1}}
+    //   API.updateEvent(id,eventData)
+    //     .then(res => console.log(res))
+    //     .catch(err => console.log(err)); 
+    // } 
+
+    // if Event is assigned then toggle it to unassigned
     if (newEvents[dateIndex].events[itemIndex].assigned) {
       // console.log(`was assigned`)
       newEvents[dateIndex].events[itemIndex].assigned = undefined;   // name
       newEvents[dateIndex].events[itemIndex].assigned_id = undefined;  // member id
       newEvents[dateIndex].events[itemIndex].assignedStatus = 'unassigned';  // assigned status
+
+      // capture Event id before possible splice out of the events array (if on assigned Events view)
+      const id = newEvents[dateIndex].events[itemIndex].event_id;
+
       // console.log(`event: ${newEvents[dateIndex].events[itemIndex].title} 
       //              event id: ${newEvents[dateIndex].events[itemIndex].event_id} 
       //              user: ${newEvents[dateIndex].events[itemIndex].assigned}
       //             user_id: ${newEvents[dateIndex].events[itemIndex].assigned_id}`)
+
+      if (this.state.viewType === "assigned") {
+        // console.log(`unassigning an event on the assigned view`)
+
+        // // show content of events array
+        // newEvents[dateIndex].events.map((event,idx) => { 
+        //   console.log(`row: ${idx} ${event.showhideclass}  ${event.title} `)
+        // });
+
+        // splice out the event from state
+        newEvents[dateIndex].events.splice(itemIndex,1);
+
+        // if there are >= 4 rows left & 4th row is hidden then show it to make up
+        // for the removal of a row before it
+        //console.log(`length: ${newEvents[dateIndex].events.length}`);
+        
+        // if last event was spliced out then splice out the date header itself
+        if (newEvents[dateIndex].events.length === 0) {
+          newEvents.splice(dateIndex,1);
+        } // reveil the next up event if it is hidden
+          else if (newEvents[dateIndex].events.length >= 3 && 
+          newEvents[dateIndex].events[2].showhideclass === 'hide-event') {
+            newEvents[dateIndex].events[2].showhideclass = 'show-event'
+          };
+      } 
+
+      // re-render the dom after resetting the state to the reflect 
+      // changes in the event assignements
       this.setState({events: newEvents});
 
+
       // update database to remove assignee and set event assigned status to unassigned
-      const id = newEvents[dateIndex].events[itemIndex].event_id;
       const eventData = {$set: {assignedStatus: "unassigned"}, $unset: {assignee: 1}}
       API.updateEvent(id,eventData)
         .then(res => console.log(res))
         .catch(err => console.log(err)); 
-    } else {
-      newEvents[dateIndex].events[itemIndex].assigned = 'current user';  // name
-      newEvents[dateIndex].events[itemIndex].assigned_id = 'current userId';  // member id
+    } 
+      // Event was unassigned - now assign it
+      else {
+      // console.log(`State of Member: ${this.state.firstName} ${this.state.lastName} ${this.state.userId}`);
+      newEvents[dateIndex].events[itemIndex].assigned = this.state.firstName // 'current user';  // name
+      newEvents[dateIndex].events[itemIndex].assigned_id = this.state.userId // 'current userId';  // member id
       newEvents[dateIndex].events[itemIndex].assignedStatus = 'claimed';  // assigned status
-      // console.log(`event: ${newEvents[dateIndex].events[itemIndex].title} 
-      //              event id: ${newEvents[dateIndex].events[itemIndex].event_id} 
-      //              user: ${newEvents[dateIndex].events[itemIndex].assigned}
-      //              user_id: ${newEvents[dateIndex].events[itemIndex].assigned_id}`)
-      this.setState({events: newEvents});
+
+      // capture Event id before possible splice out of the events array (if on unassigned Events view)
       const id = newEvents[dateIndex].events[itemIndex].event_id;
 
+      if (this.state.viewType === "unassigned") {
+        // console.log(`assigning an event on the Unassigned view`)
+
+        // // show content of events array
+        // newEvents[dateIndex].events.map((event,idx) => { 
+        //   console.log(`row: ${idx} ${event.showhideclass}  ${event.title} `)
+        // });
+
+        // splice out the event from state
+        newEvents[dateIndex].events.splice(itemIndex,1);
+
+        // if there are >= 4 rows left & 4th row is hidden then show it to make up
+        // for the removal of a row before it
+        //console.log(`length: ${newEvents[dateIndex].events.length}`);
+        
+        // if last event was spliced out then splice out the date header itself
+        if (newEvents[dateIndex].events.length === 0) {
+          newEvents.splice(dateIndex,1);
+        } // reveil the next up event if it is hidden
+          else if (newEvents[dateIndex].events.length >= 3 && 
+          newEvents[dateIndex].events[2].showhideclass === 'hide-event') {
+            newEvents[dateIndex].events[2].showhideclass = 'show-event'
+          };
+      } 
+      // re-render the dom after resetting the state to the reflect 
+      // changes in the event assignements
+      this.setState({events: newEvents});
+
       // update database to add assignee and set event assigned status to claimed
-      const eventData = {assignee: this.state.memberId, assignedStatus: "claimed"}
+      const eventData = {assignee: this.state.userId, assignedStatus: "claimed"}
       API.updateEvent(id,eventData)
       .then(res => console.log(res))
       .catch(err => console.log(err))
     };
-      // the  code below is under further evaluation and testing due to 
-      // unintended UX behaviour - will be revived if can be fixed
-
-      // // if current view is Unassigned Events then
-      // // a change in those events needs to trigger page refresh
-      // // since an event an possibly its date would no longer be part
-      // // of the view
-      // console.log(`StateView5: ${this.state.viewType}`)
-
-      // if (this.state.viewType === 'unassigned') {
-      //   const type = "unassigned";
-      //   API.getHouseholdEvents(this.state.householdId,this.state.userId,type)
-      //   .then(res => {
-      //   //  console.log(`Events: ${JSON.stringify(res.data)}`);
-      //   // reformat response data if empty into empty array
-      //     if (res.data[0].hasOwnProperty("events")) {
-      //        this.setState({ events: res.data })
-      //     } else {
-      //       this.setState({ events: [] })
-      //     }
-      //   });
-      // };
-
   }
 
   // manage the event status button - either marking as closed or open
@@ -264,6 +360,7 @@ class Dashboard extends Component {
     //              event id: ${newEvents[dateIndex].events[itemIndex].event_id}
     //              status: ${newEvents[dateIndex].events[itemIndex].status}`)
     this.setState({events: newEvents});
+
     // update the database to set event to open or closed
     const id = newEvents[dateIndex].events[itemIndex].event_id;
     const eventData = {status: newEvents[dateIndex].events[itemIndex].status}
@@ -281,13 +378,17 @@ class Dashboard extends Component {
         <div onClick={this.closeNav}>
           <TopNav 
           slideOut={this.openNav}
-          householdName={this.state.householdName}
+          // householdName={this.state.householdName}
+          householdName={(this.state.viewType === "all") ? `${this.state.householdName} - All Events`
+                          : ((this.state.viewType === "myevents") ? `My Events - ${this.state.firstName}` 
+                          : ((this.state.viewType === "assigned") ? `Events Assigned to ${this.state.firstName}`
+                          : `${this.state.householdName} - Unassigned Events`))}
           />
           <Container>
             <Row>
               <Col size="md-12 fluid">
                 {  
-                  // render if dates & event exist else render 'No Event' text
+                  // render if dates & event exist else render 'No Event' text - see end of ternary
                   (this.state.events.length > 0) ?
                   this.state.events.map((eventDate,i) => {
                     // console.log(`EVENT: ${JSON.stringify(eventDate.date)}`)
@@ -298,7 +399,7 @@ class Dashboard extends Component {
                       icon="fa fa-calendar-alt"
                       title={eventDate.date}
                       id={(eventDate.events.length > 3) ? "show-more" : undefined }
-                      showmoreIcon={(eventDate.events.length > 3) ? "fas fa-angle-double-down fa-lg" : undefined }
+                      showmoreIcon={(eventDate.events.length > 3) ? "fas fa-angle-double-down fa-lg" : "" }
                       events={eventDate.events}
                       eventDate={eventDate.date}
                       firstdashcard={(i === 0) ? "first-dashcard" : ""}
@@ -330,7 +431,6 @@ class Dashboard extends Component {
                             iconEdit={event.event_id}
                             onClickView={this.clickViewEvent}
                             onClickViewParam={event}
-                            // iconAssigned={(event.assigned) ? "fas fa-plus-square fa-lg" : "far fa-plus-square fa-lg"}
                             iconAssigned={(event.assigned) ? true : false}
                             iconCompleted={event.status === "closed"}  // sets iconCompleted to true or false
                             note={event.note}

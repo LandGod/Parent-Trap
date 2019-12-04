@@ -10,9 +10,6 @@ class EventLine extends Component {
   }
 
   // click view event button 
-  // may end up only having this view modal and have it have 
-  // its own edit button - then this event would handle
-  // the state changes if edit was used
   // clickViewEvent = () => {
 
   //   if (typeof this.props.clickViewEvent === 'function') {
@@ -30,8 +27,6 @@ class EventLine extends Component {
   }
 
   // click assign event button 
-  // toggle the icon - also need API call to update database accordingly
-  // clickCompleteEvent = (event,identifier) => {
   clickAssignEvent = () => {
     // console.log(`you clicked the assign event button, id: ${this.props.event_id} date: ${this.props.eventDate}`);
     if (typeof this.props.onClickAssign === 'function') {
@@ -41,8 +36,6 @@ class EventLine extends Component {
 
 
   // click complete event button 
-  // toggle the icon - also need API call to update database accordingly
-  // clickCompleteEvent = (event,identifier) => {
   clickCompleteEvent = () => {
     // console.log(`you clicked the complete event button, id: ${this.props.event_id} date: ${this.props.eventDate}`);
     // console.log(`you clicked the complete event button & ident is: ${identifier}`);

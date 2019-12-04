@@ -8,6 +8,20 @@ class DashCard extends Component {
     showmoreIcon: this.props.showmoreIcon,
   }
 
+  // reset state if the seeded prop is updated
+  // note: setting state from props can be considered
+  // anti-pattern in react - but due to a design issue
+  // with the layout of this component and its multi
+  // effected show-more/show-less icon (changes if icon is 
+  // toggled but also if rows are removed on the Unassigned event
+  // page - thus this is necessary
+  // until more time allows for a better solution
+  componentWillReceiveProps(nextProps){
+    if (nextProps.showmoreIcon !== this.props.showmoreIcon) {
+      this.setState({ showmoreIcon: nextProps.showmoreIcon })
+    }
+  }
+
   // click show more/less event button -toggle the icon 
   clickShowMoreLessEvent = () => {
     // console.log(`you clicked the show more/less event button`);
@@ -22,6 +36,7 @@ class DashCard extends Component {
   }
 
   render() {
+    // console.log(`props: ${this.props.showmoreIcon}`)
     return (
       <div className="card mt-4">
         <div className={`card-header ${this.props.firstdashcard}`}>

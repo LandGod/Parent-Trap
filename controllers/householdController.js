@@ -91,5 +91,21 @@ module.exports = {
           reject(err);
         });
     });
+  },
+
+
+  // find household by householdid
+  findByHouseHoldId: function(householdId) {
+    return new Promise(function(resolve, reject) {
+      db.Household.find({ _id: householdId })
+        .then(results => {
+          resolve(results);
+        })
+        .catch(err => {
+          //console.log("catch error message for findByHouseHoldId");
+          reject(err);
+        });
+    });
   }
-};
+
+}

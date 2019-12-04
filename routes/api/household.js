@@ -59,6 +59,41 @@ router
       });
   });
 
+// resolves as /api/household/byId/:id    
+router
+.route("/byId/:id")
+.get(function(req, res) {
+  // Validate req params
+  if (!req.params) {
+    res.status(400).send("Request object has no parameters!");
+    return;
+  }
+
+  // Get household id & assert that it is not undefined 
+  let householdId = req.params.id;
+  //console.log(`household.js ServerSide householdId is:  ${householdId}`)
+  if (!householdId) {
+    res.status(400).send("No householdId");
+    return;
+  }
+
+  // Cast to mongoose ObjectId
+  householdId = mongoose.Types.ObjectId(householdId);
+
+  // Send parsed and validated request data to event controller
+  householdController
+  .findByHouseHoldId(householdId)
+
+  // Resolve request with results from db operation
+  .then(function(result) {
+    // console.log(JSON.stringify(result));
+    res.status(200).json(result);
+  })
+  .catch(function(err) {
+    res.status(500).send(err);
+  }); 
+});
+
   // POST: /api/household/create
   router.route('/create')
   .post(function(req, res){
@@ -77,6 +112,7 @@ router
 
   })
 
+  // Put: /api/household/add-members
   router.route('/add-members')
   .put(function(req, res){
 

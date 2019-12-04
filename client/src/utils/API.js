@@ -5,7 +5,7 @@ export default {
 
   // Gets all events for household
   getHouseholdEvents: function(householdId,userId,type) {
-    console.log(`HouseholdId: ${householdId} userid: ${userId} type: ${type}`)
+    //console.log(`HouseholdId: ${householdId} userid: ${userId} type: ${type}`)
     switch (type) {
       case "all": 
         return axios.get(`/api/event/all/${householdId}`);
@@ -13,6 +13,9 @@ export default {
       case "unassigned":
         return axios.get(`/api/event/unassigned/${householdId}`);
         break;  
+      case "assigned":
+          return axios.get(`/api/event/current-user-assigned/${householdId}/${userId}`);
+          break;   
       case "current-user": 
         return axios.get(`/api/event/current-user/${householdId}/${userId}`);
         break;   
@@ -32,6 +35,14 @@ export default {
 
   updateEvent: function(id,eventData) {
     return axios.put('/api/event/' + id, eventData );
+  },
+
+  getMember: function(id) {
+    return axios.get('/api/member/byId/' + id);
+  },
+
+  getHousehold: function(id) {
+    return axios.get('/api/household/byId/' + id);
   },
 
   upsertMembers: function(data) {
