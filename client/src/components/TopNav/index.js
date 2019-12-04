@@ -1,22 +1,23 @@
 import React from "react";
+import "./style.css";
 
 function TopNav(props) {
   return (
     <div>
 
       {/* Bootstrap navbar */}
-      <nav className="navbar navbar-light bg-light">
+      <nav className="navbar banner">
           
         {/* Hamburger menue button which activates popout side-nav */}
-        <button className="btn btn-secondary" onClick={props.slideOut}>
+        <button className="btn navselector" onClick={props.slideOut}>
           {/* Font awesome hamburger/bars menue icon */}
-          <i className="fas fa-bars"></i>
+          <i className="fas fa-bars "></i>
         </button>
 
-        <span className="navbar-brand mb-0 h1">{props.householdName}</span>
+        <span className="navbar-brand mb-0 h1 housename">{props.householdName}</span>
 
         {/* This blank span keeps title centered with current row justifcation settings */}
-        <span> </span>
+        <span></span>
       </nav>
     </div>
   );

@@ -1,0 +1,31 @@
+.header {
+    color: white;
+    margin-top: 35%;
+    margin-bottom: 20%;
+  }
+
+  .description {
+    margin-top: 2%;
+    font-size: 13px;
+  }
+
+  .title {
+    cursor: pointer;
+    border-bottom: solid 2px white;
+    color: white;
+    padding: 5px 8px;
+    font-size: 16px;
+  }
+  
+  .content {
+    overflow: hidden;
+    font-size: 16px;
+    color: white;
+  }
+  
+  .content-wrapper {
+    padding: 5px 8px 20px 8px;
+  }
+
+  
+  

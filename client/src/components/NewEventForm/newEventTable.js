@@ -215,7 +215,7 @@ export class NewEventTable extends Component {
             console.log("999999999");
             console.log(timesAreValid);
 
-            const id = "5ddca54a663172b2a23b536b"
+            const id = "5dd596ae8813384487dca853"  // kyra's id as the creator
 
             API.createEvent({
 

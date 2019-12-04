@@ -7,19 +7,9 @@ import "./style.css";
 class EventLine extends Component {
 
   state = {
-    // iconCompleted: this.props.iconCompleted, // can remove now
-    // iconAssigned: this.props.iconAssigned,
-    // assigned_id: this.props.assigned_id,
-    // assigned: this.props.assigned
-    // will need to add the remaining Event props so they
-    // can be passed to the Edit modal and be returned
-    // as set of data for state changes 
   }
 
   // click view event button 
-  // may end up only having this view modal and have it have 
-  // its own edit button - then this event would handle
-  // the state changes if edit was used
   // clickViewEvent = () => {
 
   //   if (typeof this.props.clickViewEvent === 'function') {
@@ -37,8 +27,6 @@ class EventLine extends Component {
   }
 
   // click assign event button 
-  // toggle the icon - also need API call to update database accordingly
-  // clickCompleteEvent = (event,identifier) => {
   clickAssignEvent = () => {
     // console.log(`you clicked the assign event button, id: ${this.props.event_id} date: ${this.props.eventDate}`);
     if (typeof this.props.onClickAssign === 'function') {
@@ -48,8 +36,6 @@ class EventLine extends Component {
 
 
   // click complete event button 
-  // toggle the icon - also need API call to update database accordingly
-  // clickCompleteEvent = (event,identifier) => {
   clickCompleteEvent = () => {
     // console.log(`you clicked the complete event button, id: ${this.props.event_id} date: ${this.props.eventDate}`);
     // console.log(`you clicked the complete event button & ident is: ${identifier}`);
@@ -66,7 +52,12 @@ class EventLine extends Component {
 
     // setting the assigned icon class
     const isAssigned = this.props.iconAssigned
-      ? "fas fa-plus-square fa-lg" : "far fa-plus-square fa-lg";
+    ? "fas fa-user-check fa-lg" : "far fa-user fa-lg" ;
+    // ? "fas fa-plus-square fa-lg" : "far fa-plus-square fa-lg" ;
+
+    // show hide class
+    // const showhide = this.props.showhideclass;
+    //  ? "fas fa-plus-square fa-lg" : "far fa-plus-square fa-lg";
 
     // setting the viewEvent icon class
     const viewEvent = this.props.iconView
@@ -79,7 +70,8 @@ class EventLine extends Component {
     
 
     return (
-      <div className="event-div border rounded-sm">
+      // <div className="event-div border rounded-sm">
+      <div className={`event-div border rounded-sm ${this.props.showhideclass}`}>
         <div className='row no-gutters'>
           <Col size="6">
             <p>{this.props.title}</p>

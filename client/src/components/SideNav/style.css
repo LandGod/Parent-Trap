@@ -6,10 +6,14 @@
   z-index: 1; /* Stay on top */
   top: 0; /* Stay at the top */
   left: 0;
-  background-color: #111; /* Black*/
+  /* background-color: #111; /* Black */
+  background-color: #ecf0f1;
   overflow-x: hidden; /* Disable horizontal scroll */
   padding-top: 60px; /* Place content 60px from the top */
   transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+
+  /* box-shadow: 5px 0px 8px #888888; */
+  box-shadow: 5px 0px 8px #515151;
 }
 
 /* Remove all default styling from buttons */
@@ -55,8 +59,37 @@ button:focus {
   padding: 20px;
 }
 
+
+a {
+  font-size: 14px;
+  color: black;
+}
+
+
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
+}
+
+#filterDivider {
+  color: gray;
+  font-size: 13px;
+  padding-bottom: 5px;
+  margin-top: 10%;
+  margin-left: 3%;
+  margin-right: 3%;
+  margin-bottom: 8px;
+  border-bottom: solid 1px rgba(116, 113, 113, 0.5);
+}
+
+#accountDivider {
+  color: gray;
+  margin-top: 110%;
+  font-size: 13px;
+  padding-bottom: 5px;
+  margin-left: 3%;
+  margin-right: 3%;
+  margin-bottom: 8px;
+  border-bottom: solid 1px rgba(116, 113, 113, 0.5);
 }

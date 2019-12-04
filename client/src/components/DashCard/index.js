@@ -8,22 +8,35 @@ class DashCard extends Component {
     showmoreIcon: this.props.showmoreIcon,
   }
 
-  // click show more/less event button
-  // toggle the icon - also need CSS to open or close the div to show or hide the
-  // events beyond the 3rd event
+  // reset state if the seeded prop is updated
+  // note: setting state from props can be considered
+  // anti-pattern in react - but due to a design issue
+  // with the layout of this component and its multi
+  // effected show-more/show-less icon (changes if icon is 
+  // toggled but also if rows are removed on the Unassigned event
+  // page - thus this is necessary
+  // until more time allows for a better solution
+  componentWillReceiveProps(nextProps){
+    if (nextProps.showmoreIcon !== this.props.showmoreIcon) {
+      this.setState({ showmoreIcon: nextProps.showmoreIcon })
+    }
+  }
+
+  // click show more/less event button -toggle the icon 
   clickShowMoreLessEvent = () => {
-    console.log(`you clicked the show more/less event button`);
+    // console.log(`you clicked the show more/less event button`);
     var newState = (this.state.showmoreIcon === "fas fa-angle-double-down fa-lg") 
     ? "fas fa-angle-double-up fa-lg" : "fas fa-angle-double-down fa-lg";
-    if (newState === "fas fa-angle-double-up fa-lg") {
-      console.log(`Here is where CSS/classes needs to close the div to show only 3 events`);
-    } else {
-      console.log(`Here is where CSS/classes needs to open the div to show more than 3 events`);
-    };
+
     this.setState({showmoreIcon: newState })
+    var toggleAction = (newState === "fas fa-angle-double-up fa-lg") ? "show" : "hide";
+    if(typeof this.props.onClickShowHide === 'function'){
+      this.props.onClickShowHide(toggleAction, this.props.eventDate);
+    }
   }
 
   render() {
+    // console.log(`props: ${this.props.showmoreIcon}`)
     return (
       <div className="card mt-4">
         <div className={`card-header ${this.props.firstdashcard}`}>

@@ -1,11 +1,11 @@
 import React, { Component } from "react";
+import { Container, Row, Col } from "../Grid";
 import * as firebase from "firebase";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import API from "../../utils/API";
 import "../../pages/style/Home.css";
 
 class SignIn extends Component {
-
   // This is our firebaseui configuration object
   uiConfig = {
     signInFlow: "redirect",
@@ -45,8 +45,26 @@ class SignIn extends Component {
         // Send API call to evaluate:
         API.login(userData)
           .then(res => {
+            // console.log(`res.data: ${JSON.stringify(res.data)}`)
             // If status 200, user exists and is good to go
             if (res.status === 200) {
+              // grab user ID and household ID found in the database
+              // Predefine let variables to avoid scope problems
+              let userID;
+              let householdID
+              // Based on whether or not res.data reurns an array, or a single results, extract data
+              if (res.data[0]) {
+                userID = res.data[0]._id;
+                householdID = res.data[0].households[0]; // Grabs only the first household a user belongs to becuse MVP
+              } else {
+                userID = res.data._id;
+                householdID = res.data.households[0]; // Grabs only the first household a user belongs to becuse MVP
+              }
+
+              // store user ID and household ID in session storage
+              sessionStorage.setItem("userID", userID);
+              sessionStorage.setItem("householdId", householdID);
+
               this.props.parent.setState({ redirectDashboard: true });
             }
             // If status 204, user does not exist, send to signup flow
@@ -55,26 +73,26 @@ class SignIn extends Component {
             }
             // If neither of those is true, something is broken
             else {
-              console.log('Invalid statis recieved from res:', res.status);
+              console.log("Invalid status recieved from res:", res.status);
             }
           })
           .catch(err => console.log(err));
-
-        // this.props.history.push('/dashboard');
-        // return false
       }
     }
   };
 
   render() {
-
     return (
-      <div>
-        <StyledFirebaseAuth
-          uiConfig={this.uiConfig}
-          firebaseAuth={firebase.auth()}
-        />
-      </div>
+      <Container>
+        <Row>
+          <Col size="md-12">
+            <StyledFirebaseAuth
+              uiConfig={this.uiConfig}
+              firebaseAuth={firebase.auth()}
+            />
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }

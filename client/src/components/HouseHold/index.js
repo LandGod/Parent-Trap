@@ -1,5 +1,10 @@
 import React, { Component } from "react";
+import { Container, Row, Col } from "../Grid/index.js";
 import MemberFormRow from "./MemberFormRow";
+import { getLocalUserInfo } from "../utilityFunctions";
+import API from "../../utils/API";
+import * as firebase from "firebase";
+import { Redirect } from "react-router-dom";
 import "./style.css";
 
 /* 
@@ -41,14 +46,24 @@ import "./style.css";
 // Household create/edit component
 class HouseHold extends Component {
   state = {
-    householdName: this.props.householdName || '',
-    members: this.props.members
+    householdName: this.props.householdName || "",
+    members: this.props.members,
+    redirectToDashboard: false,
+    redirectToHomepage: false
   };
 
-  isCurrentUser = id => {
-    // Compare supplied id to id of currently logged in user
+  isCurrentUser = (oauthKey) => {
+    // Compare supplied oauthKey to oauthKey of currently logged in user
     // For debug purposes this function will return true for a set value
-    if (id === this.props.currentUserId) {
+
+    let currentUser = getLocalUserInfo();
+
+    if (!currentUser) {
+      console.log("No current user!");
+      let notLoggedIn = new Error("No user data in session storage.");
+      throw notLoggedIn;
+    }
+    if (oauthKey === currentUser.oauthKey) {
       return true;
     }
     return false;
@@ -98,63 +113,145 @@ class HouseHold extends Component {
 
     // If creating new household:
     if (this.props.createMode === true) {
-        //TODO: Write api call for creating household (and user)
-        console.log('Send data to api call')
+      // Create household in database
+      API.createHousehold({ name: this.state.householdName })
+        .then(results1 => {
+          // Add newly created household id to state
+          this.setState({ householdId: results1.data._id });
+          // Also add it to session storage
+          sessionStorage.setItem("householdId", results1.data._id);
+
+          // Continue operation with this then to avoid race condition if householdId isn't returned fast enough
+          // Add or update members in database and include household Id
+          API.upsertMembers({
+            members: this.state.members,
+            householdId: results1.data._id
+          })
+            .then(results2 => {
+              // Create list of ids to add to household document
+              let idsArray = [];
+
+              // On success, look through results
+              results2.data.newIds.forEach(member => {
+                // If is current user, add that objectId to session storage
+                if (
+                  member.userOauthKey &&
+                  this.isCurrentUser(member.userOauthKey)
+                ) {
+                  sessionStorage.setItem("userID", member._id);
+                }
+
+                // Add all user ids to an array for update to household members list
+                idsArray.push(member._id);
+              });
+
+              // Update household with user ids
+              API.addHouseholdMembers({
+                householdId: results1.data._id,
+                idsArray: idsArray
+              }).then(result3 => {
+                // Redirect to dashboard
+                this.setState({ redirectToDashboard: true });
+              })
+              .catch((err) => {
+                console.log(err);
+              })
+            })
+            .catch(function(err) {
+              console.log("error with create many members operation");
+              console.log(err);
+            });
+        })
+        .catch(err => {
+          console.log("ERROR with create household operation");
+          console.log(err);
+        });
     }
     // If updating and existing household:
     else {
       //TODO: Write api call for udating household
+      console.log("Update functionality not yet implemented!");
     }
   };
 
+  handleCancel = event => {
+    event.preventDefault();
+    console.log('hit handleCancel')
+
+    // clear session storage
+    sessionStorage.clear();
+    console.log('hit handleCancel')
+
+
+    // logout of firebase
+    firebase.auth().signOut().then(() => {
+      console.log('signout successful');
+      // redirect to homepage
+      this.setState({ redirectToHomepage: true });
+    }, function(err) {
+      console.log(err);
+    });
+  }
+
   render() {
+    // If redirect is set to true, redirect to dashboard, else render component
+    if (this.state.redirectToDashboard) {
+      return <Redirect to="/dashboard" />;
+    }
+
+    // If redirect is set to true, redirect to homepage
+    if (this.state.redirectToHomepage) {
+      return <Redirect to="/" />;
+    }
+
     return (
-      <div>
+        <Row>
+          <Col size="md-12">
         <form>
           {/* Title */}
-          <div className="row justify-content-center">
-            <div className="col-md-4">
-              <h2 className="text-center">
-                {this.props.createMode ? 'Create' : 'Edit'} Household
-              </h2>
+          <Row>
+            <div className="justify-content-center" id="signupTitle">
+              <Col size="md-12">
+                <h4 className="text-center">
+                  {this.props.createMode ? "Create " : "Edit "} Household
+                </h4>
+              </Col>
             </div>
-          </div>
+          </Row>
           {/* Household Name Input */}
-          <div className="form-group row justify-content-center">
-            <label
-              htmlFor="householdNameInput"
-              className="col-sm-2 col-form-label"
-            >
-              <h5>Household Name:</h5>
-            </label>
-            <div className="col-sm-4">
-              <input
-                type="text"
-                className="form-control"
-                id="householdNameInput"
-                placeholder="Smith"
-                onChange={this.handleChangeHouseholdName}
-                value={this.state.householdName}
-              />
-            </div>
-          </div>
+          <Row>
+            <Col size="md-12">
+              <div className="form-group">
+                <h5>Enter a House Name</h5>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col size="md-12">
+              <div>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="householdNameInput"
+                  placeholder="Smith"
+                  onChange={this.handleChangeHouseholdName}
+                  value={this.state.householdName}
+                />
+              </div>
+            </Col>
+          </Row>
+
           {/* Member input */}
-          <div className="row">
-            <h3>Add/Edit Members </h3>
-          </div>
-          {/* Column Headers */}
-          <div className="row">
-              <div className="col-md-3">
-                <h5>First Name</h5>
-              </div>
-              <div className="col-md-3">
-              <h5>Last Name</h5>
-              </div>
-              <div className="col-md-4">
-              <h5>Email</h5>
-              </div>
-          </div>
-          {this.state.members.map((member, i) => {
+          <Row>
+            <Col size="md-12">
+              <h5>Add/Edit Members </h5>
+            </Col>
+          </Row>
+
+          {/* Member cards */}
+          <Row>
+            <Col size="md-12">
+            {this.state.members.map((member, i) => {
             // If we've set the deleted key in the member object that coresponds to this component to 'true', don't render it
             if (!member.deleted) {
               return (
@@ -164,7 +261,7 @@ class HouseHold extends Component {
                   lastName={member.lastName}
                   email={member.email}
                   // Add readonly attribute if member object matches currently logged in member (You can't delete yourself)
-                  readOnly={this.isCurrentUser(member._id)}
+                  readOnly={this.isCurrentUser(member.userOauthKey)}
                   // While the component allows for dynamically hiding the add button. There is no good reason to do so at this time.
                   showAddButton={true}
                   // Hook into function for adding new member form rows
@@ -179,12 +276,27 @@ class HouseHold extends Component {
               );
             }
           })}
-          {/* Form Submit Button */}
-          <button className="btn btn-primary" onClick={this.submitHouseForm}>
-            {this.props.createMode ? "Create" : "Update"}
-          </button>
-        </form>
-      </div>
+            </Col>
+          </Row>
+          
+          
+          {/* Form Buttons */}
+          <Row>
+            <div id="housebuttons">
+              <Col size="md-12">
+                  <button className="btn btn-success" id="createbutton" onClick={this.submitHouseForm}>
+                    {this.props.createMode ? "Create" : "Update"}
+                  </button>
+                <button className="btn btn-danger" id="cancelbutton" onClick={this.handleCancel}>
+                  Cancel
+                </button>
+              </Col>
+              </div>
+          </Row> 
+
+          </form>
+        </Col>
+      </Row>
     );
   }
 }

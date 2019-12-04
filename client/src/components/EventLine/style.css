@@ -8,3 +8,15 @@ p {
   padding: .25em;
 }
 
+.hide-event {
+  display: none;
+}
+
+.show-event {
+  display: block;
+}
+
+.event-div {
+   background-color: #ecf0f1;
+
+}
