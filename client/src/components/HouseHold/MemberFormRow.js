@@ -1,4 +1,5 @@
 import React from "react";
+import { Container, Row, Col } from "../Grid/index.js";
 import "./style.css";
 
 class MemberFormRow extends React.Component {
@@ -68,58 +69,89 @@ class MemberFormRow extends React.Component {
 
   render() {
     return (
-      <div className="row">
-        <div className="form-group col-md-3">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="First Name"
-            value={this.state.firstName}
-            onChange={this.handleChangeFirstName}
-            readOnly={this.props.readOnly}
-          />
-        </div>
-        <div className="form-group col-md-3">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Last Name"
-            value={this.state.lastName}
-            onChange={this.handleChangeLastName}
-            readOnly={this.props.readOnly}
-          />
-        </div>
-        <div className="form-group col-md-4">
-          <input
-            type="email"
-            className="form-control"
-            placeholder="Email"
-            value={this.state.email}
-            onChange={this.handleChangeEmail}
-            readOnly={this.props.readOnly}
-          />
-        </div>
-        <div className="col-md-2">
-          <button
-            className="btn btn-sm btn-circle btn-danger mr-1"
-            onClick={event => {
-              this.props.removeSelf(event, this.props.indexInState);
-            }}
-            hidden={this.props.readOnly}
-            disabled={!this.props.removeSelf}
-          >
-            <i className="fas fa-minus"></i>
-          </button>
-          <button
-            className="btn btn-sm btn-circle btn-success"
-            onClick={this.props.addNext}
-            hidden={!this.state.showAddButton}
-            disabled={!this.props.addNext}
-          >
-            <i className="fas fa-plus"></i>
-          </button>
-        </div>
-      </div>
+      <Container>
+      <Row>
+        <Col size="md-12">
+          <div className="member-card">
+
+            {/* First/Last name row */}
+              <Row>
+                {/* First name */}
+                <Col size="md-4">
+                  <div className="form-group firstName">
+                    <label>First Name:</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="First Name"
+                      value={this.state.firstName}
+                      onChange={this.handleChangeFirstName}
+                      readOnly={this.props.readOnly}
+                    />
+                  </div>
+                </Col>
+                {/* Last name */}
+                <Col size="md-4">
+                  <div className="form-group lastName">
+                    <label>Last Name:</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Last Name"
+                      value={this.state.lastName}
+                      onChange={this.handleChangeLastName}
+                      readOnly={this.props.readOnly}
+                    />
+                  </div>
+                </Col>
+              </Row>
+
+              {/* Email row */}
+              <Row>
+                <Col size="md-12">
+                  <div className="form-group email">
+                    <label>Email:</label>
+                    <input
+                      type="email"
+                      className="form-control"
+                      placeholder="Email"
+                      value={this.state.email}
+                      onChange={this.handleChangeEmail}
+                      readOnly={this.props.readOnly}
+                    />
+                  </div>
+                </Col>
+              </Row>
+
+              {/* Button Row */}
+              <Row>
+                <Col size="md-12">
+                <div className="buttons">
+                  <button
+                className="btn btn-sm btn-dark mr-1"
+                onClick={event => {
+                  this.props.removeSelf(event, this.props.indexInState);
+                }}
+                hidden={this.props.readOnly}
+                disabled={!this.props.removeSelf}
+              >
+                <i className="fas fa-minus"></i>
+              </button>
+              <button
+                className="btn btn-sm btn-dark"
+                onClick={this.props.addNext}
+                hidden={!this.state.showAddButton}
+                disabled={!this.props.addNext}
+              >
+                <i className="fas fa-plus"></i>
+              </button>
+              </div>
+                </Col>
+              </Row>
+            </div>
+        </Col>
+      </Row>
+      </Container>
     );
   }
 }

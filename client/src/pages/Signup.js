@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Container } from "../components/Grid/index.js";
+import { Container, Row, Col } from "../components/Grid/index.js";
 import HouseHold from "../components/HouseHold";
 import { getLocalUserInfo } from "../components/utilityFunctions";
+import "./style/Signup.css";
 
 class Signup extends Component {
   render() {
@@ -9,22 +10,24 @@ class Signup extends Component {
     let currentUser = getLocalUserInfo();
 
     return (
-      <Container>
-        <HouseHold
-          createMode={true}
-          householdName={currentUser.lastName}
-          //Add the info from current user to list of members
-          members={[
-            {
-              userOauthKey: currentUser.oauthKey,
-              firstName: currentUser.firstName,
-              lastName: currentUser.lastName,
-              email: currentUser.email,
-              status: "full"
-            }
-          ]}
-        />
-      </Container>
+      <section>
+        <Container>
+          <HouseHold
+            createMode={true}
+            householdName={currentUser.lastName}
+            //Add the info from current user to list of members
+            members={[
+              {
+                userOauthKey: currentUser.oauthKey,
+                firstName: currentUser.firstName,
+                lastName: currentUser.lastName,
+                email: currentUser.email,
+                status: "full"
+              }
+            ]}
+          />
+        </Container>
+      </section>
     );
   }
 }

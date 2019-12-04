@@ -23,18 +23,20 @@ class Home extends Component {
     }
 
     return (
-      <Container>
-          <Row>
-            <Col size="md-12">
-              <LoginText />
-            </Col>
-          </Row>
-          <Row>
-            <Col size="md-12">
-              <SignIn parent={this} />
-            </Col>
-          </Row>
-      </Container>
+      <section id="home-screen">
+        <Container>
+            <Row>
+              <Col size="md-12">
+                <LoginText />
+              </Col>
+            </Row>
+            <Row>
+              <Col size="md-12">
+                <SignIn parent={this} />
+              </Col>
+            </Row>
+        </Container>
+      </section>
     );
   }
 }
