@@ -13,6 +13,9 @@ export default {
       case "unassigned":
         return axios.get(`/api/event/unassigned/${householdId}`);
         break;  
+      case "assigned":
+          return axios.get(`/api/event/current-user-assigned/${householdId}/${userId}`);
+          break;   
       case "current-user": 
         return axios.get(`/api/event/current-user/${householdId}/${userId}`);
         break;   
