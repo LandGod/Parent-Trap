@@ -57,6 +57,24 @@ module.exports = {
     });
   }, 
   
+  // Return events assigned to the user for the given household and populate member references
+  // match: {assigneeStatus: "claimed"},
+  //, match: {assignedStatus: "unclaimed"}
+  findUserAssignedPopulated: function(householdId,userId) {
+    return new Promise((resolve, reject) => {
+      db.Household.find({ _id: householdId },{members:0,name:0,_id:0,__v:0,invitees:0 })
+        .populate({path: "events", match: {assignee: userId}, options: {sort: {startTime: 1}},
+            populate: [{path: "creator", select: ["_id","firstName", "lastName"]},
+                        {path: "assignee", select: ["_id","firstName", "lastName"]}
+                      ]
+    
+            // populate: [{path: "invitees", select: ["_id"]},]           
+        })
+        .then(dbEvent => {resolve(dbEvent)})
+        .catch(err => {reject(err)});
+    });
+  }, 
+
   // old version when invitees - keep in case of reviving invitee model
   // findAllEventsPopulated: function(householdId) {
   //   return new Promise((resolve, reject) => {
