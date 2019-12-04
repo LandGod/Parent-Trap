@@ -111,7 +111,9 @@ router
       });
   });
 
+  router.route("/:id").put(eventController.updateEvent);
+
   router.route("/")
-  .post(eventController.create);
+  .post(eventController.createEvent);
 
 module.exports = router;

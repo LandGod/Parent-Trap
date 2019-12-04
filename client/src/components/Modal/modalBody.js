@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { Modal } from 'react-bootstrap';
 import NewEventTable from '../NewEventForm/newEventTable';
-import ViewEvent from '../ViewEvent/index'
+import EditEvent from '../EditEvent/index';
+import ViewEvent from '../ViewEvent/index';
 import "./style.css";
+
 
 
 export class ModalCardBody extends Component {
@@ -61,6 +63,19 @@ export class ModalCardBody extends Component {
       </div>
       )
     }
+    else if(this.state.modalType === 'EditEvent'){
+      return (
+        <div>
+        <Modal show={this.state.showModal} onHide={this.toggleModal}>
+          <Modal.Header closeButton>
+          <Modal.Title id='.'>{this.state.event.title}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <EditEvent event={this.state.event} getHouseholdIdFunction={this.props.getHouseholdIdFunction} modalClose={this.toggleModal}/>
+          </Modal.Body>
+        </Modal>
+      </div>
+      )}
   }
 }
 

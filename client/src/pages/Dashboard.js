@@ -79,6 +79,16 @@ class Dashboard extends Component {
     console.log(viewedEvent);
   }
 
+  clickEditEvent = (clickEvent, identifier, viewedEvent) => {
+
+    this.modalRef.current.setState({modalType: 'EditEvent', event: viewedEvent}, () => {
+
+      this.modalRef.current.toggleModal();
+  });
+    console.log(`you clicked the edit event button`);
+    console.log(viewedEvent);
+  }
+
   getHouseholdId = () => {
     // hardcoded test household id: 
     return "5de1fc3109b4d51e97760778";
@@ -105,7 +115,7 @@ class Dashboard extends Component {
       // on split, "view=assigned" becomes:
       //["view","assigned"] 
       viewParam = viewParam[0].split('=')[1];
-      if(viewParam == 'assigned'){
+      if(viewParam === 'assigned'){
         //API call for assigned events
         API.getAllHouseholdEvents(id)
       .then(res => {
@@ -114,7 +124,7 @@ class Dashboard extends Component {
       })
       .catch(err => console.log(err));
 
-      }else if(viewParam == 'unclaimed'){
+      }else if(viewParam === 'unclaimed'){
         //API call for unclaimed events
         API.getAllHouseholdEvents(id)
       .then(res => {this.setState({ events: res.data });
@@ -215,9 +225,11 @@ class Dashboard extends Component {
                             assigned_id={(event.assigned_id) ? event.assigned_id : undefined}
                             assigned={(event.assigned) ? event.assigned : undefined}
                             iconView={event.event_id}
-                            iconEdit={event.event_id}
                             onClickView={this.clickViewEvent}
                             onClickViewParam={event}
+                            iconEdit={event.event_id}
+                            onClickEdit={this.clickEditEvent}
+                            onClickEditParam={event}
                             // iconAssigned={(event.assigned) ? "fas fa-plus-square fa-lg" : "far fa-plus-square fa-lg"}
                             iconAssigned={(event.assigned) ? true : false}
                             iconCompleted={event.status === "closed"}  // sets iconCompleted to true or false
