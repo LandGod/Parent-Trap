@@ -14,7 +14,6 @@
 /controllers/sandbox.js
 
 # production
-/build
 
 # misc
 .DS_Store
@@ -30,3 +29,8 @@ yarn-error.log*
 
 #Firebase API key info
 /client/src/components/Firebase/firebaseConfig.js
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
