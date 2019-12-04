@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Form } from 'react-bootstrap';
 import { Container, Row, Col } from '../Grid/index';
 import API from '../../utils/API'
+import UtilFunc from "../../components/utilityFunctions";
 
 
 export class EditEvent extends Component {
@@ -13,7 +14,7 @@ export class EditEvent extends Component {
         let endTimeArr = this.ConvertTime(props.event.endTime);
         this.state = {
             eventId: props.event.event_id,
-            eventTitle: props.event.title,
+            eventTitle: props.event.title.trim(),
             eventType: this.AddEventType(props.event.eventType),
             eventStartTime: startTimeArr[0],
             eventStartTimeSelector: startTimeArr[1],
@@ -70,7 +71,7 @@ export class EditEvent extends Component {
 
     handleTitleInput = event => {
 
-        this.setState({ eventTitle: event.target.value.trim() }, () => {
+        this.setState({ eventTitle: event.target.value }, () => {
 
             console.log(this.state.eventTitle);
 
@@ -222,7 +223,6 @@ export class EditEvent extends Component {
 
     handleSubmit = async (event) => {
 
-        event.preventDefault();
 
         const currentEvent = this.state;
 
@@ -242,7 +242,8 @@ export class EditEvent extends Component {
         }
         else {
 
-            const id = "5ddca54a663172b2a23b536b";
+            var userInfo = UtilFunc.getLocalUserInfo();
+            const creatorId = userInfo.memberId;
             API.updateEvent(this.state.eventId,{
 
                 title: this.state.eventTitle,
@@ -252,13 +253,14 @@ export class EditEvent extends Component {
                 startTime: this.state.startTime,
                 endTime: this.state.endTime,
                 note: this.state.eventDetails,
-                creator: id,
+                creator: creatorId,
                 houseHoldId: this.props.getHouseholdIdFunction()
 
             });
 
             this.props.modalClose()
 
+            window.location.reload(false)
         }   
 
 
@@ -319,7 +321,7 @@ export class EditEvent extends Component {
 
                 <button className='btn btn-default' onClick={(e) => this.handleSubmit(e)}>Submit</button>
 
-                <button className='btn btn-default' data-dismiss="modal" >Cancel</button>
+                <button className='btn btn-default' data-dismiss="modal" onClick={(e) => this.props.modalClose(e)}>Cancel</button>
             </Container>
         );
     }

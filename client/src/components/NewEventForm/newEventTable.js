@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Form } from 'react-bootstrap';
 import API from '../../utils/API'
+import UtilFunc from "../../components/utilityFunctions";
 
 
 export class NewEventTable extends Component {
@@ -144,7 +145,6 @@ export class NewEventTable extends Component {
             let dateParts = dateString.split('/');
             let startDate = new Date(dateParts[2]+'/'+dateParts[0]+'/'+dateParts[1]);
             if(isNaN(startDate.getDate())){
-
                 //invalid date
                 return false;
             }
@@ -163,13 +163,13 @@ export class NewEventTable extends Component {
             //basic checks pass
             let startTimeParts = startTimeString.split(':');
             let endTimeParts = endTimeString.split(':');
-            let startTimeHH = parseInt(startTimeParts[0]) + ((startSelector === 'PM') ? 12 : 0);
+            let startTimeHH = parseInt(startTimeParts[0]) + ((startSelector == 'PM') ? 12 : 0);
             let startTimeMM = parseInt(startTimeParts[1]);
-            let endTimeHH = parseInt(endTimeParts[0]) + ((endSelector === 'PM') ? 12 : 0);
+            let endTimeHH = parseInt(endTimeParts[0]) + ((endSelector == 'PM') ? 12 : 0);
             let endTimeMM = parseInt(endTimeParts[1]);
 
-            let startTime = new Date(dateParts[2], dateParts[0] - 1, dateParts[1], startTimeHH, startTimeMM);
-            let endTime = new Date(dateParts[2], dateParts[0] - 1, dateParts[1], endTimeHH, endTimeMM);
+            let startTime = new Date(dateParts[2], dateParts[0], dateParts[1], startTimeHH, startTimeMM);
+            let endTime = new Date(dateParts[2], dateParts[0], dateParts[1], endTimeHH, endTimeMM);
             console.log(today);
             console.log(startTime);
             console.log(endTime);
@@ -194,7 +194,6 @@ export class NewEventTable extends Component {
 
     handleSubmit = async (event) => {
 
-        event.preventDefault();
 
         const currentEvent = this.state;
 
@@ -212,10 +211,8 @@ export class NewEventTable extends Component {
 
         } 
         else {
-            console.log("999999999");
-            console.log(timesAreValid);
-
-            const id = "5dd596ae8813384487dca853"  // kyra's id as the creator
+            var userInfo = UtilFunc.getLocalUserInfo();
+            const creatorId = userInfo.memberId;
 
             API.createEvent({
 
@@ -226,19 +223,22 @@ export class NewEventTable extends Component {
             startTime: this.state.startTime,
             endTime: this.state.endTime,
             note: this.state.eventDetails,
-            creator: id,
+            creator: creatorId,
             houseHoldId: this.props.getHouseholdIdFunction()
 
         });
 
             this.props.modalClose()
-
+            window.location.reload(true)
         }
 
 
     };
 
     render() {
+
+
+        const { date, format, mode, inputFormat } = this.state;
 
         return (
             <Form>
@@ -292,7 +292,7 @@ export class NewEventTable extends Component {
 
                 <button className='btn btn-default' onClick={(e) => this.handleSubmit(e)}>Submit</button>
 
-                <button className='btn btn-default' data-dismiss="modal" onClick={(e) => this.props.modalClose()}>Cancel</button>
+                <button className='btn btn-default' data-dismiss="modal" onClick={(e) => this.props.modalClose(e)} >Cancel</button>
 
             </Form>
         );

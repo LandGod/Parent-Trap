@@ -37,7 +37,7 @@ export class ViewEvent extends Component {
 
     ConvertDate(str){
         let date = new Date(str);
-        let newDate = date.toLocaleTimeString('en-US',{dateStyle: 'short'}) ;
+        let newDate = date.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit',year: 'numeric' });
         console.log(newDate);
         return newDate;
     }
@@ -107,34 +107,13 @@ export class ViewEvent extends Component {
                         <h4>{this.ConvertDate(data.startTime)}</h4>
                     </Col>
                 </Row>
-                <Row>
-                    {this.renderInputField(data.location1)}
-                </Row>
-                <Row>
-                    <Col size='10'>
-                        <h4>{this.SetToHide(data.location1)}</h4>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col size='10'>
-                        <h4 id='startLocationTag'>End Location:</h4>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col size='10'>
-                        <h4>{this.SetToHide(data.location2)}</h4>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col size='10'>
-                        <h4 id='startLocationTag'>Details:</h4>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col size='10'>
-                        <h4>{this.SetToHide(data.note)}</h4>
-                    </Col>
-                </Row>
+
+                {data.location1 ? <Row><Col size='10'><h4>Start Location: {data.location1}</h4></Col></Row> : ''}
+
+                {data.location2 ? <Row><Col size='10'><h4>End Location: {data.location2}</h4></Col></Row> : ''}
+
+                {data.note ? <Row><Col size='10'><h4>Notes: {data.note}</h4></Col></Row> : ''}
+
             </Container>
         );
     }
