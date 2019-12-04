@@ -182,6 +182,10 @@ router
 
   });
 
+  router.route("/:id").put(eventController.updateEvent);
+
+  router.route("/")
+  .post(eventController.createEvent);
 
 
   // GET all of a user's events
@@ -288,15 +292,6 @@ router
     }); 
 
   });
-  
-  // event PUT route to update one Event
-  // Matches with "/api/event/:id"
-  router
-    .route("/:id")
-    .put(eventController.update);
-
-  router.route("/")
-  .post(eventController.createEvent);
 
   // commented out for now - needed if 
   // invitees sub-document is coded for use.

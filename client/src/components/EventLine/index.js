@@ -94,7 +94,7 @@ class EventLine extends Component {
             <Button icon={viewEvent} clickEvent={this.props.onClickView} clickEventParam={this.props.onClickViewParam} title=""></Button>
           </Col>
           <Col size="1">
-            <Button icon={editEvent} clickEvent={this.clickEditEvent} title=""></Button>
+            <Button icon={editEvent} clickEvent={this.props.onClickEdit} clickEventParam={this.props.onClickEditParam} title=""></Button>
           </Col>
           <Col size="1">
             <Button icon={isAssigned} clickEvent={this.clickAssignEvent} title=""></Button>
