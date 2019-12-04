@@ -10,16 +10,4 @@
     border-radius: 15px;
 } 
 
-a {
-    font-size: 13px;
-    color: black;
-}
 
-a:hover {
-    color: blue;
-    text-decoration: underline;
-}
-
-.greenBackground {
-    background-color: #3f9d77;
-  }

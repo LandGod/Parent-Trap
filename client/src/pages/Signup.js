@@ -10,22 +10,24 @@ class Signup extends Component {
     let currentUser = getLocalUserInfo();
 
     return (
-      <Container>
-        <HouseHold
-          createMode={true}
-          householdName={currentUser.lastName}
-          //Add the info from current user to list of members
-          members={[
-            {
-              userOauthKey: currentUser.oauthKey,
-              firstName: currentUser.firstName,
-              lastName: currentUser.lastName,
-              email: currentUser.email,
-              status: "full"
-            }
-          ]}
-        />
-      </Container>
+      <section>
+        <Container>
+          <HouseHold
+            createMode={true}
+            householdName={currentUser.lastName}
+            //Add the info from current user to list of members
+            members={[
+              {
+                userOauthKey: currentUser.oauthKey,
+                firstName: currentUser.firstName,
+                lastName: currentUser.lastName,
+                email: currentUser.email,
+                status: "full"
+              }
+            ]}
+          />
+        </Container>
+      </section>
     );
   }
 }

@@ -185,7 +185,7 @@ class HouseHold extends Component {
     // logout of firebase
     firebase.auth().signOut().then(function() {
       console.log('signout successful');
-      return <Redirect to="/"/>
+      return <Redirect to="/home" />
     }, function(err) {
       console.log(err);
     });
@@ -203,7 +203,7 @@ class HouseHold extends Component {
         <form>
           {/* Title */}
           <Row>
-            <div className="greenBackground justify-content-center" id="signupTitle">
+            <div className="justify-content-center" id="signupTitle">
               <Col size="md-12">
                 <h4 className="text-center">
                   {this.props.createMode ? "Create " : "Edit "} Household

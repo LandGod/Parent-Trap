@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import SignUp from './pages/Signup';
+import Home from './pages/Home';
 import withFirebaseAuth from 'react-with-firebase-auth'
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
@@ -20,7 +20,7 @@ class App extends Component {
             <Switch>
               <Route exact path="/" component={Home} />
               <Route exact path="/dashboard" component={Dashboard} />
-              <Route exact path="/signup" component={SignUp} />
+              <Route exact path="/signup" component={SignUp}  />
             </Switch>
           </div>
       </Router>

@@ -1,13 +1,6 @@
-body {
+section {
     background-color: #F5F5F5;
     margin: 0;
-    height: auto;
-}
-
-.greenBackground {
-    background-color: #3f9d77;
-  }
-  
-.whiteFont {
-    color: white;
+    height: 100vh;
+    color: black;
 }
