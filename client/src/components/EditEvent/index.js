@@ -3,7 +3,7 @@ import { Form } from 'react-bootstrap';
 import { Container, Row, Col } from '../Grid/index';
 import API from '../../utils/API'
 import UtilFunc from "../../components/utilityFunctions";
-
+import '../EditEvent/style.css'
 
 export class EditEvent extends Component {
 
@@ -40,7 +40,6 @@ export class EditEvent extends Component {
             return 'Task';
 
         }
-
 
     }
 
@@ -163,7 +162,7 @@ export class EditEvent extends Component {
     validateDateAndTime = async (dateString, startTimeString, endTimeString, startTimeSelector, endTimeSelector) => {
         if (endTimeSelector === '' || startTimeSelector === '' || startTimeString === '' || endTimeString === '') {
             console.log(dateString, startTimeString, endTimeString);
-            alert('false 1');
+            this.setState({isInvalid: 'is-invalid'})
            return false;
         }
         else {
@@ -223,6 +222,7 @@ export class EditEvent extends Component {
 
     handleSubmit = async (event) => {
 
+        event.preventDefault();
 
         const currentEvent = this.state;
 
