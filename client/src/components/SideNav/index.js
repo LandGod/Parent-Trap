@@ -37,10 +37,10 @@ class SideNav extends Component {
           &times; {/* X symbol html code */}
         </button>
         <div id="filterDivider">FILTERS</div>
-        <button> <a href='/dashboard'>All Household Events</a> </button>
-        <button> <a href='/dashboard?view=myevents'>My Events</a> </button>
-        <button> <a href='/dashboard?view=assigned'>Assigned To Me</a> </button>
-        <button> <a href='/dashboard?view=unassigned'>Unassigned Events</a> </button>
+        <button onClick={() => {this.props.clicker()}}>All Household Events</button>
+        <button onClick={() => {this.props.clicker('myevents')}}>My Events</button>
+        <button onClick={() => {this.props.clicker('assigned')}}>Assigned To Me</button>
+        <button onClick={() => {this.props.clicker('unassigned')}}>Unassigned Events</button>
         <button onClick={this.handleLogout} className="fas fa-arrow-circle-right" id="logoutbutton"> <a href="/">Logout</a> </button>
       </div>
     );
