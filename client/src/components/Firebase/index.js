@@ -83,7 +83,6 @@ class SignIn extends Component {
 
   render() {
     return (
-      <Container>
         <Row>
           <Col size="md-12">
             <StyledFirebaseAuth
@@ -92,7 +91,6 @@ class SignIn extends Component {
             />
           </Col>
         </Row>
-      </Container>
     );
   }
 }

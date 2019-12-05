@@ -25,11 +25,11 @@ class DashCard extends Component {
   // click show more/less event button -toggle the icon 
   clickShowMoreLessEvent = () => {
     // console.log(`you clicked the show more/less event button`);
-    var newState = (this.state.showmoreIcon === "fas fa-angle-double-down fa-lg") 
-    ? "fas fa-angle-double-up fa-lg" : "fas fa-angle-double-down fa-lg";
+    var newState = (this.state.showmoreIcon === "fas fa-angle-double-down fa-sm") 
+    ? "fas fa-angle-double-up fa-sm" : "fas fa-angle-double-down fa-sm";
 
     this.setState({showmoreIcon: newState })
-    var toggleAction = (newState === "fas fa-angle-double-up fa-lg") ? "show" : "hide";
+    var toggleAction = (newState === "fas fa-angle-double-up fa-sm") ? "show" : "hide";
     if(typeof this.props.onClickShowHide === 'function'){
       this.props.onClickShowHide(toggleAction, this.props.eventDate);
     }
@@ -38,7 +38,7 @@ class DashCard extends Component {
   render() {
     // console.log(`props: ${this.props.showmoreIcon}`)
     return (
-      <div className="card mt-4">
+      <div className="card ">
         <div className={`card-header ${this.props.firstdashcard}`}>
           <h3>
             <i className={this.props.icon} 
@@ -48,6 +48,7 @@ class DashCard extends Component {
         </div>
         <div className="card-body-fluid">{this.props.children}</div>
     </div>
+
     )
   }
 }
