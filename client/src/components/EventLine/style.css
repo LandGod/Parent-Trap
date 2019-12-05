@@ -1,0 +1,22 @@
+
+p {
+  font-size:  .75em;
+  margin: 0;
+}
+
+.event-div {
+  padding: .25em;
+}
+
+.hide-event {
+  display: none;
+}
+
+.show-event {
+  display: block;
+}
+
+.event-div {
+   background-color: #ecf0f1;
+
+}

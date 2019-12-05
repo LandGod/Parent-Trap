@@ -1,0 +1,13 @@
+/* .fa-plus-circle{filter:drop-shadow(2px 3px 3px #5f5f5f)} */
+.fa-plus-circle{filter:drop-shadow(2px 3px 3px #515151)}
+
+.no-events-msg {
+    font-size: 18px;
+    margin-top: 5%;
+    margin-bottom: 3%;
+    text-align: center;
+    padding: 2%;
+    border-radius: 15px;
+} 
+
+
