@@ -2,7 +2,7 @@
     color: white;
     width: 100%;
     padding: 6% 0% 5% 0%;
-    background-color: #4C2E58;
+    background-color: #23d5ab;
     -moz-box-shadow: 0px 2px 5px 2px #ccc;
     -webkit-box-shadow: 0px 2px 5px 2px #ccc;
     box-shadow: 0px 2px 5px 2px #ccc;
@@ -14,4 +14,8 @@
 .navselector {
     background-color: white;
     margin-left: 4%;
+}
+
+.icongreen {
+    color: #23d5ab;
 }

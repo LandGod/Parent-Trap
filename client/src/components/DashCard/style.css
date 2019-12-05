@@ -19,11 +19,12 @@ button {
 }
 
 .card-header {
-  background-color: #BAC0CB;
+  background-color: #D1EBF4;
+  color: #23A6D5;
 }
 
 .first-dashcard {
-  background-color: #4B525F;
+  background-color: #E73C7E;
   color: white;
 }
 
