@@ -46,14 +46,14 @@ class Home extends Component {
     return (
       <section id="home-screen">
         <Container>
-            <Row>
-              <Col size="md-12">
+            <Row settings="justify-content-center">
+              <Col size="md-6">
                 <LoginText />
               </Col>
             </Row>
             <div id="gray-card">
-            <Row>
-              <Col size="md-12">
+            <Row settings="justify-content-center">
+              <Col size="md-6">
               <div id="faqs">
                   {instructions.map(({ title, body }, i) => (
                       <div>
@@ -69,8 +69,8 @@ class Home extends Component {
                   </div>
               </Col>
             </Row>
-            <Row>
-              <Col size="md-12">
+            <Row settings="justify-content-center">
+              <Col size="md-6">
                 <div id="button"> 
                   <SignIn parent={this} />
                 </div>
