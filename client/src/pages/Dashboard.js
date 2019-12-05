@@ -126,7 +126,7 @@ class Dashboard extends Component {
       .catch(err => console.log(err));
 
     // THIS IS WHERE WE HAVEPROBLEMS
-    /*
+    
     //get the raw parameters submitted. eg. this will be "?view=assigned"
     let queryStringParams = this.props.location.search;
     //get only the "view=[something] part" by matching it with a regex
@@ -235,7 +235,7 @@ class Dashboard extends Component {
         })
         .catch(err => console.log(err));
     }
-    */
+    
   }
 
   // manage the show more show less chevron button (appears if > 3 events for date)
@@ -433,7 +433,6 @@ class Dashboard extends Component {
       //We found a view parameter, get its value
       // on split, "view=assigned" becomes:
       //["view","assigned"]
-      viewParam = viewParam[0].split("=")[1];
 
       // save view type in state
       this.setState({ viewType: viewParam });
