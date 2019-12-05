@@ -18,13 +18,15 @@ const firebaseApp = firebase.initializeApp(firebaseConfig);
 class App extends Component {
   render() {
     return (
-      <Router history={hasHistory}>
-        <Route path="/" component={Home}>
-          <IndexRoute component={Dashboard} />
-          <Route path="/dashboard" component={Dashboard} />
-          <Route path="/signup" component={SignUp} />
-        </Route>
-      </Router>
+      <Switch>
+        <Router history={hasHistory}>
+          <Route path="/" component={Home}>
+            <IndexRoute component={Dashboard} />
+            <Route path="/dashboard" component={Dashboard} />
+            <Route path="/signup" component={SignUp} />
+          </Route>
+        </Router>
+      </Switch>
     );
   }
 }
