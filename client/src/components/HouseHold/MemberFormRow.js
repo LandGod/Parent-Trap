@@ -75,9 +75,9 @@ class MemberFormRow extends React.Component {
           <div className="member-card">
 
             {/* First/Last name row */}
-              <Row>
+              <Row settings="justify-content-around">
                 {/* First name */}
-                <Col size="md-4">
+                <Col size="6">
                   <div className="form-group firstName">
                     <label>First Name:</label>
                     <input
@@ -91,7 +91,7 @@ class MemberFormRow extends React.Component {
                   </div>
                 </Col>
                 {/* Last name */}
-                <Col size="md-4">
+                <Col size="6">
                   <div className="form-group lastName">
                     <label>Last Name:</label>
                     <input

@@ -63,17 +63,6 @@ h5 {
     padding: 2% 2% 1% 2%;
 }
 
-.firstName {
-    position: absolute;
-    width: 42%;
-    background-color: white;
-}
-
-.lastName {
-    float: right;
-    width: 49%;
-}
-
 .buttons {
     float: right;
     margin-right: 2%;
