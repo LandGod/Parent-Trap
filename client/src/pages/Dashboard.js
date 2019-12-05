@@ -529,6 +529,7 @@ class Dashboard extends Component {
         })
         .catch(err => console.log(err));
     }
+    this.sidenavRef.current.closeNav();
   };
 
   // render the Dashboard Component

@@ -23,7 +23,7 @@ function formatAMPM(date) {
 }
 
 // helper function to build and event array element
-buildEventObject = (event,eventCount) => {
+let buildEventObject = (event,eventCount) => {
   let showhideval = (eventCount > 3) ? "hide-event" : "show-event";
   var eventObj = {};
   eventObj.event_id = event._id;
@@ -51,7 +51,7 @@ buildEventObject = (event,eventCount) => {
 }
 
 // transform household events helper function
-transformEvents = result => {
+let transformEvents = result => {
   var currentStartDate  = "";
   var currentDateEvents = {};
   var transformedData = [];  
