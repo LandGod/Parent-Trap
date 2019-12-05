@@ -1,3 +1,5 @@
+
+
 .card-header h3 {
   font-size: 1.5em;
   margin: 0;
@@ -17,20 +19,15 @@ button {
 }
 
 .card-header {
-  background-color: #dadada;
+  background-color: #a8a8a8;
 }
 
 .first-dashcard {
-  background-color: #ababab;
+  background-color: #FFBB7A;
 }
 
 
 
 .first-dashcard h3 {
   font-weight: 900;
-}
-
-.date-card-div {
-  /* box-shadow: 3px 6px 6px #888888; */
-  box-shadow: 3px 6px 6px #515151;
 }
