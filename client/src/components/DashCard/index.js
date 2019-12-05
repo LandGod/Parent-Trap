@@ -38,7 +38,7 @@ class DashCard extends Component {
   render() {
     // console.log(`props: ${this.props.showmoreIcon}`)
     return (
-      <div className="card mt-4">
+      <div className="card ">
         <div className={`card-header ${this.props.firstdashcard}`}>
           <h3>
             <i className={this.props.icon} 
@@ -48,6 +48,7 @@ class DashCard extends Component {
         </div>
         <div className="card-body-fluid">{this.props.children}</div>
     </div>
+
     )
   }
 }

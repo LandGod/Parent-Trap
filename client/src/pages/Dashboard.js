@@ -382,7 +382,7 @@ class Dashboard extends Component {
   // render the Dashboard Component
   render() {
     return (
-      <div>
+      <section>
         <SideNav ref={this.sidenavRef} />
         {/* The below div exists purely to allow clicking off of the side-nav to close it. Putting that functionality into Container did not work. */}
         <div onClick={this.closeNav}>
@@ -473,7 +473,7 @@ class Dashboard extends Component {
           </Container>
         </div>
         <ModalCardBody getHouseholdIdFunction={this.getHouseholdId} ref={this.modalRef} />
-      </div>
+      </section>
     );
   }
 }

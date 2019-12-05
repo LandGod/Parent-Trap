@@ -41,9 +41,7 @@ class SideNav extends Component {
         <button> <a href='/dashboard?view=myevents'>My Events</a> </button>
         <button> <a href='/dashboard?view=assigned'>Assigned To Me</a> </button>
         <button> <a href='/dashboard?view=unassigned'>Unassigned Events</a> </button>
-        <div id="accountDivider">ACCOUNT</div>
-        <button> <a href="/">Edit Household</a> </button>
-        <button onClick={this.handleLogout}> <a href="/">Logout</a> </button>
+        <button onClick={this.handleLogout} className="fas fa-arrow-circle-right" id="logoutbutton"> <a href="/">Logout</a> </button>
       </div>
     );
   }
