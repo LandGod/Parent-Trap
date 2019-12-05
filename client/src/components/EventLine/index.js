@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col } from "../Grid/index";
+import { Row, Col } from "../Grid/index";
 import Button from "../Button/index";
 //import Icon from "../Icon";
 import "./style.css";
@@ -71,39 +71,43 @@ class EventLine extends Component {
 
     return (
       // <div className="event-div border rounded-sm">
-      <div className={`event-div border rounded-sm ${this.props.showhideclass}`}>
-        <div className='row no-gutters'>
-          <Col size="6">
-            <p>{this.props.title}</p>
-          </Col>
-          <Col size="3">
-            <p>{this.props.time}</p>
-          </Col>
-          <Col size="3">
-            <p>{this.props.duration}</p>
-          </Col>
-        </div>
-        <div className='row no-gutters'>
-          <Col size="4">
-            <p> ({this.props.creator})</p>
-          </Col>
-          <Col size="4">
-            <p>{(this.props.assigned) ? `assigned: ${this.props.assigned}` : 'unassigned'}</p>
-          </Col>
-          <Col size="1">
-            <Button icon={viewEvent} clickEvent={this.props.onClickView} clickEventParam={this.props.onClickViewParam} title=""></Button>
-          </Col>
-          <Col size="1">
-            <Button icon={editEvent} clickEvent={this.props.onClickEdit} clickEventParam={this.props.onClickEditParam} title=""></Button>
-          </Col>
-          <Col size="1">
-            <Button icon={isAssigned} clickEvent={this.clickAssignEvent} title=""></Button>
-          </Col>
-          <Col size="1">
-            <Button icon={isCompleted} clickEvent={this.clickCompleteEvent} title=""></Button>
-          </Col>
-        </div>
-      </div>
+      <Row>
+        <Col size="md-12">
+          <div className={`event-div border rounded-sm ${this.props.showhideclass}`}>
+            <div className='row no-gutters'>
+              <Col size="6">
+                <p>{this.props.title}</p>
+              </Col>
+              <Col size="3">
+                <p>{this.props.time}</p>
+              </Col>
+              <Col size="3">
+                <p>{this.props.duration}</p>
+              </Col>
+            </div>
+            <div className='row no-gutters'>
+              <Col size="4">
+                <p> ({this.props.creator})</p>
+              </Col>
+              <Col size="4">
+                <p>{(this.props.assigned) ? `assigned: ${this.props.assigned}` : 'unassigned'}</p>
+              </Col>
+              <Col size="1">
+                <Button icon={viewEvent} clickEvent={this.props.onClickView} clickEventParam={this.props.onClickViewParam} title=""></Button>
+              </Col>
+              <Col size="1">
+                <Button icon={editEvent} clickEvent={this.props.onClickEdit} clickEventParam={this.props.onClickEditParam} title=""></Button>
+              </Col>
+              <Col size="1">
+                <Button icon={isAssigned} clickEvent={this.clickAssignEvent} title=""></Button>
+              </Col>
+              <Col size="1">
+                <Button icon={isCompleted} clickEvent={this.clickCompleteEvent} title=""></Button>
+              </Col>
+            </div>
+          </div>
+        </Col>
+      </Row>
 
     )
   }
