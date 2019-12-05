@@ -20,7 +20,9 @@ class App extends Component {
             <Switch>
               <Route exact path="/" component={Home} />
               <Route exact path="/dashboard" component={Dashboard} />
-              <Route path="/dashboard?view=assigned" component={Dashboard} />
+              <Route exact path='/dashboard?view=myevents' component={Dashboard} />
+              <Route exact path='/dashboard?view=assigned' component={Dashboard} />
+              <Route exact path='/dashboard?view=unassigned' component={Dashboard} />
               <Route exact path="/signup" component={SignUp}  />
             </Switch>
           </div>
