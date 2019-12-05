@@ -86,7 +86,7 @@ class MemberFormRow extends React.Component {
                       placeholder="First Name"
                       value={this.state.firstName}
                       onChange={this.handleChangeFirstName}
-                      //readOnly={this.props.readOnly}
+                      readOnly={this.props.readOnly}
                     />
                   </div>
                 </Col>
