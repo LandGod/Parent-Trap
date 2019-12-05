@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { Modal } from 'react-bootstrap';
-import NewEventTable from '../NewEventForm/newEventTable';
+import NewEventTable from '../NewEventForm';
 import EditEvent from '../EditEvent/index';
 import ViewEvent from '../ViewEvent/index';
-import "./style.css";
 
 
 
