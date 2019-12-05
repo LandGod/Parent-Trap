@@ -529,6 +529,7 @@ class Dashboard extends Component {
         })
         .catch(err => console.log(err));
     }
+    this.sidenavRef.current.closeNav();
   };
 
   // render the Dashboard Component
@@ -560,28 +561,6 @@ class Dashboard extends Component {
                     // console.log(`EVENT: ${JSON.stringify(eventDate.date)}`)
                     return (
                       <div className="date-card-div">
-<<<<<<< HEAD
-                        <DashCard
-                          key={eventDate.date}
-                          icon="fa fa-calendar-alt"
-                          title={eventDate.date}
-                          id={
-                            eventDate.events.length > 3
-                              ? "show-more"
-                              : undefined
-                          }
-                          showmoreIcon={
-                            eventDate.events.length > 3
-                              ? "fas fa-angle-double-down fa-lg"
-                              : ""
-                          }
-                          events={eventDate.events}
-                          eventDate={eventDate.date}
-                          firstdashcard={i === 0 ? "first-dashcard" : ""}
-                          onClickShowHide={this.showHideChange}
-                        ></DashCard>
-                        {eventDate.events.map((event, i) => {
-=======
                       <DashCard
                       key={eventDate.date}
                       icon="fa fa-calendar-alt"
@@ -595,7 +574,6 @@ class Dashboard extends Component {
                      ></DashCard>
                       {
                         eventDate.events.map((event,i) => {
->>>>>>> 93002df8b7473cdbae758dab694ca5e20afe60ec
                           // console.log(`assigned: ${event.assigned} assigned_id: ${event.assigned_id} status: ${event.status} `)
                           // console.log(`EVENT: ${JSON.stringify(event)}`)
                           return (
