@@ -259,7 +259,8 @@ export class NewEventTable extends Component {
         });
 
             this.props.modalClose()
-            // window.location.reload(false)
+            // The below code blows up the site every time an even is submitted if running deployed version on heroku
+            // window.location.reload(false) 
         }
 
 
