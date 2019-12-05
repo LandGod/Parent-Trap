@@ -11,7 +11,8 @@ button {
 
 #show-more {
   float: right;
-  color: white;
+  /* color: white; */
+  
 }
 
 .fa-calendar-alt {
@@ -25,6 +26,16 @@ button {
 
 .first-dashcard {
   background-color: #E73C7E;
+  color: white;
+}
+
+
+
+:not(.first-dashcard) #show-more {
+  color: #23A6D5;
+}
+
+.first-dashcard #show-more {
   color: white;
 }
 
