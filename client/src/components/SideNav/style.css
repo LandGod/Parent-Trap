@@ -65,6 +65,14 @@ a {
   color: black;
 }
 
+#logoutbutton {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font-size: 16px;
+  color: black;
+}
+
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
