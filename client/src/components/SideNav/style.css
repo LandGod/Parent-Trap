@@ -19,7 +19,7 @@
 /* Remove all default styling from buttons */
 button {
   font-size: 100%;
-  font-family: inherit;
+  font-family: 'Roboto', sans-serif;
   border: 0;
   padding: 0;
   background: none;
@@ -32,11 +32,13 @@ button:focus {
 /* The navigation menu links */
 .sidenav button {
   padding: 8px 8px 8px 32px;
+  margin: 4% 0% 4% 0%;
   text-decoration: none;
-  font-size: 20px;
-  color: #818181;
+  font-size: 14px;
+  color: black;
   display: block;
   transition: 0.3s;
+  font-family: 'Roboto', sans-serif;
 }
 
 /* When you mouse over the navigation links, change their color */
@@ -59,18 +61,17 @@ button:focus {
   padding: 20px;
 }
 
-
-a {
-  font-size: 14px;
-  color: black;
-}
-
 #logoutbutton {
   position: absolute;
   bottom: 0;
-  right: 0;
+  background-color: #23d5ab;
   font-size: 16px;
-  color: black;
+  width: 100%;
+  padding: 3%;
+}
+
+a {
+  color: white;
 }
 
 

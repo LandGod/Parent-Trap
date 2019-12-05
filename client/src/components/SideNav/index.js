@@ -41,7 +41,7 @@ class SideNav extends Component {
         <button onClick={() => {this.props.clicker('myevents')}}>My Events</button>
         <button onClick={() => {this.props.clicker('assigned')}}>Assigned To Me</button>
         <button onClick={() => {this.props.clicker('unassigned')}}>Unassigned Events</button>
-        <button onClick={this.handleLogout} className="fas fa-arrow-circle-right" id="logoutbutton"> <a href="/">Logout</a> </button>
+        <button onClick={this.handleLogout}id="logoutbutton"> <a href="/">Logout</a> </button>
       </div>
     );
   }
