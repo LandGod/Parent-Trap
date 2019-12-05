@@ -1,5 +1,6 @@
 const db = require("../models");
 const mongoose = require("mongoose");
+const householdController = require("./householdController");
 
 
 // TO-DO - the 3 find Events operations are very similiar
@@ -162,8 +163,20 @@ module.exports = {
     req.body.assignedStatus = "unassigned";
     console.log(`create event body: ${JSON.stringify(req.body)}`)
     db.Event.create(req.body)
+      .then(dbEvent => {
+        householdController.addEvents(houseHoldId, [dbEvent._id])
+        .then((results) => {
+          res.status(200).json(dbEvent)
+        })
+        .catch((err) => res.status(500).send(err));
+          res.json(dbEvent);
+      })
+        .catch(err => res.status(500).json(err));
+  },
+  updateEvent: function(req, res) {
+    console.error(req.params.id);
+    db.Event.update({ _id: req.params.id }, req.body)
       .then(dbEvent => res.json(dbEvent))
       .catch(err => res.status(422).json(err));
   }
 }
-

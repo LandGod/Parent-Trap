@@ -92,6 +92,25 @@ module.exports = {
         });
     });
   },
+  // Add all objetIds in idsArray arugment to the array of memberIds in the household with the given householdId
+  addEvents: function(householdId, idsArray) {
+    return new Promise(function(resolve, reject) {
+      db.Household.update(
+        {
+          _id: householdId
+        },
+        {
+          $addToSet: { events: { $each: idsArray } }
+        }
+      )
+        .then(results => {
+          resolve(results);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
 
 
   // find household by householdid

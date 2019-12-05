@@ -82,6 +82,16 @@ class Dashboard extends Component {
     console.log(viewedEvent);
   }
 
+  clickEditEvent = (clickEvent, identifier, viewedEvent) => {
+
+    this.modalRef.current.setState({modalType: 'EditEvent', event: viewedEvent}, () => {
+
+      this.modalRef.current.toggleModal();
+  });
+    console.log(`you clicked the edit event button`);
+    console.log(viewedEvent);
+  }
+
   getHouseholdId = () => {
     return this.state.householdId;
   }
@@ -428,9 +438,12 @@ class Dashboard extends Component {
                             assigned_id={(event.assigned_id) ? event.assigned_id : undefined}
                             assigned={(event.assigned) ? event.assigned : undefined}
                             iconView={event.event_id}
-                            iconEdit={event.event_id}
                             onClickView={this.clickViewEvent}
                             onClickViewParam={event}
+                            iconEdit={event.event_id}
+                            onClickEdit={this.clickEditEvent}
+                            onClickEditParam={event}
+                            // iconAssigned={(event.assigned) ? "fas fa-plus-square fa-lg" : "far fa-plus-square fa-lg"}
                             iconAssigned={(event.assigned) ? true : false}
                             iconCompleted={event.status === "closed"}  // sets iconCompleted to true or false
                             note={event.note}
