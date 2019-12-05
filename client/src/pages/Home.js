@@ -30,7 +30,7 @@ class Home extends Component {
             body: "Simply create a household, add members, and begin populating and taking control of your family's to-do list. *drops mic*"
         }, {
             title: "How did this get started?",
-            body: "After searching for ways to easy organize a family's to-do list and coming up empty, four software engineers put their minds together and the rest is history..."
+            body: "After searching for ways to easily organize a family's to-do list and coming up empty, four software engineers put their minds together and the rest is history..."
         }]
 
     if (this.state.redirectDashboard) {
