@@ -9,7 +9,7 @@ function TopNav(props) {
       <nav className="navbar banner">
           
         {/* Hamburger menue button which activates popout side-nav */}
-        <button className="btn navselector" onClick={props.slideOut}>
+        <button className="btn navselector icongreen" onClick={props.slideOut}>
           {/* Font awesome hamburger/bars menue icon */}
           <i className="fas fa-bars "></i>
         </button>

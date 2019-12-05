@@ -409,7 +409,7 @@ class Dashboard extends Component {
                       icon="fa fa-calendar-alt"
                       title={eventDate.date}
                       id={(eventDate.events.length > 3) ? "show-more" : undefined }
-                      showmoreIcon={(eventDate.events.length > 3) ? "fas fa-angle-double-down fa-lg" : "" }
+                      showmoreIcon={(eventDate.events.length > 3) ? "fas fa-angle-double-down fa-sm" : "" }
                       events={eventDate.events}
                       eventDate={eventDate.date}
                       firstdashcard={(i === 0) ? "first-dashcard" : ""}

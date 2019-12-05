@@ -30,7 +30,7 @@ class Home extends Component {
             body: "Simply create a household, add members, and begin populating and taking control of your family's to-do list. *drops mic*"
         }, {
             title: "How did this get started?",
-            body: "After searching for ways to easy organize a family's to-do list and coming up empty, four software engineers put their minds together and the rest is history..."
+            body: "After searching for ways to easily organize a family's to-do list and coming up empty, four software engineers put their minds together and the rest is history..."
         }]
 
     if (this.state.redirectDashboard) {
@@ -58,8 +58,8 @@ class Home extends Component {
                   {instructions.map(({ title, body }, i) => (
                       <div>
                           <h2 className="title" onClick={() => this.setState({ open: open === i ? false : i })}>
-                              {open === i ? "-" : "+"}
                               {title}  
+                              {open === i ? <i class="fas fa-angle-double-down icon"></i> : <i class="fas fa-angle-double-up icon"></i>}
                           </h2>
                           <Content className="content" pose={open === i ? 'open' : 'closed'}>
                               <div className="content-wrapper">{body}</div>
