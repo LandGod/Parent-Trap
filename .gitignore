@@ -29,4 +29,4 @@ yarn-debug.log*
 yarn-error.log*
 
 #Firebase API key info
-/client/src/components/Firebase/firebaseConfig.js
+#/client/src/components/Firebase/firebaseConfig.js
