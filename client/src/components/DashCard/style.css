@@ -1,6 +1,4 @@
-.daycard {
-  border-radius: 15px;
-}
+
 
 .card-header h3 {
   font-size: 1.5em;
@@ -13,7 +11,7 @@ button {
 
 #show-more {
   float: right;
-  /* background-color: #d6d6d6; */
+  color: white;
 }
 
 .fa-calendar-alt {
@@ -21,11 +19,13 @@ button {
 }
 
 .card-header {
-  background-color: #a8a8a8;
+  background-color: #D1EBF4;
+  color: #23A6D5;
 }
 
 .first-dashcard {
-  background-color: #FFBB7A;
+  background-color: #E73C7E;
+  color: white;
 }
 
 
