@@ -125,7 +125,8 @@ class Dashboard extends Component {
       })
       .catch(err => console.log(err));
 
-    // THIS IS WHERE WE HAVEPROBLEMS
+    //TODO: We need only the below code that sets the proper view on page load
+    // After that everything is handled by clicky function now.
     
     //get the raw parameters submitted. eg. this will be "?view=assigned"
     let queryStringParams = this.props.location.search;
