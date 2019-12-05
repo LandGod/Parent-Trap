@@ -221,7 +221,7 @@ export class NewEventTable extends Component {
 
     handleSubmit = async (event) => {
 
-        event.preventDefault();
+        // event.preventDefault();
 
         const currentEvent = this.state;
 
@@ -259,7 +259,7 @@ export class NewEventTable extends Component {
         });
 
             this.props.modalClose()
-            window.location.reload(false)
+            // window.location.reload(false)
         }
 
 
