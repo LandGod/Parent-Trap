@@ -35,6 +35,15 @@ export class ViewEvent extends Component {
         return newTime;
     }
 
+    TimeDifference(str){
+
+        let startTime = this.ConvertTime(str);
+        let endTime = this.ConvertTime(str);
+        let difference = endTime - startTime;
+        console.log('~~~~~~~~~~~~')
+        console.log(difference)
+    }
+
     ConvertDate(str){
         let date = new Date(str);
         let newDate = date.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit',year: 'numeric' });
