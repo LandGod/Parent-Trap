@@ -25,11 +25,11 @@ class DashCard extends Component {
   // click show more/less event button -toggle the icon 
   clickShowMoreLessEvent = () => {
     // console.log(`you clicked the show more/less event button`);
-    var newState = (this.state.showmoreIcon === "fas fa-angle-double-down fa-lg") 
-    ? "fas fa-angle-double-up fa-lg" : "fas fa-angle-double-down fa-lg";
+    var newState = (this.state.showmoreIcon === "fas fa-angle-double-down fa-sm") 
+    ? "fas fa-angle-double-up fa-sm" : "fas fa-angle-double-down fa-sm";
 
     this.setState({showmoreIcon: newState })
-    var toggleAction = (newState === "fas fa-angle-double-up fa-lg") ? "show" : "hide";
+    var toggleAction = (newState === "fas fa-angle-double-up fa-sm") ? "show" : "hide";
     if(typeof this.props.onClickShowHide === 'function'){
       this.props.onClickShowHide(toggleAction, this.props.eventDate);
     }

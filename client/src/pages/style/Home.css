@@ -28,6 +28,11 @@ html {
     margin-top: 8%;
 }
 
+.icon{
+    float: right;
+    color: white;
+}
+
 @-webkit-keyframes Gradient {
     0% {
         background-position: 0% 50%
