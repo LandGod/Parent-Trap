@@ -59,7 +59,7 @@ class Home extends Component {
                       <div>
                           <h2 className="title" onClick={() => this.setState({ open: open === i ? false : i })}>
                               {title}  
-                              {open === i ? <i class="fas fa-angle-double-down icon"></i> : <i class="fas fa-angle-double-up icon"></i>}
+                              {open === i ? <i className="fas fa-angle-double-down icon"></i> : <i class="fas fa-angle-double-up icon"></i>}
                           </h2>
                           <Content className="content" pose={open === i ? 'open' : 'closed'}>
                               <div className="content-wrapper">{body}</div>
