@@ -168,8 +168,8 @@ export class NewEventTable extends Component {
             let endTimeHH = parseInt(endTimeParts[0]) + ((endSelector == 'PM') ? 12 : 0);
             let endTimeMM = parseInt(endTimeParts[1]);
 
-            let startTime = new Date(dateParts[2], dateParts[0], dateParts[1], startTimeHH, startTimeMM);
-            let endTime = new Date(dateParts[2], dateParts[0], dateParts[1], endTimeHH, endTimeMM);
+            let startTime = new Date(dateParts[2], dateParts[0] - 1, dateParts[1], startTimeHH, startTimeMM);
+            let endTime = new Date(dateParts[2], dateParts[0] - 1, dateParts[1], endTimeHH, endTimeMM);
             console.log(today);
             console.log(startTime);
             console.log(endTime);
