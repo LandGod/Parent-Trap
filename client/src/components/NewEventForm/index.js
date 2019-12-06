@@ -221,7 +221,7 @@ export class NewEventTable extends Component {
 
     handleSubmit = async (event) => {
 
-        event.preventDefault();
+        // event.preventDefault();
 
         const currentEvent = this.state;
 
@@ -259,7 +259,8 @@ export class NewEventTable extends Component {
         });
 
             this.props.modalClose()
-            window.location.reload(false)
+            // The below code blows up the site every time an even is submitted if running deployed version on heroku
+            // window.location.reload(false) 
         }
 
 
@@ -321,9 +322,9 @@ export class NewEventTable extends Component {
                     <Form.Control as="textarea" rows="3" placeholder='We are picking up Amy on the way to practice!' onChange={(e) => this.handleDetailsInput(e)} value={this.state.eventDetails} />
                 </Form.Group>
 
-                <button className='btn btn-default' onClick={(e) => this.handleSubmit(e)}>Submit</button>
+                <button className='btn btn-default' onClick={(e) => {e.preventDefault(); this.handleSubmit(e)}}>Submit</button>
 
-                <button className='btn btn-default' data-dismiss="modal" onClick={(e) => this.props.modalClose(e)} >Cancel</button>
+                <button className='btn btn-default' data-dismiss="modal" onClick={(e) => {e.preventDefault(); this.props.modalClose(e)}} >Cancel</button>
 
                 {/* <Alert color='alert' isOpen={this.state.inputErrorAlert} toggle={this.toggleErrorModal.bind(this)}> Please Check the Input</Alert> */}
             </Form>
