@@ -5,6 +5,16 @@ Don't worry, it's for your own good.
 
 Despite what the name might make you think, Parent Trap is here to help parents. We all have busy lives and keeping track of all the rides to soccer practice and permission slips signed that your kids need can be a lot to handle. With Parent Trap, your kids can post the things they need to the app, using their phones. You'll be able to track all of their needs and who has volunteered to do what, all in one place. Parent Trap is still in beta, but soon we'll be adding phone notifications and email reminders to further assist you on staying on top of everything.
 
+#### Deployed Heroku Link :   <a href="https://evening-chamber-98293.herokuapp.com/">ParentTrap</a>
+
+#### Github Repository:  <a href="https://github.com/LandGod/Parent-Trap">Repo - ParentTrap</a>
+
+#### Demos
+
+​		Start-up - Create a new Household   -------    Main Usage - Managing Events
+
+​	 ![grand-tour-md](./public/assets/images/create-house-lg.gif)  ![ezgif.com-resize](./public/assets/images/grand-tour-lg.gif)  
+
 #### Features 
 
 * **Creating a household** - When you first sign in to the app, you will be prompted to create a household, listing yourself, and each of the members of your family or group. When those people sign in to the app using the google account associated with the email address you provided, they will automatically be directed to the household you set up. When you log in with an existing household, you will be taken to a dashboard where you can see all the events created by members of that household.
@@ -22,7 +32,16 @@ While Parent Trap is not available as an app from your phone's app store, it was
 
 The Parent Trap front-end runs on React.js, using Bootstrap for styling, and React Router for user navigation. On the back-end, our server runs on Express, via Node.js. Our authentication is handled via the Firebase Oauth API and our data storage uses Mongoose to interact with a MongoDB NoSQL database. 
 
-### Roadmap
+#### Design Details
+
+- [**Project Proposal**](Proposal.md)
+- [**Design Whiteboards**](DetailDesign.md)
+
+### Screen Captures
+
+![a-home-screen](./public/assets/images/a-home-screen.png)![c-sidenav](./public/assets/images/c-sidenav.png)![b-events-screen](./public/assets/images/b-events-screen.png)![d-eventform](./public/assets/images/d-eventform.png)
+
+#### Roadmap
 
 The current version of Parent Trap is very a minimum viable product and, while we're very pleased with the current functionality, we also have big plans for expanding the list of features to help busy parents and their kids even more! 
 
